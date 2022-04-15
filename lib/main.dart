@@ -1,65 +1,44 @@
 import 'package:flutter/cupertino.dart';
-import 'widgets/tabbar/page_home.dart';
-import 'widgets/tabbar/page_mine.dart';
+import 'package:flutter_blog/utils/catch.dart';
 
-void main() => runApp(const MyApp());
+import 'routes/routes.dart';
+
+void main() async {
+  /// 初始化插件前需调用初始化代码 runApp()函数之前
+  WidgetsFlutterBinding.ensureInitialized();
+  await LocalCache.getInstance();
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const CupertinoApp(
+    return CupertinoApp(
       debugShowCheckedModeBanner: false,
-      home: ChemiTabbar(),
+      routes: _routes,
+      initialRoute: '/',
+      // onGenerateRoute: _routeGenerator,
     );
   }
 }
 
-class ChemiTabbar extends StatefulWidget {
-  const ChemiTabbar({Key? key}) : super(key: key);
+final Map<String, WidgetBuilder> _routes = {
+  "/": (context) => const ChemiTabbar(),
+  "/detail": (context, {arguments}) => ChemiDetail(arguments: arguments),
+  "/login": (context) => const ChemiLogin(),
+};
 
-  @override
-  State<ChemiTabbar> createState() => _ChemiTabbarState();
-}
+// Route _routeGenerator(RouteSettings settings) {
+//   final Function builder = _routes[settings.name] as Function;
+//   if (settings.arguments != null) {
+//     // 如果透传了参数
+//     return CupertinoPageRoute(
+//         builder: (context) => builder(context, arguments: settings.arguments));
+//   } else {
+//     // 没有透传参数
+//     return CupertinoPageRoute(builder: (context) => builder(context));
+//   }
+// }
 
-class _ChemiTabbarState extends State<ChemiTabbar> {
-  late int _currentIndex = 0;
-  @override
-  Widget build(BuildContext context) {
-    return CupertinoTabScaffold(
-        tabBar: CupertinoTabBar(
-          currentIndex: _currentIndex,
-          onTap: (index) {
-            setState(() => _currentIndex = index);
-          },
-          activeColor: const Color(0xFF2196FF),
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(
-                CupertinoIcons.home,
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                CupertinoIcons.profile_circled,
-              ),
-            ),
-          ],
-        ),
-        tabBuilder: (BuildContext context, int index) {
-          return CupertinoTabView(
-            builder: (BuildContext context) {
-              switch (index) {
-                case 0:
-                  return const HomePage();
-                case 1:
-                  return const MinePage();
-                default:
-                  return const HomePage();
-              }
-            },
-          );
-        });
-  }
-}
