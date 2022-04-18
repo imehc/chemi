@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blog/http/config.dart';
 import 'package:flutter_blog/utils/catch.dart';
 
 class ChemiHome extends StatelessWidget {
@@ -18,8 +19,18 @@ class ChemiHome extends StatelessWidget {
               // Navigator.of(context, rootNavigator: true)
               //     .pushNamed("/detail", arguments: "我是传递的参数");
               //测试LocalCache
-              await LocalCache.setLocalStorage("desc", "我是一个描述");
-              print(LocalCache.getLocalStorage<String>("desc"));
+              // await LocalCache.setLocalStorage("desc", "我是一个描述");
+              // print(LocalCache.getLocalStorage<String>("desc"));
+              var res = await HttpConfig.request(
+                "/article/list/0/json",
+                method: HttpMethod.Get,
+                params: {
+                  "username": "chemi",
+                  "password": "chemi123456",
+                  "repassword": "chemi123456",
+                },
+              );
+              print("res:$res");
             },
             child: const Icon(Icons.hourglass_empty),
           )

@@ -1,12 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_blog/utils/catch.dart';
 
+import 'http/config.dart';
 import 'routes/routes.dart';
 
 void main() async {
   /// 初始化插件前需调用初始化代码 runApp()函数之前
   WidgetsFlutterBinding.ensureInitialized();
+
+  /// 初始化本地缓存插件
   await LocalCache.getInstance();
+
   runApp(const MyApp());
 }
 
