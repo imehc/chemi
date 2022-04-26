@@ -1,4 +1,3 @@
-import 'package:flutter_blog/widgets/page_home.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 void main() => runApp(const MyApp());
@@ -12,16 +11,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "Flutter",
       themeMode: ThemeMode.light,
-      theme: NeumorphicThemeData(
-        baseColor: Color(0xffffffff),
-        lightSource: LightSource.topLeft,
-        depth: 10,
-      ),
-      darkTheme: NeumorphicThemeData(
-        baseColor: Color(0xff3e3e3e),
-        lightSource: LightSource.topLeft,
-        depth: 6,
-      ),
       home: MyHomePage(),
     );
   }
@@ -81,7 +70,7 @@ class MyHomePage extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) {
-                  return const FullSampleHomePage();
+                  return const Text("11");
                 }));
               },
               style: NeumorphicStyle(
@@ -96,6 +85,23 @@ class MyHomePage extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: "Search",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: "Settings",
+          ),
+        ],
+        backgroundColor: NeumorphicTheme.baseColor(context),
       ),
     );
   }
