@@ -1,125 +1,106 @@
-import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_blog/constant.dart';
+import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
 
-void main() => runApp(const MyApp());
+import 'widgets/widgets.dart';
+
+void main() {
+  /// 初始化
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+    ),
+  );
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const NeumorphicApp(
-      debugShowCheckedModeBanner: false,
-      title: "Flutter",
-      themeMode: ThemeMode.light,
-      home: MyHomePage(),
+    return MaterialApp(
+      // debugShowCheckedModeBanner: false,
+      title: 'tools',
+      theme: ThemeData(
+        primarySwatch: white,
+        canvasColor: Colors.grey[100],
+      ),
+      home: const MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
   @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  int selectedIndex = 0;
+  late PageController pageController;
+  @override
+  void initState() {
+    super.initState();
+    pageController = PageController(initialPage: selectedIndex);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: NeumorphicFloatingActionButton(
-        child: const Icon(
-          Icons.add,
-          size: 30,
-        ),
-        onPressed: () {},
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        systemNavigationBarColor: navigationBarColor,
+        systemNavigationBarIconBrightness: Brightness.dark,
       ),
-      backgroundColor: NeumorphicTheme.baseColor(context),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            NeumorphicButton(
-              onPressed: () {
-                print("onClick");
-              },
-              style: const NeumorphicStyle(
-                  shape: NeumorphicShape.flat,
-                  boxShape: NeumorphicBoxShape.circle()),
-              padding: const EdgeInsets.all(12.0),
-              child: Icon(
-                Icons.favorite_border,
-                color: _iconsColor(context),
-              ),
-            ),
-            NeumorphicButton(
-              margin: const EdgeInsets.only(top: 12),
-              onPressed: () {
-                NeumorphicTheme.of(context)!.themeMode =
-                    NeumorphicTheme.isUsingDark(context)
-                        ? ThemeMode.light
-                        : ThemeMode.dark;
-              },
-              style: NeumorphicStyle(
-                  shape: NeumorphicShape.flat,
-                  boxShape:
-                      NeumorphicBoxShape.roundRect(BorderRadius.circular(8))),
-              padding: const EdgeInsets.all(12.0),
-              child: Text(
-                "Toggle Theme",
-                style: TextStyle(color: _textColor(context)),
-              ),
-            ),
-            NeumorphicButton(
-              margin: const EdgeInsets.only(top: 12),
-              onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) {
-                  return const Text("11");
-                }));
-              },
-              style: NeumorphicStyle(
-                  shape: NeumorphicShape.flat,
-                  boxShape:
-                      NeumorphicBoxShape.roundRect(BorderRadius.circular(8))),
-              padding: const EdgeInsets.all(12.0),
-              child: Text(
-                "Go to full sample",
-                style: TextStyle(color: _textColor(context)),
-              ),
-            ),
+      child: Scaffold(
+        body: PageView(
+          physics: const NeverScrollableScrollPhysics(),
+          controller: pageController,
+          children: const <Widget>[
+            SunnyTabBarPage(),
+            ToolsTabBarPage(),
+            MoonTabBarPage(),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home",
+        bottomNavigationBar: ClipRRect(
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+          child: WaterDropNavBar(
+            bottomPadding: 15,
+            iconSize: 32,
+            inactiveIconColor: secondaryColor,
+            waterDropColor: primaryColor,
+            onItemSelected: (int index) {
+              setState(() {
+                selectedIndex = index;
+              });
+              pageController.animateToPage(
+                selectedIndex,
+                duration: const Duration(milliseconds: 400),
+                curve: Curves.easeOutQuad,
+              );
+            },
+            selectedIndex: selectedIndex,
+            barItems: <BarItem>[
+              BarItem(
+                filledIcon: Icons.light_mode,
+                outlinedIcon: Icons.light_mode_outlined,
+              ),
+              BarItem(
+                filledIcon: Icons.business_center,
+                outlinedIcon: Icons.business_center_outlined,
+              ),
+              BarItem(
+                filledIcon: Icons.nightlight,
+                outlinedIcon: Icons.nightlight_outlined,
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: "Search",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: "Settings",
-          ),
-        ],
-        backgroundColor: NeumorphicTheme.baseColor(context),
+        ),
       ),
     );
-  }
-}
-
-Color? _iconsColor(BuildContext context) {
-  final theme = NeumorphicTheme.of(context);
-  if (theme!.isUsingDark) {
-    return theme.current!.accentColor;
-  } else {
-    return null;
-  }
-}
-
-Color _textColor(BuildContext context) {
-  if (NeumorphicTheme.isUsingDark(context)) {
-    return Colors.white;
-  } else {
-    return Colors.black;
   }
 }
