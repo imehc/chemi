@@ -11,6 +11,10 @@ const Color navigationBarColor = Colors.white;
 /// 默认大小
 const double primaryFontSize = 14;
 
+const double secondaryFontSize = 12;
+
+const double sunnyTextSize = 30;
+
 /// 主题颜色
 const MaterialColor white = MaterialColor(
   0xFF438EDB,
@@ -27,3 +31,5 @@ const MaterialColor white = MaterialColor(
     900: Color(0xFF438EDB),
   },
 );
+
+/// 颜色选项

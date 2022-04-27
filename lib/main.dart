@@ -3,11 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_blog/constant.dart';
 import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
 
+import 'routes/routes.dart';
 import 'widgets/widgets.dart';
 
 void main() {
   /// 初始化
   WidgetsFlutterBinding.ensureInitialized();
+
+  /// 状态栏颜色和主题色保持统一
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -28,6 +31,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: white,
         canvasColor: Colors.grey[100],
       ),
+      routes: routes,
       home: const MyHomePage(),
     );
   }
@@ -104,3 +108,8 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+// 路由
+Map<String, Widget Function(BuildContext)> routes = {
+  "/scan": (context) => const ChimiScan(),
+};
