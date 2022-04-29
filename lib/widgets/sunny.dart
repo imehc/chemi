@@ -1,7 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_blog/constant.dart';
+
+import '../constant.dart';
+import '../configuration.dart';
 
 class SunnyTabBarPage extends StatefulWidget {
   const SunnyTabBarPage({Key? key}) : super(key: key);
@@ -14,11 +15,14 @@ class _SunnyTabBarPageState extends State<SunnyTabBarPage> {
   String? _currentTime;
   Timer? _timer;
 
+  String formatDate(int params) => params.toString().padLeft(2, '0');
+
   String handleFormatDate() {
     var hh = DateTime.now().hour;
     var mm = DateTime.now().minute;
     var ss = DateTime.now().second;
-    return hh > 12 ? '下午 ${hh - 12}:$mm:$ss' : '上午 $hh:$mm:$ss';
+    hh > 12 ? hh -= 12 : hh;
+    return '下午 ${formatDate(hh)}:${formatDate(mm)}:${formatDate(ss)}';
   }
 
   void _startTime() {
@@ -80,10 +84,13 @@ class _SunnyTabBarPageState extends State<SunnyTabBarPage> {
           ),
           itemBuilder: (context, index) {
             return GestureDetector(
-              onTap: () => handleJumpPage(index, context: context),
+              onTap: () {
+                Navigator.of(context)
+                    .pushNamed(entranceList[index]['route'] as String);
+              },
               child: Card(
                 shadowColor: primaryColor,
-                color: secondaryColor,
+                color: entranceList[index]['color'] as Color,
                 elevation: 1.0,
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(
@@ -92,29 +99,19 @@ class _SunnyTabBarPageState extends State<SunnyTabBarPage> {
                 ),
                 child: Center(
                   child: Text(
-                    handleJumpPage(index),
-                    style: const TextStyle(
+                    entranceList[index]['name'] as String,
+                    style: TextStyle(
                       fontSize: sunnyTextSize,
-                      color: primaryColor,
+                      color: entranceList[index]['textColor'] as Color,
                     ),
                   ),
                 ),
               ),
             );
           },
-          itemCount: 1,
+          itemCount: entranceList.length,
         ),
       ),
     );
-  }
-}
-
-String handleJumpPage(int index, {BuildContext? context}) {
-  switch (index) {
-    case 0:
-      if (context != null) Navigator.pushNamed(context, '/scan');
-      return 'scan';
-    default:
-      return '未知页面';
   }
 }

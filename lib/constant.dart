@@ -16,7 +16,7 @@ const double secondaryFontSize = 12;
 const double sunnyTextSize = 30;
 
 /// 主题颜色
-const MaterialColor white = MaterialColor(
+const MaterialColor themeBlue = MaterialColor(
   0xFF438EDB,
   <int, Color>{
     50: Color(0xFF438EDB),
