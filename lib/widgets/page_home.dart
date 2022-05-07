@@ -1,3 +1,4 @@
+import 'package:flutter_blog/person_api_client.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class FullSampleHomePage extends StatefulWidget {
@@ -8,15 +9,17 @@ class FullSampleHomePage extends StatefulWidget {
 }
 
 class _FullSampleHomePageState extends State<FullSampleHomePage> {
+  final _client = PersonApiClient();
+  List<String>? _list;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Flutter"),
-        ),
-        backgroundColor: Colors.grey[300],
-        body: Center(
-            child: Column(
+      appBar: AppBar(
+        title: const Text("Flutter"),
+      ),
+      backgroundColor: Colors.grey[300],
+      body: Center(
+        child: Column(
           children: [
             NeumorphicText(
               "Flutter",
@@ -48,8 +51,34 @@ class _FullSampleHomePageState extends State<FullSampleHomePage> {
                 decoration:
                     InputDecoration.collapsed(hintText: 'NeumorphicTextField'),
               ),
-            )
+            ),
+            TextButton(
+              onPressed: () async {
+                final payload = await _client.getClientsApi().getClients();
+                setState(() => _list = payload.data!.asList());
+              },
+              child: const Text("TextButton"),
+            ),
+            if (_list != null)
+              Expanded(
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                  ),
+                  itemCount: _list!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                      onTap: () async {
+                        print(_list![index]);
+                      },
+                      child: Text(_list![index]),
+                    );
+                  },
+                ),
+              ),
           ],
-        )));
+        ),
+      ),
+    );
   }
 }

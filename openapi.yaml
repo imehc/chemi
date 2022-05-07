@@ -1,0 +1,322 @@
+openapi: 3.0.0
+info:
+  title: openapi测试
+  description: openapi API 文档
+  version: 1.0.0
+  contact:
+    name: DevOps
+    email: devops@jcble.com
+servers:
+  - url: "http://api.openapi-generator.tech/"
+tags:
+  - name: "user"
+    description: "openapi API 文档"
+  - name: "goods"
+    description: "openapi2 API 文档"
+  - name: "clients"
+    description: "OpenAPI Generator Online"
+components:
+  # 参数
+  parameters:
+    limit:
+      name: "limit"
+      in: query
+      description: "limit"
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 1000
+        default: 1000
+    page:
+      name: "page"
+      in: query
+      description: "page"
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        default: 1
+
+  responses:
+    200:
+      description: "successful operation"
+
+  schemas:
+    # 分页
+    Pagination:
+      type: object
+      required:
+        - "limit"
+        - "page"
+        - "total"
+      properties:
+        limit:
+          type: integer
+          format: int32
+        page:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int32
+
+    # 接口返回数据
+    LoginResponse:
+      type: object
+      required:
+        - "id"
+        - "created_at"
+      properties:
+        id:
+          type: integer
+          description: "用户id"
+        token:
+          type: string
+          description: "token"
+        created_at:
+          type: string
+          description: "token"
+          format: date-time
+        age:
+          type: integer
+          description: "年龄"
+        name:
+          type: string
+          description: "姓名"
+        level:
+          type: string
+          $ref: "#/components/schemas/Level"
+
+    LoginForm:
+      type: object
+      required:
+        - "username"
+        - "password"
+      properties:
+        username:
+          type: string
+          description: "用户名"
+        password:
+          type: string
+          description: "密码"
+
+    Level:
+      type: string
+      description: "等级"
+      default:
+      enum:
+        - "bronze"
+        - "silver"
+        - "gold"
+      x-enum-descriptions:
+        - "青铜"
+        - "白银"
+        - "黄金"
+      # 重写参数
+      x-enum-varnames:
+        - "bronze"
+        - "silver"
+        - "gold"
+    # openapi client
+    ClientInfo:
+      type: object
+      properties:
+        opt:
+          type: string
+          description: "操作"
+        description:
+          type: string
+          description: "描述"
+        type:
+          type: string
+          description: "类型"
+        optValue:
+          type: string
+          description: "值"
+        default:
+          type: string
+          description: "默认"
+        enum:
+          type: object
+          description: "枚举"
+          properties:
+            "false":
+              type: string
+              description: "否"
+            "true":
+              type: string
+              description: "是"
+
+  securitySchemes:
+    BearerToken:
+      type: http
+      scheme: bearer
+
+  ################
+paths:
+  /user/login:
+    parameters:
+      - name: login
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: userLogin
+      summary: "用户登录"
+      tags:
+        - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginForm"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+
+  /user/{id}:
+    get:
+      # 唯一标识，用于api调用
+      operationId: getUserInfo
+      summary: "用户详情"
+      tags:
+        - user
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        default:
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+    put:
+      operationId: updateUserInfo
+      summary: "用户修改"
+      tags:
+        - user
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginForm"
+      responses:
+        default:
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+
+  /user/list:
+    parameters:
+      - name: userList
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getUserList
+      summary: "用户列表"
+      tags:
+        - user
+      parameters:
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/page"
+      responses:
+        default:
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                properties:
+                  meta:
+                    $ref: "#/components/schemas/Pagination"
+                  data:
+                    type: array
+                    description: "用户列表"
+                    items:
+                      $ref: "#/components/schemas/LoginResponse"
+
+  /api/gen/clients:
+    get:
+      operationId: getClients
+      summary: "获取客户端列表"
+      tags:
+        - clients
+      responses:
+        default:
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                type: array
+                description: "客户端列表"
+                items:
+                  type: string
+
+  /api/gen/clients/{language}:
+    get:
+      operationId: getClientsLanuage
+      summary: "获取客户端语言列表"
+      tags:
+        - clients
+      parameters:
+        - name: language
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  packageName:
+                    $ref: "#/components/schemas/ClientInfo"
+                  packageVersion:
+                    $ref: "#/components/schemas/ClientInfo"
+                  hideGenerationTimestamp:
+                    $ref: "#/components/schemas/ClientInfo"
+                  isGoSubmodule:
+                    $ref: "#/components/schemas/ClientInfo"
+                  withXml:
+                    $ref: "#/components/schemas/ClientInfo"
+                  enumClassPrefix:
+                    $ref: "#/components/schemas/ClientInfo"
+                  structPrefix:
+                    $ref: "#/components/schemas/ClientInfo"
+                  withAWSV4Signature:
+                    $ref: "#/components/schemas/ClientInfo"
+                  generateInterfaces:
+                    $ref: "#/components/schemas/ClientInfo"
+                  prependFormOrBodyParameters:
+                    $ref: "#/components/schemas/ClientInfo"
+                  useOneOfDiscriminatorLookup:
+                    $ref: "#/components/schemas/ClientInfo"
+                  disallowAdditionalPropertiesIfNotPresent:
+                    $ref: "#/components/schemas/ClientInfo"
+
+
+# Path: openapi2.yaml
+security:
+  - BearerToken: []
