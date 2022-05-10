@@ -1,3 +1,10 @@
+#  more config options in the docs
+#  https://openapi-generator.tech/docs/generators
 enumUnknownDefaultCase: true
+# generator dart Api required
 pubName: person_api
 useEnumExtension: true
+# generator typescript Api required
+npmName: person-api-test-rxjs
+# generator go Api required
+packageName: person-api-test-go
