@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../constant.dart';
+
 class ChimiScan extends StatefulWidget {
   const ChimiScan({Key? key}) : super(key: key);
 
@@ -8,14 +10,33 @@ class ChimiScan extends StatefulWidget {
 }
 
 class _ChimiScanState extends State<ChimiScan> {
+  final String _scanResult = 'unknown';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('扫描'),
+        title: const Text('scan'),
+        toolbarHeight: toolbarHeight,
       ),
-      body: const Center(
-        child: Text('扫描'),
+      body: Center(
+        child: Column(
+          children: [
+            InkWell(
+              onTap: () {
+                print('tap');
+              },
+              child: const Text('Scan'),
+            ),
+            RichText(
+              text: TextSpan(
+                text: "扫描结果: ",
+                children: [
+                  TextSpan(text: _scanResult),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 import 'constant.dart';
 import 'routes/routes.dart';
 import 'widgets/widgets.dart';
 
-void main() {
+void main() async {
   /// 初始化
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -16,6 +17,7 @@ void main() {
       statusBarColor: Colors.transparent,
     ),
   );
+  await ScreenUtil.ensureScreenSize();
   runApp(const MyApp());
 }
 
@@ -45,69 +47,62 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int selectedIndex = 0;
+  int _currentIndex = 0;
   late PageController pageController;
   @override
   void initState() {
     super.initState();
-    pageController = PageController(initialPage: selectedIndex);
+    pageController = PageController(initialPage: _currentIndex);
   }
 
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
-        systemNavigationBarColor: navigationBarColor,
-        systemNavigationBarIconBrightness: Brightness.dark,
+    ScreenUtil.init(context, designSize: const Size(375, 812));
+    return Scaffold(
+      body: PageView(
+        controller: pageController,
+        physics: const BouncingScrollPhysics(),
+        children: const <Widget>[
+          SunnyTabBarPage(),
+          ToolsTabBarPage(),
+          DailyTabBarPage(),
+          MoonTabBarPage(),
+        ],
+        onPageChanged: (i) => setState(() => _currentIndex = i),
       ),
-      child: Scaffold(
-          body: PageView(
-            physics: const NeverScrollableScrollPhysics(),
-            controller: pageController,
-            children: const <Widget>[
-              SunnyTabBarPage(),
-              ToolsTabBarPage(),
-              MoonTabBarPage(),
-            ],
+      bottomNavigationBar: SalomonBottomBar(
+        currentIndex: _currentIndex,
+        onTap: (i) => setState(() {
+          _currentIndex = i;
+          pageController.animateToPage(
+            _currentIndex,
+            duration: const Duration(milliseconds: 400),
+            curve: Curves.easeOutQuad,
+          );
+        }),
+        items: [
+          SalomonBottomBarItem(
+            icon: const Icon(Icons.light_mode_outlined),
+            title: const Text("Sunny"),
+            selectedColor: primaryColor,
           ),
-          bottomNavigationBar: Material(
-            animationDuration: const Duration(seconds: 1),
-            child: ClipRRect(
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(20)),
-              child: WaterDropNavBar(
-                bottomPadding: 15,
-                iconSize: 32,
-                inactiveIconColor: secondaryColor,
-                waterDropColor: primaryColor,
-                onItemSelected: (int index) {
-                  setState(() {
-                    selectedIndex = index;
-                  });
-                  pageController.animateToPage(
-                    selectedIndex,
-                    duration: const Duration(milliseconds: 400),
-                    curve: Curves.easeOutQuad,
-                  );
-                },
-                selectedIndex: selectedIndex,
-                barItems: <BarItem>[
-                  BarItem(
-                    filledIcon: Icons.light_mode,
-                    outlinedIcon: Icons.light_mode_outlined,
-                  ),
-                  BarItem(
-                    filledIcon: Icons.business_center,
-                    outlinedIcon: Icons.business_center_outlined,
-                  ),
-                  BarItem(
-                    filledIcon: Icons.nightlight,
-                    outlinedIcon: Icons.nightlight_outlined,
-                  ),
-                ],
-              ),
-            ),
-          )),
+          SalomonBottomBarItem(
+            icon: const Icon(Icons.business_center_outlined),
+            title: const Text("Tools"),
+            selectedColor: primaryColor,
+          ),
+          SalomonBottomBarItem(
+            icon: const Icon(Icons.space_dashboard_outlined),
+            title: const Text("Daily"),
+            selectedColor: primaryColor,
+          ),
+          SalomonBottomBarItem(
+            icon: const Icon(Icons.nightlight_outlined),
+            title: const Text("Moon"),
+            selectedColor: primaryColor,
+          ),
+        ],
+      ),
     );
   }
 }
@@ -115,4 +110,5 @@ class _MyHomePageState extends State<MyHomePage> {
 // 路由
 Map<String, Widget Function(BuildContext)> routes = {
   "/scan": (context) => const ChimiScan(),
+  "/pdf": (context) => const ChimiPdf(),
 };

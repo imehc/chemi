@@ -7,5 +7,11 @@ final entranceList = [
     "name": "scan",
     "color": secondaryColor,
     "textColor": primaryColor,
+  },
+  {
+    "route": "/pdf", // 必须与route路由保持一致
+    "name": "pdf",
+    "color": secondaryColor,
+    "textColor": primaryColor,
   }
 ];

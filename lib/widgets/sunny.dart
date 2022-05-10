@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+// ignore: implementation_imports
+import 'package:flutter_screenutil/src/size_extension.dart' show SizeExtension;
 
 import '../constant.dart';
 import '../configuration.dart';
@@ -61,6 +63,7 @@ class _SunnyTabBarPageState extends State<SunnyTabBarPage> {
       appBar: AppBar(
         title: Text(_currentTime ?? '22'),
         centerTitle: true,
+        toolbarHeight: toolbarHeight,
       ),
       body: SafeArea(
         child: GridView.builder(
@@ -83,7 +86,7 @@ class _SunnyTabBarPageState extends State<SunnyTabBarPage> {
             childAspectRatio: 1.5, // 子项宽高比
           ),
           itemBuilder: (context, index) {
-            return GestureDetector(
+            return InkWell(
               onTap: () {
                 Navigator.of(context)
                     .pushNamed(entranceList[index]['route'] as String);
@@ -101,7 +104,8 @@ class _SunnyTabBarPageState extends State<SunnyTabBarPage> {
                   child: Text(
                     entranceList[index]['name'] as String,
                     style: TextStyle(
-                      fontSize: sunnyTextSize,
+                      // 适配屏幕宽高
+                      fontSize: sunnyTextSize.sp,
                       color: entranceList[index]['textColor'] as Color,
                     ),
                   ),

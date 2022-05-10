@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../constant.dart';
+
 class ToolsTabBarPage extends StatefulWidget {
   const ToolsTabBarPage({Key? key}) : super(key: key);
 
@@ -13,6 +15,7 @@ class _ToolsTabBarPageState extends State<ToolsTabBarPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Tools"),
+        toolbarHeight: toolbarHeight,
       ),
       body: const Center(
         child: Text('ToolsTabBarPage'),

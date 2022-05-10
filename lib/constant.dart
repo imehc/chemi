@@ -33,3 +33,6 @@ const MaterialColor themeBlue = MaterialColor(
 );
 
 /// 颜色选项
+
+/// appbar Height
+const double toolbarHeight = 48;
