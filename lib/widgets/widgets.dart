@@ -1,4 +1,4 @@
 export './daily.dart';
 export './moon.dart';
-export './sunny.dart';
-export './tools.dart';
+export 'tools.dart';
+export 'sunny.dart';

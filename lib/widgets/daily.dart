@@ -15,7 +15,7 @@ class _DailyTabBarPageState extends State<DailyTabBarPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Daily"),
-        toolbarHeight: toolbarHeight,
+        toolbarHeight: AppConstantConfig.toolbarHeight,
       ),
       body: const Center(
         child: Text('DailyTabBarPage'),

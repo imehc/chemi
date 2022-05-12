@@ -2,20 +2,21 @@ import 'package:flutter/material.dart';
 
 import '../constant.dart';
 
-class ChimiPdf extends StatefulWidget {
-  const ChimiPdf({Key? key}) : super(key: key);
+class ChemiPdf extends StatefulWidget {
+  final String title;
+  const ChemiPdf(this.title, {Key? key}) : super(key: key);
 
   @override
-  State<ChimiPdf> createState() => _ChimiPdfState();
+  State<ChemiPdf> createState() => _ChemiPdfState();
 }
 
-class _ChimiPdfState extends State<ChimiPdf> {
+class _ChemiPdfState extends State<ChemiPdf> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('pdf'),
-        toolbarHeight: toolbarHeight,
+        title: Text(widget.title),
+        toolbarHeight: AppConstantConfig.toolbarHeight,
       ),
       body: Center(
         child: InkWell(

@@ -15,7 +15,7 @@ class _MoonTabBarPageState extends State<MoonTabBarPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Moon"),
-        toolbarHeight: toolbarHeight,
+        toolbarHeight: AppConstantConfig.toolbarHeight,
       ),
       body: const Center(
         child: Text('MoonTabBarPage'),
