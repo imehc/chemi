@@ -21,9 +21,11 @@ class ChemiCrop extends StatefulWidget {
 class _ChemiCropState extends State<ChemiCrop> {
   /// 图片的流
   Uint8List? imagebytes;
+  Uint8List? cropImagebytes;
   bool isCrop = false;
   bool isButtonDisabled = false;
   final imagePicker = ImagePicker();
+  final _cropController = CropController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,88 +33,88 @@ class _ChemiCropState extends State<ChemiCrop> {
       appBar: AppBar(
         title: Text(widget.title),
         toolbarHeight: AppConstantConfig.toolbarHeight,
+        actions: [
+          if (imagebytes != null)
+            TextButton(
+              onPressed: isButtonDisabled
+                  ? null
+                  : () {
+                      _cropController.crop();
+                      setState(() {
+                        isCrop = true;
+                        isButtonDisabled = true;
+                      });
+                    },
+              child: const Text('确定', style: TextStyle(color: Colors.white)),
+            )
+        ],
       ),
-      body: Builder(builder: (context) {
-        final _cropController = CropController();
-        return SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            children: [
-              Card(
-                margin: EdgeInsets.symmetric(
-                  horizontal: AppConstantConfig.horizontalMarginSize.w,
-                  vertical: AppConstantConfig.verticalMarginSize.w,
+      body: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          children: [
+            Card(
+              margin: EdgeInsets.symmetric(
+                horizontal: AppConstantConfig.horizontalMarginSize.w,
+                vertical: AppConstantConfig.verticalMarginSize.w,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(AppConstantConfig.cardRadius.r),
                 ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(AppConstantConfig.cardRadius.r),
+              ),
+              child: Builder(builder: (context) {
+                return Container(
+                  padding: EdgeInsets.all(
+                    AppConstantConfig.horizontalPaddingSize.w,
                   ),
-                ),
-                child: Builder(builder: (context) {
-                  return Container(
-                    padding: EdgeInsets.all(
-                      AppConstantConfig.horizontalPaddingSize.w,
-                    ),
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height / 2,
-                    child: imagebytes == null
-                        ? const Center(child: Text('No image selected.'))
-                        : isCrop
-                            ? Image.memory(imagebytes!)
-                            : Crop(
-                                image: imagebytes!,
-                                controller: _cropController,
-                                // aspectRatio: AppConstantConfig.aspectRatio,
-                                onCropped: (buffer) =>
-                                    setState(() => imagebytes = buffer),
-                                initialSize: 1,
-                                baseColor: Colors.black,
-                                maskColor: Colors.black.withAlpha(150),
-                                cornerDotBuilder: (size, edgeAlignment) =>
-                                    const DotControl(
-                                  color: Colors.white54,
-                                ),
-                                interactive: true,
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height / 2,
+                  child: imagebytes == null
+                      ? const Center(child: Text('No image selected.'))
+                      : isCrop
+                          ? cropImagebytes == null
+                              ? const Center(
+                                  child: CircularProgressIndicator(),
+                                )
+                              : Image.memory(cropImagebytes!)
+                          : Crop(
+                              image: imagebytes!,
+                              controller: _cropController,
+                              // aspectRatio: AppConstantConfig.aspectRatio,
+                              onCropped: (buffer) => setState(() {
+                                cropImagebytes = buffer;
+                              }),
+                              initialSize: 1,
+                              baseColor: Colors.black,
+                              maskColor: Colors.black.withAlpha(150),
+                              cornerDotBuilder: (size, edgeAlignment) =>
+                                  const DotControl(
+                                color: Colors.white54,
                               ),
-                  );
-                }),
-              ),
-              if (imagebytes != null)
-                ElevatedButton(
-                  onPressed: isButtonDisabled
-                      ? null
-                      : () {
-                          _cropController.crop();
-                          setState(() {
-                            isCrop = true;
-                            isButtonDisabled = true;
-                          });
-                        },
-                  child: const Text("compile"),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                      AppConstantConfig.secondaryColor,
-                    ),
-                  ),
-                ),
-              ElevatedButton(
-                onPressed: () => openLocalImage(),
-                child: const Text('Crop using photo albums'),
-              ),
-              ElevatedButton(
-                onPressed: () {},
-                child: const Text('Crop using camera albums'),
-              ),
-            ],
-          ),
-        );
-      }),
+                              interactive: true,
+                            ),
+                );
+              }),
+            ),
+            ElevatedButton(
+              onPressed: () => openLocalImage(),
+              child: const Text('Crop using photo albums'),
+            ),
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text('Crop using camera albums'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
   void openLocalImage() async {
     if (imagebytes != null) imagebytes = null;
+    if (cropImagebytes != null) cropImagebytes = null;
     if (isCrop == true) isCrop = false;
     if (isButtonDisabled = true) isButtonDisabled = false;
     final imageFile = await imagePicker.pickImage(

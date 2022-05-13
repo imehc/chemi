@@ -7,6 +7,9 @@ class AppConstantConfig {
   /// 次要色: Color.fromRGBO(192, 210, 240, 1)
   static const Color secondaryColor = Color.fromRGBO(192, 210, 240, 1);
 
+  /// 绿
+  static const Color green = Color.fromARGB(255, 165, 238, 165);
+
   /// Colors.white
   static const Color navigationBarColor = Colors.white;
 
