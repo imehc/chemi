@@ -32,9 +32,12 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+  ## more: https://juejin.cn/post/6844904183850631175
 
   ## 文字动效组件
   # animated_text_kit: ^4.2.1
+  ## Android+iOS应用安装插件，支持打开应用商店和编辑评论，以及安装Apk文件
+  # app_installer: ^1.1.0
   ## 全局toast
   # bot_toast: ^4.0.1
   ## 一套企业级移动端 Flutter 组件库
@@ -57,13 +60,19 @@ dependencies:
   # file_picker: ^4.5.1
   ## 可翻转的卡片组件
   # flip_card: ^0.6.0
+  ## 处理后台运行
+  # flutter_background_service: ^2.0.0
   # flutter_colorpicker: ^1.0.3
   # flutter_easyloading: ^3.0.3
+  ## 扫描文档
+  # flutter_genius_scan: ^4.5.0
   ## 将widget裁剪成各种自定义形状 
   # flutter_custom_clippers: ^2.0.0
   ## This package automatically generates iOS, Android, and Web-native code for customizing this native splash screen background color and splash image
   # flutter_local_notifications: ^9.4.0
   # flutter_native_splash: ^2.1.6
+  ## 广告插件
+  # flutter_qq_ads: ^2.5.0
   ## 屏幕适配
   flutter_screenutil: ^5.5.2
   ## 评分组件
@@ -75,6 +84,8 @@ dependencies:
   ## 列表动画
   # flutter_staggered_animations: "^0.1.2"
   # flutter_swiper: ^1.1.6
+  ## 天气组件
+  # flutter_weather_bg: ^2.8.2
   # font_awesome_flutter: ^10.1.0
   # getwidget: ^2.0.5
   ## 全屏动效的抽屉组件
@@ -89,13 +100,23 @@ dependencies:
   # liquid_progress_indicator: ^0.4.0
   ## 液体效果的页面切换组件
   # liquid_swipe: ^2.1.1
+  ## 简单基于 json 文件的存储。替代本机 AsyncStorage
+  # localstorage: ^4.0.0+1
   # logger: ^1.1.0
+  ## 汉字转拼音
+  # lpinyin: ^2.0.3
   # package_info_plus: ^1.4.2
   # path_provider: ^2.0.9
+  ## 步数
+  # pedometer: ^3.0.0
   # permission_handler: ^9.2.0
   ## 图片预览查看器
   # photo_view: ^0.13.0
   # pull_to_refresh: ^2.0.0
+  ## 可以轻松添加和管理应用内购买 (IAP) 和订阅
+  # purchases_flutter: ^3.10.0
+  ## google翻译
+  # translator: ^0.1.7
   salomon_bottom_bar: ^3.3.1
   ## 刮刮卡 
   # scratcher: ^2.2.0
