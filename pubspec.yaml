@@ -32,38 +32,78 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+
+  ## 文字动效组件
+  # animated_text_kit: ^4.2.1
+  ## 全局toast
+  # bot_toast: ^4.0.1
+  ## 一套企业级移动端 Flutter 组件库
+  # bruno: ^2.2.0
   # city_pickers: ^1.0.1
   # connectivity_plus: ^2.3.0
-  # 裁剪图片
+  ## 裁剪图片
   crop_your_image: ^0.7.2
   # cupertino_icons: ^1.0.2
+  ## 超酷动画的底部tab栏 
+  # curved_navigation_bar: ^1.0.3
   # day_night_time_picker: ^1.0.5
   # device_info_plus: ^3.2.3
   # dio: ^4.0.6
-  # flutter_easyloading: ^3.0.3
-  # 图片相关功能 https://pub.dev/packages/extended_image 仅裁剪图片选择 crop_your_image 吧
+  ## 拖放列表 
+  # drag_and_drop_lists: ^0.3.2+2
+  ## 图片相关功能 https://pub.dev/packages/extended_image 仅裁剪图片选择 crop_your_image 吧
   # extended_image: ^6.0.3
   # get: 4.6.1
   # file_picker: ^4.5.1
+  ## 可翻转的卡片组件
+  # flip_card: ^0.6.0
   # flutter_colorpicker: ^1.0.3
-  # This package automatically generates iOS, Android, and Web-native code for customizing this native splash screen background color and splash image
+  # flutter_easyloading: ^3.0.3
+  ## 将widget裁剪成各种自定义形状 
+  # flutter_custom_clippers: ^2.0.0
+  ## This package automatically generates iOS, Android, and Web-native code for customizing this native splash screen background color and splash image
   # flutter_local_notifications: ^9.4.0
   # flutter_native_splash: ^2.1.6
-  # 屏幕适配
+  ## 屏幕适配
   flutter_screenutil: ^5.5.2
+  ## 评分组件
+  # flutter_rating_bar: ^4.0.0
+  ## 可滑动列表按钮选项
+  # flutter_slidable: ^1.2.0
+  ## 可展开选项的浮动按钮
+  # flutter_speed_dial: ^6.0.0
+  ## 列表动画
+  # flutter_staggered_animations: "^0.1.2"
+  # flutter_swiper: ^1.1.6
   # font_awesome_flutter: ^10.1.0
   # getwidget: ^2.0.5
+  ## 全屏动效的抽屉组件
+  # hidden_drawer_menu: ^3.0.1
   # image_cropper: ^1.5.1
   image_picker: ^0.8.5
-  # Provides internationalization and localization facilities
+  ## Provides internationalization and localization facilities
   intl: ^0.17.0
+  ## 点赞按钮动画
+  # like_button: ^0.1.9
+  ## 水波效果的进度器
+  # liquid_progress_indicator: ^0.4.0
+  ## 液体效果的页面切换组件
+  # liquid_swipe: ^2.1.1
   # logger: ^1.1.0
   # package_info_plus: ^1.4.2
   # path_provider: ^2.0.9
   # permission_handler: ^9.2.0
+  ## 图片预览查看器
+  # photo_view: ^0.13.0
   # pull_to_refresh: ^2.0.0
   salomon_bottom_bar: ^3.3.1
+  ## 刮刮卡 
+  # scratcher: ^2.2.0
   # shared_preferences: ^2.0.13
+  ## 可定制的上下滑出抽屉. 
+  # sliding_up_panel: ^2.0.0+1
+  ## 滚动内容添加粘性header
+  # sticky_headers: ^0.2.0
   # syncfusion_flutter_datepicker: ^20.1.52
   # url_launcher: ^6.0.20
   # webview_flutter: ^3.0.1
