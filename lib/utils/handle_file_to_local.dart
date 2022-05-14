@@ -39,7 +39,7 @@ class HandleFileUtils {
         if (statuses[Permission.storage] == PermissionStatus.granted) {
           _save(bytes);
         }
-        if (statuses[Permission.storage] == PermissionStatus.granted) {
+        if (statuses[Permission.storage] == PermissionStatus.denied) {
           _fail();
         }
       }

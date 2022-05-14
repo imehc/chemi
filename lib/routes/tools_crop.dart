@@ -106,13 +106,9 @@ class _ChemiCropState extends State<ChemiCrop> {
                 );
               }),
             ),
-            ElevatedButton(
+            TextButton(
               onPressed: () => openLocalImage(),
               child: const Text('Crop using photo albums'),
-            ),
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text('Crop using camera albums'),
             ),
           ],
         ),
