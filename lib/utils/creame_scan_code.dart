@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_blog/constant.dart';
+import 'package:chemi/constant.dart';
 import 'package:scan/scan.dart';
 
 class CreameScanCode extends StatefulWidget {

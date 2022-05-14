@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_blog/constant.dart';
+import 'package:chemi/constant.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../configuration.dart';
