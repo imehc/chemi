@@ -84,13 +84,18 @@ dependencies:
   ## 列表动画
   # flutter_staggered_animations: "^0.1.2"
   # flutter_swiper: ^1.1.6
+  fluttertoast: ^8.0.9
   ## 天气组件
   # flutter_weather_bg: ^2.8.2
   # font_awesome_flutter: ^10.1.0
+  ## 保存到相册 路径
+  # gallery_saver: ^2.3.2
   # getwidget: ^2.0.5
   ## 全屏动效的抽屉组件
   # hidden_drawer_menu: ^3.0.1
   # image_cropper: ^1.5.1
+  ## 保存到相册 流
+  image_gallery_saver: '^1.7.1'
   image_picker: ^0.8.5
   ## Provides internationalization and localization facilities
   intl: ^0.17.0
@@ -106,10 +111,12 @@ dependencies:
   ## 汉字转拼音
   # lpinyin: ^2.0.3
   # package_info_plus: ^1.4.2
-  # path_provider: ^2.0.9
+  ## 路径相关
+  path_provider: ^2.0.9
   ## 步数
   # pedometer: ^3.0.0
-  # permission_handler: ^9.2.0
+  ## 权限
+  permission_handler: ^9.2.0
   ## 图片预览查看器
   # photo_view: ^0.13.0
   # pull_to_refresh: ^2.0.0

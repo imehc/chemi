@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:crop_your_image/crop_your_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blog/utils/handle_file_to_local.dart';
 
 // ignore: implementation_imports
 import 'package:flutter_screenutil/src/size_extension.dart' show SizeExtension;
@@ -34,7 +35,7 @@ class _ChemiCropState extends State<ChemiCrop> {
         title: Text(widget.title),
         toolbarHeight: AppConstantConfig.toolbarHeight,
         actions: [
-          if (imagebytes != null)
+          if (imagebytes != null && cropImagebytes == null)
             TextButton(
               onPressed: isButtonDisabled
                   ? null
@@ -46,7 +47,14 @@ class _ChemiCropState extends State<ChemiCrop> {
                       });
                     },
               child: const Text('确定', style: TextStyle(color: Colors.white)),
-            )
+            ),
+          if (cropImagebytes != null)
+            TextButton(
+              onPressed: () {
+                HandleFileUtils.saveImageToLocal(cropImagebytes!);
+              },
+              child: const Text('保存', style: TextStyle(color: Colors.white)),
+            ),
         ],
       ),
       body: SizedBox(

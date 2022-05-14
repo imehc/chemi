@@ -78,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPageChanged: (i) => setState(() => _currentIndex = i),
       ),
       bottomNavigationBar: Material(
-        color: AppConstantConfig.secondaryColor,
+        color: AppConstantConfig.primaryColor,
         elevation: 10,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -101,22 +101,22 @@ class _MyHomePageState extends State<MyHomePage> {
               SalomonBottomBarItem(
                 icon: const Icon(Icons.light_mode_outlined),
                 title: const Text("Sunny"),
-                selectedColor: AppConstantConfig.primaryColor,
+                selectedColor: AppConstantConfig.secondaryColor,
               ),
               SalomonBottomBarItem(
                 icon: const Icon(Icons.business_center_outlined),
                 title: const Text("Tools"),
-                selectedColor: AppConstantConfig.primaryColor,
+                selectedColor: AppConstantConfig.secondaryColor,
               ),
               SalomonBottomBarItem(
                 icon: const Icon(Icons.space_dashboard_outlined),
                 title: const Text("Daily"),
-                selectedColor: AppConstantConfig.primaryColor,
+                selectedColor: AppConstantConfig.secondaryColor,
               ),
               SalomonBottomBarItem(
                 icon: const Icon(Icons.nightlight_outlined),
                 title: const Text("Moon"),
-                selectedColor: AppConstantConfig.primaryColor,
+                selectedColor: AppConstantConfig.secondaryColor,
               ),
             ],
           ),
