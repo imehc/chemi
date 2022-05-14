@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blog/constant.dart';
+import 'package:scan/scan.dart';
 
 class CreameScanCode extends StatefulWidget {
   const CreameScanCode({Key? key}) : super(key: key);
@@ -8,8 +10,23 @@ class CreameScanCode extends StatefulWidget {
 }
 
 class _CreameScanCodeState extends State<CreameScanCode> {
+  ScanController controller = ScanController();
+
   @override
   Widget build(BuildContext context) {
-    return const Text("creameScanCode");
+    return Scaffold(
+      body: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: ScanView(
+          controller: controller,
+          scanAreaScale: .7,
+          scanLineColor: AppConstantConfig.primaryColor,
+          onCapture: (data) {
+            Navigator.pop(context, data);
+          },
+        ),
+      ),
+    );
   }
 }

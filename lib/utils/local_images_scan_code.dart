@@ -1,15 +1,16 @@
-import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:scan/scan.dart';
 
-class LocalImagesScanCode extends StatefulWidget {
-  const LocalImagesScanCode({Key? key}) : super(key: key);
-
-  @override
-  State<LocalImagesScanCode> createState() => _LocalImagesScanCodeState();
-}
-
-class _LocalImagesScanCodeState extends State<LocalImagesScanCode> {
-  @override
-  Widget build(BuildContext context) {
-    return const Text("LocalImagesScanCode");
+class LocalImagesScanCode {
+  static start() async {
+    final result = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (result != null) {
+      String? str = await Scan.parse(result.path);
+      if (str != null && str.trim().isNotEmpty) {
+        return str;
+      } else {
+        return null;
+      }
+    }
   }
 }

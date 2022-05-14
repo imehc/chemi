@@ -2,13 +2,13 @@ import 'dart:typed_data';
 
 import 'package:crop_your_image/crop_your_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_blog/utils/handle_file_to_local.dart';
 
 // ignore: implementation_imports
 import 'package:flutter_screenutil/src/size_extension.dart' show SizeExtension;
 import 'package:image_picker/image_picker.dart';
 
 import '../constant.dart';
+import '../utils/utils.dart';
 
 class ChemiCrop extends StatefulWidget {
   final String title;

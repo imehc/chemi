@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_blog/constant.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 
 import '../configuration.dart';
 
@@ -19,7 +18,16 @@ class _ToolsTabBarPageState extends State<ToolsTabBarPage> {
 
   String formatDate(int params) => params.toString().padLeft(2, '0');
 
-  String handleFormatDate() => DateFormat().format(DateTime.now().toLocal());
+  String handleFormatDate() {
+    DateTime time = DateTime.now();
+    final year = time.year;
+    final month = time.month.toString().padLeft(2, '0');
+    final day = time.day.toString().padLeft(2, '0');
+    final hour = time.hour.toString().padLeft(2, '0');
+    final minute = time.minute.toString().padLeft(2, '0');
+    final second = time.second.toString().padLeft(2, '0');
+    return "$year-$month-$day $hour:$minute:$second";
+  }
 
   void _startTime() {
     const Duration duration = Duration(seconds: 1);

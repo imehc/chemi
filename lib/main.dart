@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_blog/routes/tools_crop.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 import 'constant.dart';
@@ -11,9 +10,6 @@ import 'routes/routes.dart';
 import 'widgets/widgets.dart';
 
 void main() async {
-  Intl.defaultLocale = 'zh_CN';
-  await initializeDateFormatting(Intl.defaultLocale ?? Intl.systemLocale);
-
   /// 初始化
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -39,6 +35,16 @@ class MyApp extends StatelessWidget {
         primarySwatch: AppConstantConfig.themeBlue,
         canvasColor: Colors.grey[100],
       ),
+      supportedLocales: const [
+        Locale('en'),
+        Locale('zh'),
+      ],
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      locale: const Locale('zh'),
       routes: routes,
       home: const MyHomePage(),
     );

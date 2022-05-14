@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 // ignore: implementation_imports
 import 'package:flutter_screenutil/src/size_extension.dart' show SizeExtension;
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../constant.dart';
+import '../utils/utils.dart';
 
 class ChemiScan extends StatefulWidget {
   final String title;
@@ -13,6 +15,7 @@ class ChemiScan extends StatefulWidget {
 }
 
 class _ChemiScanState extends State<ChemiScan> {
+  String qrcode = "unknow";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,29 +44,67 @@ class _ChemiScanState extends State<ChemiScan> {
                 ),
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height / 2,
-                child: Text(
-                  "unknow",
+                // 选中文字
+                child: SelectableText(
+                  qrcode,
+                  onTap: () {
+                    if (_isUrl(qrcode)) {
+                      UrlUtil.open(qrcode);
+                    }
+                  },
                   style: TextStyle(
-                    fontSize: AppConstantConfig.primaryFontSize.sp,
-                  ),
+                      fontSize: AppConstantConfig.primaryFontSize,
+                      color: _isUrl(qrcode)
+                          ? AppConstantConfig.primaryColor
+                          : Colors.black),
                 ),
               ),
             ),
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text('MobileScanner with Controller'),
-            ),
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text('Use camera scan code'),
-            ),
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text('Use local image scan code'),
-            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                TextButton(
+                  onPressed: () async {
+                    final result = await Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const CreameScanCode(),
+                      ),
+                    );
+                    if (result != null) {
+                      setState(() => qrcode = result);
+                    }
+                  },
+                  child: const Text('Use camera scan code'),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    final result = await LocalImagesScanCode.start();
+                    if (result != null) {
+                      setState(() => qrcode = result);
+                    } else {
+                      Fluttertoast.showToast(
+                        msg: "无法识别",
+                        gravity: ToastGravity.CENTER,
+                      );
+                    }
+                  },
+                  child: const Text('Use local image scan code'),
+                ),
+              ],
+            )
           ],
         ),
       ),
     );
+  }
+
+  _isUrl(String str) {
+    RegExp reg = RegExp(r"(http(s)?://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?)");
+    if (reg.hasMatch(str)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
