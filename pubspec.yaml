@@ -54,12 +54,14 @@ dependencies:
   # day_night_time_picker: ^1.0.5
   # device_info_plus: ^3.2.3
   # dio: ^4.0.6
+  ## 选项按钮
+  dropdown_button2: ^1.5.0
   ## 拖放列表 
   # drag_and_drop_lists: ^0.3.2+2
   ## 图片相关功能 https://pub.dev/packages/extended_image 仅裁剪图片选择 crop_your_image 吧
   # extended_image: ^6.0.3
   # get: 4.6.1
-  # file_picker: ^4.5.1
+  file_picker: ^4.5.1
   ## 可翻转的卡片组件
   # flip_card: ^0.6.0
   ## 处理后台运行
@@ -70,9 +72,10 @@ dependencies:
   # flutter_genius_scan: ^4.5.0
   ## 将widget裁剪成各种自定义形状 
   # flutter_custom_clippers: ^2.0.0
-  ## This package automatically generates iOS, Android, and Web-native code for customizing this native splash screen background color and splash image
+  ## 闪屏页
+  flutter_native_splash: ^2.1.6
+  ## 本地通知
   # flutter_local_notifications: ^9.4.0
-  # flutter_native_splash: ^2.1.6
   ## 广告插件
   # flutter_qq_ads: ^2.5.0
   ## 屏幕适配
@@ -117,6 +120,8 @@ dependencies:
   # package_info_plus: ^1.4.2
   ## 路径相关
   path_provider: ^2.0.9
+  ## pdf预览
+  # pdf_render: ^1.1.0
   ## 步数
   # pedometer: ^3.0.0
   ## 权限
