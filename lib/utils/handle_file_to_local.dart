@@ -12,7 +12,7 @@ class HandleFileUtils {
         Map<Permission, PermissionStatus> statuses =
             await [Permission.photos].request();
         if (statuses[Permission.photos] == PermissionStatus.permanentlyDenied) {
-          _fail();
+          openAppSettings();
         }
         if (statuses[Permission.photos] == PermissionStatus.granted) {
           _save(bytes);
@@ -34,7 +34,7 @@ class HandleFileUtils {
             await [Permission.storage].request();
         if (statuses[Permission.storage] ==
             PermissionStatus.permanentlyDenied) {
-          _fail();
+          openAppSettings();
         }
         if (statuses[Permission.storage] == PermissionStatus.granted) {
           _save(bytes);
