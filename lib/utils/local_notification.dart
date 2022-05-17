@@ -36,6 +36,7 @@ class LocalNotification {
     var details = NotificationDetails(android: androidDetails, iOS: iosDetails);
 
     // ⚠️:iOS Notifications are not displayed if the app is in the foreground
+    // https://github.com/MaikuB/flutter_local_notifications/issues/1291
 
     // 显示通知, 第一个参数是id,id如果一致则会覆盖之前的通知
     try {
