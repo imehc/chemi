@@ -75,7 +75,7 @@ class _ChemiScanState extends State<ChemiScan> {
                       setState(() => qrcode = result);
                     }
                   },
-                  child: const Text('Use camera scan code'),
+                  child: const Text('Use camera'),
                 ),
                 TextButton(
                   onPressed: () async {
@@ -89,7 +89,7 @@ class _ChemiScanState extends State<ChemiScan> {
                       );
                     }
                   },
-                  child: const Text('Use local image scan code'),
+                  child: const Text('Use local image'),
                 ),
               ],
             )
