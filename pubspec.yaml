@@ -40,6 +40,10 @@ dependencies:
   # animated_text_kit: ^4.2.1
   ## Android+iOS应用安装插件，支持打开应用商店和编辑评论，以及安装Apk文件
   # app_installer: ^1.1.0
+  ## 徽标数字
+  # badges: ^2.0.2
+  ## 剪贴板
+  # clipboard: ^0.1.3
   ## 全局toast
   # bot_toast: ^4.0.1
   ## 一套企业级移动端 Flutter 组件库
@@ -48,6 +52,8 @@ dependencies:
   # connectivity_plus: ^2.3.0
   ## 裁剪图片
   crop_your_image: ^0.7.2
+  ## 加密
+  # crypto: ^3.0.2
   # cupertino_icons: ^1.0.2
   ## 超酷动画的底部tab栏 
   # curved_navigation_bar: ^1.0.3
@@ -64,18 +70,20 @@ dependencies:
   file_picker: ^4.5.1
   ## 可翻转的卡片组件
   # flip_card: ^0.6.0
+  ## 图标小红点
+  # flutter_app_badger: ^1.4.0
   ## 处理后台运行
   # flutter_background_service: ^2.0.0
   # flutter_colorpicker: ^1.0.3
+  ## 将widget裁剪成各种自定义形状 
+  # flutter_custom_clippers: ^2.0.0
   # flutter_easyloading: ^3.0.3
   ## 扫描文档
   # flutter_genius_scan: ^4.5.0
-  ## 将widget裁剪成各种自定义形状 
-  # flutter_custom_clippers: ^2.0.0
   ## 闪屏页
   flutter_native_splash: ^2.1.6
   ## 本地通知
-  # flutter_local_notifications: ^9.4.0
+  flutter_local_notifications: ^9.5.3+1
   ## 广告插件
   # flutter_qq_ads: ^2.5.0
   ## 屏幕适配
@@ -98,10 +106,14 @@ dependencies:
   # getwidget: ^2.0.5
   ## 全屏动效的抽屉组件
   # hidden_drawer_menu: ^3.0.1
+  ## nosql数据库
+  # hive: ^2.1.0
   # image_cropper: ^1.5.1
   ## 保存到相册 流
   image_gallery_saver: '^1.7.1'
   image_picker: ^0.8.5
+  ## 无限滚动分页
+  # infinite_scroll_pagination: ^3.1.0
   ## Provides internationalization and localization facilities 与flutter_localizations有冲突,不能同时使用
   # intl: ^0.17.0
   ## 点赞按钮动画
@@ -112,11 +124,15 @@ dependencies:
   # liquid_swipe: ^2.1.1
   ## 简单基于 json 文件的存储。替代本机 AsyncStorage
   # localstorage: ^4.0.0+1
+  ## 本地身份验证
+  # local_auth: ^2.0.2
   # logger: ^1.1.0
   ## 汉字转拼音
   # lpinyin: ^2.0.3
   ## 扫码
   # mobile_scanner: ^1.1.0
+  ## 图片加载，错误占位
+  # octo_image: ^1.0.2
   # package_info_plus: ^1.4.2
   ## 路径相关
   path_provider: ^2.0.9
@@ -126,6 +142,8 @@ dependencies:
   # pedometer: ^3.0.0
   ## 权限
   permission_handler: ^9.2.0
+  ## 图片管理
+  # photo_manager: ^2.1.1
   ## 图片预览查看器
   # photo_view: ^0.13.0
   # pull_to_refresh: ^2.0.0
@@ -138,12 +156,21 @@ dependencies:
   ## 刮刮卡 
   # scratcher: ^2.2.0
   # shared_preferences: ^2.0.13
+  ## 微光效果
+  # shimmer: ^2.0.0
+  ## 动画
+  # simple_animations: ^4.0.2
   ## 可定制的上下滑出抽屉. 
   # sliding_up_panel: ^2.0.0+1
+  ## 语音识别
+  # speech_to_text: ^5.5.0
   ## 滚动内容添加粘性header
   # sticky_headers: ^0.2.0
   # syncfusion_flutter_datepicker: ^20.1.52
+  # uni_links: ^0.5.1
   url_launcher: ^6.1.2
+  ## 保持唤醒状态
+  # wakelock: ^0.6.1+2
   # webview_flutter: ^3.0.1
 
 dev_dependencies:
@@ -156,6 +183,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
+  ## 自动配置启动器图标  https://pub.dev/packages/flutter_launcher_icons
+  # flutter_launcher_icons: ^0.9.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

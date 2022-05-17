@@ -1,0 +1,5 @@
+# run: flutter pub run flutter_launcher_icons:main
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/launcher_icon/splash.png"
