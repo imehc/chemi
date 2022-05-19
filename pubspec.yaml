@@ -68,6 +68,8 @@ dependencies:
   # extended_image: ^6.0.3
   # get: 4.6.1
   file_picker: ^4.5.1
+  ## 图表
+  # fl_chart: ^0.50.6
   ## 可翻转的卡片组件
   # flip_card: ^0.6.0
   ## 图标小红点
@@ -167,6 +169,8 @@ dependencies:
   ## 滚动内容添加粘性header
   # sticky_headers: ^0.2.0
   # syncfusion_flutter_datepicker: ^20.1.52
+  ## 圆形仪表盘
+  # syncfusion_flutter_gauges: ^20.1.56
   # uni_links: ^0.5.1
   url_launcher: ^6.1.2
   ## 保持唤醒状态
