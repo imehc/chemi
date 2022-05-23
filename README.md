@@ -1,4 +1,4 @@
-# flutter_blog
+# flutter_chemi
 
 A new Flutter project.
 
