@@ -2,7 +2,8 @@
 #  https://openapi-generator.tech/docs/generators
 enumUnknownDefaultCase: true
 # generator dart Api required
-pubName: person_api
+# 与pubspec路径要一致
+pubName: open_api_yaml
 useEnumExtension: true
 # generator typescript Api required
 npmName: person-api-test-rxjs

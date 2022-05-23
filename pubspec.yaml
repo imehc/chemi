@@ -30,8 +30,10 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_neumorphic: ^3.0.3
-  person_api:
+  open_api_yaml:
     path: ./packages/person_api
+  open_api_json:
+    path: ./openapi/generated_client
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

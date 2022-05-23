@@ -1,0 +1,7 @@
+{
+  "hideGenerationTimestamp": true,
+  "browserClient": false,
+  "pubName": "open_api_json",
+  "pubVersion": "0.0.1",
+  "pubDescription": "Generated API client"
+}

@@ -1,4 +1,4 @@
-import 'package:flutter_blog/person_api_client.dart';
+import 'package:flutter_blog/openapi_client_json.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class FullSampleHomePage extends StatefulWidget {
@@ -9,7 +9,7 @@ class FullSampleHomePage extends StatefulWidget {
 }
 
 class _FullSampleHomePageState extends State<FullSampleHomePage> {
-  final _client = PersonApiClient();
+  final _client = PersonApiClientJson();
   List<String>? _list;
   @override
   Widget build(BuildContext context) {
@@ -54,8 +54,14 @@ class _FullSampleHomePageState extends State<FullSampleHomePage> {
             ),
             TextButton(
               onPressed: () async {
-                final payload = await _client.getClientsApi().getClients();
-                setState(() => _list = payload.data!.asList());
+                try {
+                  final res = await _client.getPetApi().getPetById(petId: 1);
+                  print("==========================");
+                  print(res);
+                  print("==========================");
+                } catch (e) {
+                  print(e);
+                }
               },
               child: const Text("TextButton"),
             ),
