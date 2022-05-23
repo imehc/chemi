@@ -2,10 +2,12 @@
 FLUTTER_ROOT=/Users/edy/.flutter_sdk
 FLUTTER_APPLICATION_PATH=/Users/edy/Workbench/person/chemi
 COCOAPODS_PARALLEL_CODE_SIGN=true
+FLUTTER_TARGET=/Users/edy/Workbench/person/chemi/lib/main.dart
 FLUTTER_BUILD_DIR=build
 FLUTTER_BUILD_NAME=1.0.0
 FLUTTER_BUILD_NUMBER=1
+DART_DEFINES=RkxVVFRFUl9XRUJfQVVUT19ERVRFQ1Q9dHJ1ZQ==
 DART_OBFUSCATION=false
-TRACK_WIDGET_CREATION=false
+TRACK_WIDGET_CREATION=true
 TREE_SHAKE_ICONS=false
-PACKAGE_CONFIG=.dart_tool/package_config.json
+PACKAGE_CONFIG=/Users/edy/Workbench/person/chemi/.dart_tool/package_config.json
