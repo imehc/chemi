@@ -9,13 +9,37 @@
 
 `app_installer: ^1.1.0`
 
+> 音频会话处理
+
+`audio_session: ^0.1.6+1`
+
+> 进度条小部件，用于显示或更改音频或视频流的位置
+
+`audio_video_progress_bar: ^0.10.0`
+
+> 列表自动动画
+
+`auto_animated: ^3.0.1`
+
+> 背景实现
+
+`backdrop: ^0.8.0`
+
 > 徽标数字
 
 `badges: ^2.0.2`
 
+> 用于访问有关运行应用程序的设备电池的各种信息
+
+`battery_plus: ^2.1.3`
+
 > 剪贴板
 
 `clipboard: ^0.1.3`
+
+> 模糊子部件
+
+`blur: ^3.1.0`
 
 > 全局toast
 
@@ -33,6 +57,10 @@
 
 `connectivity_plus: ^2.3.0`
 
+> 类似 cron 的基于时间的作业调度
+
+`cron: ^0.5.0`
+
 > 裁剪图片
 
 `crop_your_image: ^0.7.2`
@@ -45,17 +73,33 @@
 
 `curved_navigation_bar: ^1.0.3`
 
+> 地理 IP 地址详细信息 API
+
+`dart_ipify: ^1.1.1`
+
 > 时间选择器
 
 `day_night_time_picker: ^1.0.5`
+
+> 延迟展示
+
+`delayed_display: ^2.0.0`
 
 > 获取当前设备信息
 
 `device_info_plus: ^3.2.3`
 
+> 获取设备语言环境
+
+`devicelocale: ^0.5.2`
+
 > 网络请求
 
 `dio: ^4.0.6`
+
+> 允许 Android 用户按两次后退按钮来关闭应用程序
+
+`double_back_to_close_app: ^2.1.0`
 
 > 选项按钮
 
@@ -64,6 +108,10 @@
 > 拖放列表
 
 `drag_and_drop_lists: ^0.3.2+2`
+
+> 反应式持久性库 <https://drift.simonbinder.eu/docs/getting-started/>
+
+`drift: ^1.6.0`
 
 > 图片相关功能 仅裁剪图片选择 crop_your_image
 
@@ -76,6 +124,14 @@
 > 文件选择
 
 `file_picker: ^4.5.1`
+
+> 保存文件
+
+`file_saver: ^0.1.0`
+
+> 格式文件大小
+
+`filesize: ^2.0.1`
 
 > 图表
 
@@ -97,6 +153,10 @@
 
 `flutter_colorpicker: ^1.0.3`
 
+> 读取、创建、更新、删除和观察原生联系人
+
+`flutter_contacts: ^1.1.4`
+
 > 将widget裁剪成各种自定义形状
 
 `flutter_custom_clippers: ^2.0.0`
@@ -109,17 +169,29 @@
 
 `flutter_genius_scan: ^4.5.0`
 
-> 闪屏页
+> 复杂grid布局
 
-`flutter_native_splash: ^2.1.6`
+`flutter_layout_grid: ^2.0.1`
 
 > 本地通知
 
 `flutter_local_notifications: ^9.5.3+1`
 
+> 应用引导访问
+
+`flutter_intro: ^3.0.2`
+
+> 闪屏页
+
+`flutter_native_splash: ^2.1.6`
+
+> 使用预定义类型解析文本和提取部分url，phone并且email还支持Regex
+
+`flutter_parsed_text: ^2.2.1`
+
 > 广告插件
 
-  flutter_qq_ads: ^2.5.0  
+`flutter_qq_ads: ^2.5.0`
 
 > 屏幕适配
 
@@ -141,9 +213,17 @@
 
 `flutter_staggered_animations: "^0.1.2"`
 
+> 用于Image通过自定义在小部件中使用 svg
+
+`flutter_svg_provider: ^1.0.3`
+
 > swiper
 
 `flutter_swiper: ^1.1.6`
+
+> 一个简单的铃声、闹钟和通知播放器插件
+
+`flutter_ringtone_player: ^3.2.0`
 
 > toast
 
@@ -157,13 +237,33 @@
 
 `font_awesome_flutter: ^10.1.0`
 
+> 表单验证
+
+`form_builder_validators: ^8.1.1`
+
 > 保存到相册 路径
 
 `gallery_saver: ^2.3.2`
 
+> 空白间距
+
+`gap: ^2.0.0`
+
 > 封装的一个组件库
 
 `getwidget: ^2.0.5`
+
+> 玻璃拟态
+
+`glass_kit: ^2.0.1`
+
+> button组 单选，多选组
+
+`group_button: ^5.0.1`
+
+> 允许从 Apple Health 和 Google Fit 读取和写入健康数据
+
+`health: ^3.4.4`
 
 > 全屏动效的抽屉组件
 
@@ -173,9 +273,17 @@
 
 `hive: ^2.1.0`
 
+> 创建一个带有固定列的水平表
+
+`horizontal_data_table: ^3.6.5`
+
 > 裁剪图片，基于不同的原生库，因此平台之间具有不同的页面
 
 `image_cropper: ^1.5.1`
+
+> 图片下载
+
+`image_downloader: ^0.31.0`
 
 > 保存到相册 流
 
@@ -201,9 +309,17 @@
 
 `liquid_progress_indicator: ^0.4.0`
 
+> 液体效果下拉刷新
+
+`liquid_pull_to_refresh: ^3.0.1`
+
 > 液体效果的页面切换组件
 
 `liquid_swipe: ^2.1.1`
+
+> 比较炫酷的loading小部件样式
+
+`loading_animation_widget: ^1.2.0+1`
 
 > 简单基于 json 文件的存储。替代本机 AsyncStorage
 
@@ -221,9 +337,17 @@
 
 `lpinyin: ^2.0.3`
 
+> map
+
+`mapbox_gl: ^0.16.0`
+
 > 扫码
 
 `mobile_scanner: ^1.1.0`
+
+> 用于在 Android 和 iOS 上访问 NFC 功能的 Flutter 插件
+
+`nfc_manager: ^3.1.1`
 
 > 图片加载，错误占位
 
@@ -257,6 +381,14 @@
 
 `photo_view: ^0.13.0`
 
+> 展示不同样式的验证码
+
+`pin_input_text_field: ^4.1.2`
+
+> 弹出框
+
+`popover: ^0.2.6+3`
+
 > 下拉刷新
 
 `pull_to_refresh: ^2.0.0`
@@ -264,6 +396,10 @@
 > 可以轻松添加和管理应用内购买 (IAP) 和订阅
 
 `purchases_flutter: ^3.10.0`
+
+> 评分dialog
+
+`rating_dialog: ^2.0.4`
 
 > google翻译
 
@@ -305,6 +441,14 @@
 
 `sticky_headers: ^0.2.0`
 
+> 计时器、倒计时
+
+`stop_watch_timer: ^1.4.0`
+
+> 使用标签的格式化文本的文本小部件
+
+`styled_text: ^5.1.0`
+
 > 日期选择器
 
 `syncfusion_flutter_datepicker: ^20.1.52`
@@ -321,10 +465,24 @@
 
 `url_launcher: ^6.1.2`
 
+> 用于修剪视频的 Flutter 包
+
+`video_trimmer: ^1.1.3`
+
 > 保持唤醒状态
 
 `wakelock: ^0.6.1+2`
 
+> 一个连接以与以太坊区块链交互库
+
+`web3dart: ^2.4.0`
+
 > webview
 
 `webview_flutter: ^3.0.1`
+
+> 允许 Flutter 桌面应用调整窗口的大小和位置
+
+`window_manager: ^0.2.3`
+
+<https://pub.dev/packages?page=30>
