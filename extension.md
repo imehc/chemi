@@ -21,6 +21,10 @@
 
 `auto_animated: ^3.0.1`
 
+> 文字大小适应
+
+`auto_size_text: ^3.0.0`
+
 > 背景实现
 
 `backdrop: ^0.8.0`

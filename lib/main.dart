@@ -134,7 +134,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
 // 路由
 Map<String, Widget Function(BuildContext)> routes = {
+  "/crop": (context) => const ChemiCrop("裁剪"),
+  "/hero": (context) => const ChemiHeroAnimation(),
   "/scan": (context) => const ChemiScan("扫码"),
   "/pdf": (context) => const ChemiPdf("PDF"),
-  "/crop": (context) => const ChemiCrop("裁剪"),
 };
