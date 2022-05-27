@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../constant.dart';
+import '../provider.dart';
 
 class MoonTabBarPage extends StatefulWidget {
   const MoonTabBarPage({Key? key}) : super(key: key);
@@ -17,8 +19,8 @@ class _MoonTabBarPageState extends State<MoonTabBarPage> {
         title: const Text("Moon"),
         toolbarHeight: AppConstantConfig.toolbarHeight,
       ),
-      body: const Center(
-        child: Text('MoonTabBarPage'),
+      body: Center(
+        child: Text('MoonTabBarPage:${context.watch<Counter>().count}'),
       ),
     );
   }

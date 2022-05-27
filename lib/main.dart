@@ -1,8 +1,10 @@
+import 'package:chemi/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:chemi/routes/tools_crop.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 import 'constant.dart';
@@ -20,7 +22,21 @@ void main() async {
     ),
   );
   await ScreenUtil.ensureScreenSize();
-  runApp(const MyApp());
+  runApp(const Provider());
+}
+
+class Provider extends StatelessWidget {
+  const Provider({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => Counter()),
+      ],
+      child: const MyApp(),
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {

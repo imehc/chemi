@@ -389,6 +389,10 @@
 
 `pin_input_text_field: ^4.1.2`
 
+> 状态管理
+
+`provider: ^6.0.3`
+
 > 弹出框
 
 `popover: ^0.2.6+3`
