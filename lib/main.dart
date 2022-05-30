@@ -1,3 +1,4 @@
+import 'package:bottom_bar/bottom_bar.dart';
 import 'package:chemi/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,7 +6,6 @@ import 'package:chemi/routes/tools_crop.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 import 'constant.dart';
 import 'routes/routes.dart';
@@ -76,11 +76,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
-  late PageController pageController;
+  late PageController _pageController;
   @override
   void initState() {
     super.initState();
-    pageController = PageController(initialPage: _currentIndex);
+    _pageController = PageController(initialPage: _currentIndex);
   }
 
   @override
@@ -88,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ScreenUtil.init(context, designSize: const Size(375, 812));
     return Scaffold(
       body: PageView(
-        controller: pageController,
+        controller: _pageController,
         // physics: const BouncingScrollPhysics(),
         physics: const ClampingScrollPhysics(),
         children: const <Widget>[
@@ -102,43 +102,42 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: Material(
         color: AppConstantConfig.primaryColor,
         elevation: 10,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(25),
-            topRight: Radius.circular(25),
-          ),
-        ),
         child: SafeArea(
-          child: SalomonBottomBar(
-            currentIndex: _currentIndex,
-            onTap: (i) => setState(() {
-              _currentIndex = i;
-              pageController.animateToPage(
-                _currentIndex,
-                duration: const Duration(milliseconds: 400),
-                curve: Curves.easeOutQuad,
-              );
-            }),
-            items: [
-              SalomonBottomBarItem(
+          maintainBottomViewPadding: true,
+          child: BottomBar(
+            showActiveBackgroundColor: true,
+            // 由于使用Material颜色覆盖，所以不需要再设置backgroundColor
+            // backgroundColor: AppConstantConfig.primaryColor,
+            selectedIndex: _currentIndex,
+            height: 60,
+            onTap: (int index) {
+              _pageController.jumpToPage(index);
+              setState(() => _currentIndex = index);
+            },
+            items: <BottomBarItem>[
+              BottomBarItem(
                 icon: const Icon(Icons.light_mode_outlined),
-                title: const Text("Sunny"),
-                selectedColor: AppConstantConfig.secondaryColor,
+                title: const Text('Sunny'),
+                inactiveColor: Colors.black.withOpacity(.5),
+                activeColor: Colors.white,
               ),
-              SalomonBottomBarItem(
+              BottomBarItem(
                 icon: const Icon(Icons.business_center_outlined),
-                title: const Text("Tools"),
-                selectedColor: AppConstantConfig.secondaryColor,
+                title: const Text('Tools'),
+                inactiveColor: Colors.black.withOpacity(.5),
+                activeColor: Colors.white,
               ),
-              SalomonBottomBarItem(
+              BottomBarItem(
                 icon: const Icon(Icons.space_dashboard_outlined),
-                title: const Text("Daily"),
-                selectedColor: AppConstantConfig.secondaryColor,
+                title: const Text('Daily'),
+                inactiveColor: Colors.black.withOpacity(.5),
+                activeColor: Colors.white,
               ),
-              SalomonBottomBarItem(
+              BottomBarItem(
                 icon: const Icon(Icons.nightlight_outlined),
-                title: const Text("Moon"),
-                selectedColor: AppConstantConfig.secondaryColor,
+                title: const Text('Moon'),
+                inactiveColor: Colors.black.withOpacity(.5),
+                activeColor: Colors.white,
               ),
             ],
           ),

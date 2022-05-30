@@ -49,6 +49,10 @@
 
 `bot_toast: ^4.0.1`
 
+> bottom_bar: ^2.0.0
+
+`bottom_bar: ^2.0.0`
+
 > 一套企业级移动端 Flutter 组件库
 
 `bruno: ^2.2.0`
@@ -413,7 +417,7 @@
 
 `translator: ^0.1.7`
 
-> 炫酷的tabbar
+> 炫酷的tabbar，推荐使用bottom_bar，该扩展切换有闪烁问题
 
 `salomon_bottom_bar: ^3.3.1`
 
