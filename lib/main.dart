@@ -99,6 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
         onPageChanged: (i) => setState(() => _currentIndex = i),
       ),
+      // SafeArea设置安全区颜色
       bottomNavigationBar: Material(
         color: AppConstantConfig.primaryColor,
         elevation: 10,
