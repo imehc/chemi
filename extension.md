@@ -1,6 +1,10 @@
 
 # flutter扩展
 
+> 手风琴
+
+`accordion: ^2.4.0`
+
 > 文字动效组件
 
 `animated_text_kit: ^4.2.1`
@@ -64,6 +68,10 @@
 > 配置网络(networl or wifi)
 
 `connectivity_plus: ^2.3.0`
+
+> 同心过渡
+
+`concentric_transition: ^1.0.1`
 
 > 类似 cron 的基于时间的作业调度
 
@@ -153,6 +161,10 @@
 
 `flutter_app_badger: ^1.4.0`
 
+> 抽屉部件
+
+`flutter_advanced_drawer: ^1.3.2`
+
 > 处理后台运行
 
 `flutter_background_service: ^2.0.0`
@@ -176,6 +188,10 @@
 > 扫描文档
 
 `flutter_genius_scan: ^4.5.0`
+
+> 日期选择器
+
+`flutter_holo_date_picker: ^1.0.3`
 
 > 复杂grid布局
 
@@ -280,6 +296,10 @@
 > nosql数据库
 
 `hive: ^2.1.0`
+
+> 主页小部件
+
+`home_widget: ^0.1.6`
 
 > 创建一个带有固定列的水平表
 
@@ -413,6 +433,10 @@
 
 `rating_dialog: ^2.0.4`
 
+> 重新启动程序(安卓)
+
+`restart_app: ^1.1.0`
+
 > 流控制
 
 `rxdart: ^0.27.4`
@@ -433,6 +457,10 @@
 
 `scratcher: ^2.2.0`
 
+> 检测手机震动
+
+`shake: ^2.1.0`
+
 > 本地存储
 
 `shared_preferences: ^2.0.13`
@@ -448,6 +476,10 @@
 > 可定制的上下滑出抽屉
 
 `sliding_up_panel: ^2.0.0+1`
+
+> 骨架屏
+
+`skeleton_loader: ^2.0.0+4`
 
 > 语音识别
 
@@ -501,4 +533,4 @@
 
 `window_manager: ^0.2.3`
 
-<https://pub.dev/packages?page=30>
+<https://pub.dev/packages?page=34>
