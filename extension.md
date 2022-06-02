@@ -5,6 +5,14 @@
 
 `accordion: ^2.4.0`
 
+> animationcss 类似
+
+`animate_do: ^2.1.0`
+
+> 动画
+
+`animations: ^2.0.3`
+
 > 文字动效组件
 
 `animated_text_kit: ^4.2.1`
@@ -29,6 +37,10 @@
 
 `auto_size_text: ^3.0.0`
 
+> 本地通知
+
+`awesome_notifications: ^0.6.21`
+
 > 背景实现
 
 `backdrop: ^0.8.0`
@@ -41,9 +53,25 @@
 
 `battery_plus: ^2.1.3`
 
+> 给小部件添加弹跳动画
+
+`bouncing_widget: ^2.0.0`
+
+> 缓存网络图片
+
+`cached_network_image: ^3.2.1`
+
+> 轮播swiper？
+
+`carousel_slider: ^4.1.1`
+
 > 剪贴板
 
 `clipboard: ^0.1.3`
+
+> bottombar
+
+`convex_bottom_bar: ^3.0.0`
 
 > 模糊子部件
 
@@ -129,6 +157,10 @@
 
 `drift: ^1.6.0`
 
+> 国际化
+
+`easy_localization: ^3.0.1`
+
 > 图片相关功能 仅裁剪图片选择 crop_your_image
 
 `extended_image: ^6.0.3`
@@ -148,6 +180,10 @@
 > 格式文件大小
 
 `filesize: ^2.0.1`
+
+> 主题颜色 漂亮配色方案 <https://docs.flexcolorscheme.com/examples>
+
+`flex_color_scheme: ^5.0.1`
 
 > 图表
 
@@ -209,6 +245,10 @@
 
 `flutter_native_splash: ^2.1.6`
 
+> 拟态
+
+`flutter_neumorphic: ^3.2.0`
+
 > 使用预定义类型解析文本和提取部分url，phone并且email还支持Regex
 
 `flutter_parsed_text: ^2.2.1`
@@ -221,6 +261,10 @@
 
 `flutter_screenutil: ^5.5.2`
 
+> svg
+
+`flutter_svg: ^1.1.0`
+
 > 评分组件
 
 `flutter_rating_bar: ^4.0.0`
@@ -232,6 +276,10 @@
 > 可展开选项的浮动按钮
 
 `flutter_speed_dial: ^6.0.0`
+
+> 加载指示器
+
+`flutter_spinkit: ^5.1.0`
 
 > 列表动画
 
@@ -257,7 +305,7 @@
 
 `flutter_weather_bg: ^2.8.2`
 
-> Flutter iconfonts
+> 字体图标
 
 `font_awesome_flutter: ^10.1.0`
 
@@ -272,6 +320,10 @@
 > 空白间距
 
 `gap: ^2.0.0`
+
+> 地理定位
+
+`geolocator: ^8.2.1`
 
 > 封装的一个组件库
 
@@ -329,6 +381,10 @@
 
 `intl: ^0.17.0`
 
+> 介绍页面
+
+`introduction_screen: ^3.0.1`
+
 > 点赞按钮动画
 
 `like_button: ^0.1.9`
@@ -373,6 +429,10 @@
 
 `mobile_scanner: ^1.1.0`
 
+> 模态抽屉底片
+
+`modal_bottom_sheet: ^2.0.1`
+
 > 用于在 Android 和 iOS 上访问 NFC 功能的 Flutter 插件
 
 `nfc_manager: ^3.1.1`
@@ -380,6 +440,10 @@
 > 图片加载，错误占位
 
 `octo_image: ^1.0.2`
+
+> 打开设置
+
+`open_settings: ^2.0.2`
 
 > 软件包信息
 
@@ -409,6 +473,10 @@
 
 `photo_view: ^0.13.0`
 
+> 生成具有精美设计和动画的 pin 码字段
+
+`pin_code_fields: ^7.4.0`
+
 > 展示不同样式的验证码
 
 `pin_input_text_field: ^4.1.2`
@@ -432,6 +500,10 @@
 > 评分dialog
 
 `rating_dialog: ^2.0.4`
+
+> 响应式布局
+
+`responsive_framework: ^0.2.0`
 
 > 重新启动程序(安卓)
 
@@ -468,6 +540,10 @@
 > 微光效果
 
 `shimmer: ^2.0.0`
+
+> 引导事例
+
+`showcaseview: ^1.1.5`
 
 > 动画
 
@@ -533,4 +609,5 @@
 
 `window_manager: ^0.2.3`
 
-<https://pub.dev/packages?page=34>
+<https://pub.dev/packages?page=36>
+<https://pub.dev/packages?sort=like&page=12>
