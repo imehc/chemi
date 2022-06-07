@@ -53,14 +53,23 @@ func AddTag(c *gin.Context) {
 		return
 	}
 	if !services.ExistTagByName(tag.Name) {
-		code = e.SUCCESS
-		services.AddTag(tag.Name, tag.State)
+		result := services.AddTag(tag.Name, tag.State)
+		if result {
+			code = e.SUCCESS
 
-		c.JSON(http.StatusOK, gin.H{
-			"code": code,
-			"msg":  e.GetMsg(code),
-			"data": make(map[string]string),
-		})
+			c.JSON(http.StatusOK, gin.H{
+				"code": code,
+				"msg":  e.GetMsg(code),
+				"data": make(map[string]string),
+			})
+		} else {
+			code = e.ERROR
+			c.JSON(http.StatusOK, gin.H{
+				"code": code,
+				"msg":  e.GetMsg(code),
+				"data": make(map[string]string),
+			})
+		}
 		return
 	}
 	code = e.NOT_FOUND

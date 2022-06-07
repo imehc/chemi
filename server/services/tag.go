@@ -5,21 +5,21 @@ import (
 	"time"
 )
 
-type Tag struct {
+type tag struct {
 	ID        uint      `json:"id" gorm:"primarykey"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 	Name      string    `json:"name"`
-	State     int64     `json:"state"`
+	State     uint      `json:"state"`
 }
 
-func GetTags(pageNum, pageSize int) (tags []Tag) {
+func GetTags(pageNum, pageSize int) (tags []tag) {
 	db.Where("deleted_at is null").Offset(pageNum).Limit(pageSize).Find(&tags)
 	return
 }
 
 func GetTagTotal() (count int64) {
-	db.Model(&Tag{}).Where("deleted_at is null").Count(&count)
+	db.Model(&tag{}).Where("deleted_at is null").Count(&count)
 	return
 }
 
@@ -46,8 +46,8 @@ func AddTag(name string, state int64) bool {
 
 func ExistTagByID(id int64) bool {
 	var tag models.Tag
-	db.Select("id").Where("id = ?", id).First(&tag)
-	print(tag.ID)
+	first := db.Where("id = ?", uint(id)).First(&tag)
+	print(first)
 	if tag.ID > 0 {
 		return true
 	}

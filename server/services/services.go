@@ -36,7 +36,7 @@ func Setup() {
 			}),
 		&gorm.Config{
 			NamingStrategy: schema.NamingStrategy{ // 表和命名策略
-				SingularTable: true, //使用单数表面,启用该选项后,表不加s
+				SingularTable: false, //使用单数表面,启用该选项后,表不加s
 				//NameReplacer:  strings.NewReplacer("CID", "Cid"), // 在转为数据库名称之前，使用NameReplacer更改结构/字段名称。
 				TablePrefix: setting.DatabaseSetting.TablePrefix, // 表名前缀,`User`表为`t_user`
 			},
