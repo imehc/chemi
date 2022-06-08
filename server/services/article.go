@@ -41,8 +41,7 @@ func GetArticles(pageNum int, pageSize int, maps interface{}) (articles []articl
 }
 
 func GetArticle(id int) (article article) {
-	db.Where("id = ?", id).First(&article)
-	db.Model(&article).Where(id).Preload("")
+	db.Preload("Tag").Where("id = ?", id).First(&article)
 	return
 }
 
@@ -68,7 +67,6 @@ func AddArticle(data map[string]interface{}) bool {
 }
 
 func DeleteArticle(id int) bool {
-	db.Where("id = ?", id).Delete(models.Article{})
-
+	db.Where("id = ?", id).Delete(&models.Article{})
 	return true
 }

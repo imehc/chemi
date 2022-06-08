@@ -55,7 +55,7 @@ func AddTag(c *gin.Context) {
 	if !services.ExistTagByName(tag.Name) {
 		result := services.AddTag(tag.Name, tag.State)
 		if result {
-			code = e.SUCCESS
+			code = e.CREATED
 
 			c.JSON(http.StatusOK, gin.H{
 				"code": code,
@@ -125,7 +125,7 @@ func DeleteTag(c *gin.Context) {
 
 	code := e.BAD_REQUEST
 	if !valid.HasErrors() {
-		code = e.SUCCESS
+		code = e.DELETED
 		if services.ExistTagByID(id) {
 			services.DeleteTag(id)
 		} else {
