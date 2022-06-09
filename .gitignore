@@ -1,0 +1,6 @@
+*.sketch
+.env
+.idea/*
+
+# Mac OS
+.DS_Store
