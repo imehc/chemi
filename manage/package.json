@@ -1,5 +1,6 @@
 {
-  "name": "my-vue-app",
+  "name": "chemi_manage",
+  "description": "a chemical management system",
   "private": true,
   "version": "0.0.0",
   "scripts": {
@@ -10,8 +11,11 @@
     "serve": "vite preview --host 0.0.0.0"
   },
   "dependencies": {
+    "@emotion/react": "^11.0.0-rc.0",
+    "@emotion/styled": "^11.8.1",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "react-router-dom": "^6.3.0"
   },
   "devDependencies": {
     "@types/node": "^17.0.36",
