@@ -6,11 +6,11 @@ import (
 )
 
 type tag struct {
-	ID        uint      `json:"id" gorm:"primarykey"`
+	ID        int       `json:"id" gorm:"primarykey"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 	Name      string    `json:"name"`
-	State     uint      `json:"state"`
+	State     int       `json:"state"`
 }
 
 func GetTags(pageNum, pageSize int) (tags []tag) {
@@ -32,7 +32,7 @@ func ExistTagByName(name string) bool {
 	return false
 }
 
-func AddTag(name string, state int64) bool {
+func AddTag(name string, state int) bool {
 	db.Create(&models.Tag{
 		Name:  name,
 		State: state,
@@ -44,9 +44,9 @@ func AddTag(name string, state int64) bool {
 	return true
 }
 
-func ExistTagByID(id int64) bool {
+func ExistTagByID(id int) bool {
 	var tag models.Tag
-	first := db.Where("id = ?", uint(id)).First(&tag)
+	first := db.Where("id = ?", id).First(&tag)
 	print(first)
 	if tag.ID > 0 {
 		return true
@@ -54,12 +54,12 @@ func ExistTagByID(id int64) bool {
 	return false
 }
 
-func DeleteTag(id int64) bool {
+func DeleteTag(id int) bool {
 	db.Where("id = ?", id).Delete(&models.Tag{})
 	return true
 }
 
-func EditTag(id int64, data interface{}) bool {
+func EditTag(id int, data interface{}) bool {
 	db.Model(&models.Tag{}).Where("id = ?", id).Updates(data)
 	return true
 }

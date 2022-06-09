@@ -6,11 +6,11 @@ import (
 )
 
 type article struct {
-	ID        uint      `json:"id" gorm:"primary_key"`
+	ID        int       `json:"id" gorm:"primary_key"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 	Tag       tag       `json:"tag" gorm:"foreignKey:TagID;association_foreignkey:TagID""`
-	TagID     uint      `json:"-"` // 忽略返回类型
+	TagID     int       `json:"-"` // 忽略返回类型
 	Title     string    `json:"title"`
 	Desc      string    `json:"desc"`
 	Content   string    `json:"content"`
@@ -29,12 +29,12 @@ func ExistArticleByID(id int) bool {
 }
 
 func GetArticleTotal(maps interface{}) (count int64) {
-	db.Preload("Tag").Model(&article{}).Where("deleted_at is null").Count(&count)
+	db.Preload("Tag").Where(maps).Model(&article{}).Where("deleted_at is null").Count(&count)
 
 	return
 }
 
-func GetArticles(pageNum int, pageSize int, maps interface{}) (articles []article) {
+func GetArticles(pageNum, pageSize int, maps interface{}) (articles []article) {
 	db.Preload("Tag").Where(maps).Offset(pageNum).Limit(pageSize).Find(&articles)
 
 	return
@@ -53,7 +53,7 @@ func EditArticle(id int, data interface{}) bool {
 
 func AddArticle(data map[string]interface{}) bool {
 	db.Create(&models.Article{
-		TagID:   data["tag_id"].(uint),
+		TagID:   data["tag_id"].(int),
 		Title:   data["title"].(string),
 		Desc:    data["desc"].(string),
 		Content: data["content"].(string),
