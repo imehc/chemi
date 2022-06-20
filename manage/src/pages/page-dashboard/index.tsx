@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAccessToken, useGlobalContext } from '~/GlobalContext';
+import { testGetFetch, testPostFetch } from '~/http/apis/test';
 
 export const PageDashboard: React.FC = () => {
   const { setAccessToken, removeAccessToken } = useGlobalContext();
@@ -20,6 +21,22 @@ export const PageDashboard: React.FC = () => {
         }}
       >
         删除token
+      </button>
+      <button
+        onClick={() => {
+          testGetFetch().then((res) => console.log(res));
+        }}
+      >
+        getfetch
+      </button>
+      <button
+        onClick={() => {
+          testPostFetch()
+            .then((res) => console.log(res))
+            .catch((e) => console.log(e));
+        }}
+      >
+        postfetch
       </button>
     </React.Fragment>
   );

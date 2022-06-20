@@ -14,9 +14,9 @@ export const Pagination: React.FC<Props> = ({
   position = 'end',
   shape = 'square',
   color = '#ffffff',
-  activeColor = '#728cec',
+  activeColor = '#ffffff',
   textColor = '#222222',
-  activeTextColor = '#ffffff',
+  activeTextColor = '#728cec',
   borderColor = '#e3e3e3',
   activeBorderColor = '#728cec',
 }) => {
@@ -37,11 +37,9 @@ export const Pagination: React.FC<Props> = ({
   }>({ hover: false, who: 'left', textColor: '#bfbfbf' });
 
   useEffect(() => {
-    setPageCurrent(pageCurrent > pageTotal ? pageTotal : current);
     if (disabled) return;
     onChange(pageCurrent);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [disabled, onChange, pageTotal]);
+  }, [disabled, pageCurrent]);
 
   const generatePageNumberNode = useCallback(
     (total: number, startIndex: number = 0) => {
@@ -157,6 +155,11 @@ export const Pagination: React.FC<Props> = ({
                           (isHover.who === 'left' && isHover.textColor) ||
                           undefined
                         }
+                        activeTextColor={
+                          activeTextColor !== '#ffffff'
+                            ? activeTextColor
+                            : undefined
+                        }
                         title={showTitle ? '向前五页' : undefined}
                         onClick={() =>
                           pageCurrent - 5 < 1
@@ -210,6 +213,11 @@ export const Pagination: React.FC<Props> = ({
                         textColor={
                           (isHover.who === 'right' && isHover.textColor) ||
                           undefined
+                        }
+                        activeTextColor={
+                          activeTextColor !== '#ffffff'
+                            ? activeTextColor
+                            : undefined
                         }
                         title={showTitle ? '向后五页' : undefined}
                         onClick={() =>
@@ -397,12 +405,17 @@ const PageLiActive = styled(PageLi)`
 
 const Ellipsis = styled(PageLi)`
   font-size: 12px;
-  color: ${(props: { textColor?: string }) => props?.textColor ?? '#bfbfbf'};
+  color: ${(props: { textColor?: string; activeTextColor?: string }) =>
+    props?.textColor ?? '#bfbfbf'};
   border: none !important;
   background-color: transparent !important;
   cursor: ${(props: { disabled?: boolean }) =>
     props?.disabled ? 'no-drop' : 'default' ?? 'default'};
   /* pointer-events: none; */
+  &:hover {
+    color: ${(props: { textColor?: string; activeTextColor?: string }) =>
+      props?.activeTextColor ?? '#bfbfbf'};
+  }
 `;
 
 const Select = styled.select`
