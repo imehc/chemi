@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from '@emotion/styled';
+import { useStatic } from '~/hooks';
 
 export const Pagination: React.FC<Props> = ({
   total,
@@ -35,11 +36,11 @@ export const Pagination: React.FC<Props> = ({
     who: 'left' | 'right';
     textColor: string;
   }>({ hover: false, who: 'left', textColor: '#bfbfbf' });
-
+  const onChangeRef = useStatic(onChange);
   useEffect(() => {
     if (disabled) return;
-    onChange(pageCurrent);
-  }, [disabled, pageCurrent]);
+    onChangeRef.current(pageCurrent);
+  }, [disabled, pageCurrent, onChangeRef]);
 
   const generatePageNumberNode = useCallback(
     (total: number, startIndex: number = 0) => {
