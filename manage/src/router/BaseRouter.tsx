@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { GlobalContextProps, GlobalContextProvider } from '~/GlobalContext';
+import { GlobalContextProps, GlobalContextProvider } from '~/globalContext';
 import { PageBasic } from '~/pages';
 import { useStorage } from '~/hooks';
 import AuthRouter from './AuthRouter';

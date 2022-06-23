@@ -4,12 +4,19 @@ import { resolve } from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // https://github.com/vitejs/awesome-vite#plugins
   plugins: [
     react(),
   ],
   server: {
-    port: 3000,
     host: '0.0.0.0',
+    proxy:{
+      '/apis': {
+        target: 'https://v1.hitokoto.cn',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/apis/, '') // 不可以省略rewrite
+      }
+    }
   },
   resolve: {
     alias: {
