@@ -1,8 +1,9 @@
-type Position = 'start' | 'center' | 'end';
 
 type Shape = 'round' | 'square';
 
-declare interface Props {
+export type Position = 'start' | 'center' | 'end';
+
+export interface PaginationProps {
   total: number;
   current?: number;
   defaultPageSize?: number;
@@ -23,7 +24,7 @@ declare interface Props {
   onChange: (cur: number) => void;
 }
 
-declare interface PageLiProps {
+export interface PageLiProps {
   theme?: {
     color?: string;
     textColor?: string;

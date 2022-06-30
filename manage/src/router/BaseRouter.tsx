@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { GlobalContextProps, GlobalContextProvider } from '~/globalContext';
+import { GlobalContextProvider } from '~/globalContext';
+import type { GlobalContextProps } from '~/globalContext';
 import { PageBasic } from '~/pages';
 import { useStorage } from '~/hooks';
 import AuthRouter from './AuthRouter';
@@ -22,14 +23,12 @@ const BaseRouter: React.FC = () => {
     };
   }, []);
   return (
-    <React.Fragment>
       <GlobalContextProvider value={globalValue}>
         <Routes>
           <Route path="login" element={<PageBasic />} />
           <Route path="*" element={<AuthRouter />} />
         </Routes>
       </GlobalContextProvider>
-    </React.Fragment>
   );
 };
 export default BaseRouter;

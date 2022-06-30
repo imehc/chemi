@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from '@emotion/styled';
 import { useStatic } from '~/hooks';
+import type { PageLiProps, PaginationProps, Position } from './type';
 
-export const Pagination: React.FC<Props> = ({
+export const Pagination: React.FC<PaginationProps> = ({
   total,
   current = 1,
   defaultPageSize = 10,
@@ -97,203 +98,179 @@ export const Pagination: React.FC<Props> = ({
 
   return (
     <React.Fragment>
-      <Main position={position}>
-        <PageUl disabled={disabled}>
-          <React.Fragment>
-            {((!hideOnSinglePage && pageTotal === 1) || pageTotal > 1) && (
-              <PageLi
-                title={showTitle ? '上一页' : undefined}
-                theme={{
-                  color,
-                  textColor,
-                  borderColor,
-                  activeColor,
-                  activeTextColor,
-                  activeBorderColor,
-                }}
-                shape={shape}
-                disabled={disabled || pageCurrent === 1}
-                onClick={() => {
-                  if (disabled) return;
-                  if (pageCurrent === 1) return;
-                  setPageCurrent(pageCurrent - 1);
-                }}
-              >
-                ᐸ
-              </PageLi>
-            )}
-            {pageTotal <= 10
-              ? generatePageNumberNode(pageTotal)
-              : pageTotal > 10 && (
-                  <React.Fragment>
-                    {pageCurrent > 2
-                      ? generatePageNumberNode(1)
-                      : generatePageNumberNode(2)}
-                    {[1, 2, 3].includes(pageCurrent) ? null : pageCurrent ===
-                      4 ? (
-                      generatePageNumberNode(1, 1)
-                    ) : (
-                      <Ellipsis
-                        key={-1}
-                        disabled={disabled}
-                        onMouseOver={() => {
-                          if (isHover.hover && isHover.who === 'left') return;
-                          setIsHover({
-                            hover: true,
-                            who: 'left',
-                            textColor: activeColor,
-                          });
-                        }}
-                        onMouseOut={() => {
-                          if (!isHover.hover && isHover.who === 'left') return;
-                          setIsHover({
-                            hover: false,
-                            who: 'left',
-                            textColor: '#bfbfbf',
-                          });
-                        }}
-                        textColor={
-                          (isHover.who === 'left' && isHover.textColor) ||
-                          undefined
-                        }
-                        activeTextColor={
-                          activeTextColor !== '#ffffff'
-                            ? activeTextColor
-                            : undefined
-                        }
-                        title={showTitle ? '向前五页' : undefined}
-                        onClick={() =>
-                          pageCurrent - 5 < 1
-                            ? setPageCurrent(1)
-                            : setPageCurrent(pageCurrent - 5)
-                        }
-                      >
-                        {/* {isHover ? '···' : '•••'} */}
-                        {isHover.hover && isHover.who === 'left' ? 'ᐸᐸ' : '•••'}
-                      </Ellipsis>
-                    )}
-                    {pageCurrent === pageTotal - 2 &&
-                      generatePageNumberNode(1, pageTotal - 5)}
-                    {pageCurrent > 2
-                      ? generatePageNumberNode(
-                          3,
-                          pageCurrent < pageTotal - 1
-                            ? pageCurrent - 2
-                            : pageTotal - 5
-                        )
-                      : generatePageNumberNode(
-                          3,
-                          pageCurrent >= 3 ? pageCurrent - 1 : 2
-                        )}
-                    {pageCurrent === 3 && generatePageNumberNode(1, 4)}
+      {pageTotal > 0 && (
+        <Main position={position}>
+          <PageUl disabled={disabled}>
+            <React.Fragment>
+              {((!hideOnSinglePage && pageTotal === 1) || pageTotal > 1) && (
+                <PageLi
+                  title={showTitle ? '上一页' : undefined}
+                  theme={{
+                    color,
+                    textColor,
+                    borderColor,
+                    activeColor,
+                    activeTextColor,
+                    activeBorderColor,
+                  }}
+                  shape={shape}
+                  disabled={disabled || pageCurrent === 1}
+                  onClick={() => {
+                    if (disabled) return;
+                    if (pageCurrent === 1) return;
+                    setPageCurrent(pageCurrent - 1);
+                  }}
+                >
+                  ᐸ
+                </PageLi>
+              )}
+              {pageTotal <= 10
+                ? generatePageNumberNode(pageTotal)
+                : pageTotal > 10 && (
+                    <React.Fragment>
+                      {pageCurrent > 2
+                        ? generatePageNumberNode(1)
+                        : generatePageNumberNode(2)}
+                      {[1, 2, 3].includes(pageCurrent) ? null : pageCurrent ===
+                        4 ? (
+                        generatePageNumberNode(1, 1)
+                      ) : (
+                        <Ellipsis
+                          key={-1}
+                          disabled={disabled}
+                          onMouseOver={() => {
+                            if (isHover.hover && isHover.who === 'left') return;
+                            setIsHover({
+                              hover: true,
+                              who: 'left',
+                              textColor: activeColor,
+                            });
+                          }}
+                          onMouseOut={() => {
+                            if (!isHover.hover && isHover.who === 'left')
+                              return;
+                            setIsHover({
+                              hover: false,
+                              who: 'left',
+                              textColor: '#bfbfbf',
+                            });
+                          }}
+                          textColor={
+                            (isHover.who === 'left' && isHover.textColor) ||
+                            undefined
+                          }
+                          activeTextColor={
+                            activeTextColor !== '#ffffff'
+                              ? activeTextColor
+                              : undefined
+                          }
+                          title={showTitle ? '向前五页' : undefined}
+                          onClick={() =>
+                            pageCurrent - 5 < 1
+                              ? setPageCurrent(1)
+                              : setPageCurrent(pageCurrent - 5)
+                          }
+                        >
+                          {/* {isHover ? '···' : '•••'} */}
+                          {isHover.hover && isHover.who === 'left'
+                            ? 'ᐸᐸ'
+                            : '•••'}
+                        </Ellipsis>
+                      )}
+                      {pageCurrent === pageTotal - 2 &&
+                        generatePageNumberNode(1, pageTotal - 5)}
+                      {pageCurrent > 2
+                        ? generatePageNumberNode(
+                            3,
+                            pageCurrent < pageTotal - 1
+                              ? pageCurrent - 2
+                              : pageTotal - 5
+                          )
+                        : generatePageNumberNode(
+                            3,
+                            pageCurrent >= 3 ? pageCurrent - 1 : 2
+                          )}
+                      {pageCurrent === 3 && generatePageNumberNode(1, 4)}
 
-                    {[pageTotal - 1, pageTotal - 2, pageTotal].includes(
-                      pageCurrent
-                    ) ? null : pageCurrent === pageTotal - 3 ? (
-                      generatePageNumberNode(1, pageTotal - 2)
-                    ) : (
-                      <Ellipsis
-                        key={-2}
-                        disabled={disabled}
-                        onMouseOver={() => {
-                          if (isHover.hover && isHover.who === 'right') return;
-                          setIsHover({
-                            hover: true,
-                            who: 'right',
-                            textColor: activeColor,
-                          });
-                        }}
-                        onMouseOut={() => {
-                          if (!isHover.hover && isHover.who === 'right') return;
-                          setIsHover({
-                            hover: false,
-                            who: 'right',
-                            textColor: '#bfbfbf',
-                          });
-                        }}
-                        textColor={
-                          (isHover.who === 'right' && isHover.textColor) ||
-                          undefined
-                        }
-                        activeTextColor={
-                          activeTextColor !== '#ffffff'
-                            ? activeTextColor
-                            : undefined
-                        }
-                        title={showTitle ? '向后五页' : undefined}
-                        onClick={() =>
-                          pageCurrent + 5 > pageTotal
-                            ? setPageCurrent(pageTotal)
-                            : setPageCurrent(pageCurrent + 5)
-                        }
-                      >
-                        {/* {isHover ? '···' : '•••'} */}
-                        {isHover.hover && isHover.who === 'right'
-                          ? 'ᐳᐳ'
-                          : '•••'}
-                      </Ellipsis>
-                    )}
-                    {pageCurrent <= pageTotal - 2
-                      ? generatePageNumberNode(1, pageTotal - 1)
-                      : generatePageNumberNode(2, pageTotal - 2)}
-                  </React.Fragment>
-                )}
-            {((!hideOnSinglePage && pageTotal === 1) || pageTotal > 1) && (
-              <PageLi
-                title={showTitle ? '下一页' : undefined}
-                theme={{
-                  color,
-                  textColor,
-                  borderColor,
-                  activeColor,
-                  activeTextColor,
-                  activeBorderColor,
-                }}
-                shape={shape}
-                disabled={disabled || pageCurrent === pageTotal}
-                onClick={() => {
-                  if (disabled) return;
-                  if (pageCurrent === pageTotal) return;
-                  setPageCurrent(pageCurrent + 1);
-                }}
-              >
-                ᐳ
-              </PageLi>
-            )}
-          </React.Fragment>
-        </PageUl>
-        {pageSizeOptions.length > 1 && (
-          <Select
-            disabled={disabled}
-            theme={{
-              borderColor,
-              textColor,
-              color,
-              activeBorderColor,
-              activeTextColor,
-              activeColor,
-            }}
-            title={showTitle ? `${pageLimit}条/页` : undefined}
-            defaultValue={
-              pageSizeOptions.includes(defaultPageSize)
-                ? defaultPageSize
-                : pageSizeOptions[0]
-            }
-            onChange={(element) => {
-              setPageLimit(Number(element.target.value));
-            }}
-          >
-            {pageSizeOptions.map((pageSize, index) => (
-              <option key={index} value={pageSize}>
-                {pageSize}条/页
-              </option>
-            ))}
-          </Select>
-        )}
-        {showQuickJumper && (
-          <JumpContainer disabled={disabled} theme={{ textColor }}>
-            跳至
-            <TextField
+                      {[pageTotal - 1, pageTotal - 2, pageTotal].includes(
+                        pageCurrent
+                      ) ? null : pageCurrent === pageTotal - 3 ? (
+                        generatePageNumberNode(1, pageTotal - 2)
+                      ) : (
+                        <Ellipsis
+                          key={-2}
+                          disabled={disabled}
+                          onMouseOver={() => {
+                            if (isHover.hover && isHover.who === 'right')
+                              return;
+                            setIsHover({
+                              hover: true,
+                              who: 'right',
+                              textColor: activeColor,
+                            });
+                          }}
+                          onMouseOut={() => {
+                            if (!isHover.hover && isHover.who === 'right')
+                              return;
+                            setIsHover({
+                              hover: false,
+                              who: 'right',
+                              textColor: '#bfbfbf',
+                            });
+                          }}
+                          textColor={
+                            (isHover.who === 'right' && isHover.textColor) ||
+                            undefined
+                          }
+                          activeTextColor={
+                            activeTextColor !== '#ffffff'
+                              ? activeTextColor
+                              : undefined
+                          }
+                          title={showTitle ? '向后五页' : undefined}
+                          onClick={() =>
+                            pageCurrent + 5 > pageTotal
+                              ? setPageCurrent(pageTotal)
+                              : setPageCurrent(pageCurrent + 5)
+                          }
+                        >
+                          {/* {isHover ? '···' : '•••'} */}
+                          {isHover.hover && isHover.who === 'right'
+                            ? 'ᐳᐳ'
+                            : '•••'}
+                        </Ellipsis>
+                      )}
+                      {pageCurrent <= pageTotal - 2
+                        ? generatePageNumberNode(1, pageTotal - 1)
+                        : generatePageNumberNode(2, pageTotal - 2)}
+                    </React.Fragment>
+                  )}
+              {((!hideOnSinglePage && pageTotal === 1) || pageTotal > 1) && (
+                <PageLi
+                  title={showTitle ? '下一页' : undefined}
+                  theme={{
+                    color,
+                    textColor,
+                    borderColor,
+                    activeColor,
+                    activeTextColor,
+                    activeBorderColor,
+                  }}
+                  shape={shape}
+                  disabled={disabled || pageCurrent === pageTotal}
+                  onClick={() => {
+                    if (disabled) return;
+                    if (pageCurrent === pageTotal) return;
+                    setPageCurrent(pageCurrent + 1);
+                  }}
+                >
+                  ᐳ
+                </PageLi>
+              )}
+            </React.Fragment>
+          </PageUl>
+          {pageSizeOptions.length > 1 && (
+            <Select
               disabled={disabled}
               theme={{
                 borderColor,
@@ -303,28 +280,59 @@ export const Pagination: React.FC<Props> = ({
                 activeTextColor,
                 activeColor,
               }}
-              type="number"
-              onKeyDown={(e) => {
-                if (e.defaultPrevented) return;
-                let handled: boolean = false;
-                if (e.key === 'Enter') {
-                  const page = parseInt(
-                    Number((e.target as HTMLInputElement).value).toFixed(0)
-                  );
-                  setPageCurrent(
-                    page > pageTotal ? pageTotal : page < 1 ? 1 : page
-                  );
-                  handled = true;
-                  (e.target as HTMLInputElement).blur();
-                }
-                if (handled) e.preventDefault();
+              title={showTitle ? `${pageLimit}条/页` : undefined}
+              defaultValue={
+                pageSizeOptions.includes(defaultPageSize)
+                  ? defaultPageSize
+                  : pageSizeOptions[0]
+              }
+              onChange={(element) => {
+                setPageLimit(Number(element.target.value));
               }}
-              onBlur={(e) => ((e.target as HTMLInputElement).value = '')}
-            />
-            页
-          </JumpContainer>
-        )}
-      </Main>
+            >
+              {pageSizeOptions.map((pageSize, index) => (
+                <option key={index} value={pageSize}>
+                  {pageSize}条/页
+                </option>
+              ))}
+            </Select>
+          )}
+          {showQuickJumper && (
+            <JumpContainer disabled={disabled} theme={{ textColor }}>
+              跳至
+              <TextField
+                disabled={disabled}
+                theme={{
+                  borderColor,
+                  textColor,
+                  color,
+                  activeBorderColor,
+                  activeTextColor,
+                  activeColor,
+                }}
+                type="number"
+                onKeyDown={(e) => {
+                  if (e.defaultPrevented) return;
+                  let handled: boolean = false;
+                  if (e.key === 'Enter') {
+                    const page = parseInt(
+                      Number((e.target as HTMLInputElement).value).toFixed(0)
+                    );
+                    setPageCurrent(
+                      page > pageTotal ? pageTotal : page < 1 ? 1 : page
+                    );
+                    handled = true;
+                    (e.target as HTMLInputElement).blur();
+                  }
+                  if (handled) e.preventDefault();
+                }}
+                onBlur={(e) => ((e.target as HTMLInputElement).value = '')}
+              />
+              页
+            </JumpContainer>
+          )}
+        </Main>
+      )}
     </React.Fragment>
   );
 };
