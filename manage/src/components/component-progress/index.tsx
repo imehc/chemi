@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 import type { ProgressProps } from './type';
+import 指示器框 from './rect.png';
 
 type DrawType = 'base' | 'progress';
 
@@ -31,13 +32,21 @@ export const Progress: React.FC<ProgressProps> = (props) => {
         fillRoundRect(0, h, width, height, height / 2, 'base', baseColor, ctx);
         fillRoundRect(0, h, width, height, height / 2, 'progress', color, ctx);
       } else {
-        fillReact(0, h, width, height, 'base', baseColor, true, ctx);
-        fillReact(0, h, width, height, 'progress', color, true, ctx);
+        fillRect(0, h, width, height, 'base', baseColor, true, ctx);
+        fillRect(0, h, width, height, 'progress', color, true, ctx);
       }
+      indicator &&
+        fillIndicator(
+          handleCurrentProgress(value, width, 'progress'),
+          0,
+          指示器框,
+          value,
+          ctx
+        );
     }
   }, []);
   // 绘制填充矩形
-  const fillReact = useCallback(
+  const fillRect = useCallback(
     (
       x: number,
       y: number,
@@ -48,6 +57,7 @@ export const Progress: React.FC<ProgressProps> = (props) => {
       isfillRect: boolean,
       ctx: CanvasRenderingContext2D
     ) => {
+      ctx.clearRect(x, y, width, height);
       const w = handleCurrentProgress(value, width, type);
       if (colorOptions instanceof Array) {
         // 水平渐变
@@ -95,7 +105,7 @@ export const Progress: React.FC<ProgressProps> = (props) => {
       const w = handleCurrentProgress(value, width, type);
       //绘制圆角矩形的各个边
       drawRoundRectPath(w, height, radius, ctx);
-      fillReact(x, y, width, height, type, colorOptions, false, ctx);
+      fillRect(x, y, width, height, type, colorOptions, false, ctx);
       // ctx.fillStyle='red'
       ctx.fill();
       ctx.restore();
@@ -128,6 +138,25 @@ export const Progress: React.FC<ProgressProps> = (props) => {
       //右边线
       ctx.lineTo(width, height - radius);
       ctx.closePath();
+    },
+    []
+  );
+  const fillIndicator = useCallback(
+    (
+      x: number,
+      y: number,
+      imgSrc: string,
+      text: number,
+      ctx: CanvasRenderingContext2D
+    ) => {
+      const img = new Image(); // 创建img元素
+      img.onload = async () => {
+        await ctx.drawImage(img, x - 33 / 2, y, 30, 18);
+        ctx.font = '12px serif'; // 字体
+        ctx.fillText(`${value}%`, x - 33 / 2 + 5, 12);
+      };
+      img.src = imgSrc;
+      ctx.save();
     },
     []
   );

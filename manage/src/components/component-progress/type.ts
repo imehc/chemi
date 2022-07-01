@@ -9,7 +9,7 @@ export interface ProgressProps {
   width: number;
   height: number;
   round?: boolean;
-  indicator?: string;
+  indicator?: boolean;
   style?: CSSProperties;
 
 }

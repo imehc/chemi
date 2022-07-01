@@ -1,7 +1,7 @@
 import React from 'react';
-import { ToolTip } from '~/components';
 import { useAccessToken, useGlobalContext } from '~/globalContext';
 import { testGetFetch, testPostFetch } from '~/http/apis/test';
+import { Pagination, Progress, ToolTip } from '~/components';
 
 export const PageDashboard: React.FC = () => {
   const { setAccessToken, removeAccessToken } = useGlobalContext();
@@ -63,6 +63,22 @@ export const PageDashboard: React.FC = () => {
           <div>tip</div>
         </ToolTip>
       </div>
+      {/* <Pagination
+        total={30}
+        onChange={(e) => console.log(e)}
+        pageSizeOptions={[5, 10, 20, 30]}
+      /> */}
+      <Progress
+        style={{ marginTop: '50px' }}
+        value={80}
+        width={180}
+        round={true}
+        height={13}
+        indicator={true}
+        // baseColor="green"
+        // color={['pink', 'orange', 'yellow', 'skyblue']}
+        color="skyblue"
+      />
     </React.Fragment>
   );
 };
