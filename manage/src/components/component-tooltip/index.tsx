@@ -1,49 +1,68 @@
 import styled from '@emotion/styled';
-import { cloneElement, useCallback, useEffect, useRef, useState } from 'react';
+import {
+  cloneElement,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { findDOMNode } from 'react-dom';
+import { EMPTY, fromEvent, switchMap, of } from 'rxjs';
 import type { TooltipProps, Direction } from './type';
 
 export const ToolTip: React.FC<TooltipProps> = (props): JSX.Element => {
   const {
     children: child,
     diretion = 'bottom',
-    render: renderChildren,
-    title,
+    content,
     trigger = 'hover',
     color = '#f5f5f5',
+    arrow = false,
     ...otherProps
   } = props;
   const [visible, setVisible] = useState<boolean>(false);
+  const [visibleClick, setVisibleClick] = useState<Event>();
+
   const tooltipRef = useRef(null);
   useEffect(() => {
-    document.addEventListener('click', (e) => clickCallback(e), false);
-    return () => {
-      return document.removeEventListener(
-        'click',
-        (e) => clickCallback(e),
-        false
-      );
-    };
-  }, []);
-  const clickCallback = useCallback((e: MouseEvent) => {
-    console.log(
-      !findDOMNode(tooltipRef.current)?.contains(e.target as Node),
-      '2324'
-    );
-    if (!findDOMNode(tooltipRef.current)?.contains(e.target as Node)) {
-      console.log(visible, 'visible');
-      visible && setVisible(false);
-    }
-  }, []);
+    const watchAllClick = fromEvent(document, 'click')
+      .pipe(
+        switchMap((e) => {
+          if (!tooltipRef.current) return EMPTY;
+          const isContains = findDOMNode(tooltipRef.current)?.contains(
+            e.target as Node
+          );
+          if (!isContains && e.target !== visibleClick?.target) {
+            setVisible(false);
+            return of(true);
+          }
+          return EMPTY;
+        })
+      )
+      .subscribe();
+
+    return () => watchAllClick.unsubscribe();
+  }, [visible]);
+
   const children =
     trigger === 'click'
       ? cloneElement(child, {
-          onClick: () => setVisible(true),
+          onClick: (e: Event) => {
+            setVisibleClick(e);
+            setVisible(true);
+          },
         })
       : cloneElement(child, {
           onMouseEnter: () => setVisible(true),
           onMouseLeave: () => setVisible(false),
         });
+  const handleContent = useCallback((ctt: ReactNode) => {
+    if (typeof ctt === 'number' || typeof ctt === 'string') {
+      return <BaseTooltip>{ctt}</BaseTooltip>;
+    }
+    return ctt;
+  }, []);
   return (
     <TooltipBox>
       {children}
@@ -56,10 +75,9 @@ export const ToolTip: React.FC<TooltipProps> = (props): JSX.Element => {
           onMouseLeave={() => trigger !== 'click' && setVisible(false)}
           ref={tooltipRef}
         >
-          {diretion === 'bottom' && <TriangleByTop color={color} />}
-          {diretion === 'top' && <TriangleByBottom color={color} />}
-          {title}
-          {renderChildren}
+          {diretion === 'bottom' && arrow && <TriangleByTop color={color} />}
+          {diretion === 'top' && arrow && <TriangleByBottom color={color} />}
+          {handleContent(content)}
         </TooltipContent>
       )}
     </TooltipBox>
@@ -69,6 +87,8 @@ export const ToolTip: React.FC<TooltipProps> = (props): JSX.Element => {
 const TooltipBox = styled.div`
   position: relative;
   display: inline-block;
+  text-align: center;
+  cursor: pointer;
 `;
 const TooltipContent = styled.div`
   top: ${(props: { diretion: Direction }) => {
@@ -87,12 +107,10 @@ const TooltipContent = styled.div`
   transform: translateX(-50%);
   position: absolute;
   min-width: 80px;
-  min-height: 100px;
-  border-radius: 6px;
   background-color: ${(props: { diretion: Direction; color: string }) => {
     return props.color;
   }};
-  box-shadow: 3px 3px 3px #cccccc;
+  box-shadow: 1px 1px 1px #f5f5f5;
 `;
 const TriangleByTop = styled.span`
   position: absolute;
@@ -111,4 +129,7 @@ const TriangleByBottom = styled(TriangleByTop)`
   top: 100%;
   border-bottom: 6px solid transparent;
   border-top: 6px solid ${(props: { color: string }) => props.color};
+`;
+const BaseTooltip = styled.div`
+  padding: 5px;
 `;

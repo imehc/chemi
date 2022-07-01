@@ -8,8 +8,8 @@ export interface TooltipProps {
   diretion?: Direction;
   style?: CSSProperties;
   className?: string;
-  render?: ReactNode;
-  title: ReactNode;
+  content?: ReactNode;
   trigger?: Trigger;
   color?: string;
+  arrow?: boolean;
 }
