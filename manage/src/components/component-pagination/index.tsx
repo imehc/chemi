@@ -297,7 +297,7 @@ export const Pagination: React.FC<PaginationProps> = ({
               ))}
             </Select>
           )}
-          {showQuickJumper && (
+          {showQuickJumper && pageTotal > 1 && (
             <JumpContainer disabled={disabled} theme={{ textColor }}>
               跳至
               <TextField
