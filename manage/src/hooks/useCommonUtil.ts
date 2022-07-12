@@ -92,6 +92,17 @@ export const useCommonUtil = () => {
     // 返回最终结果
     return result;
   }
+  /**
+   * 随机生成一个rgba颜色
+   * @returns {string}
+   */
+  const randomColor = (): string => {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    const a = Math.floor(Math.random() * 10) / 10;
+    return `rgba(${r},${g},${b},${a})`;
+  }
 
   return {
     formatPhone,
@@ -99,5 +110,6 @@ export const useCommonUtil = () => {
     formatNumber,
     checkPassword,
     deepClone,
+    randomColor,
   };
 };

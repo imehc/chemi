@@ -37,6 +37,9 @@ export const Pagination: React.FC<PaginationProps> = ({
     who: 'left' | 'right';
     textColor: string;
   }>({ hover: false, who: 'left', textColor: '#bfbfbf' });
+  useEffect(() => {
+    setPageCurrent(pageTotal);
+  }, [pageTotal]);
   const onChangeRef = useStatic(onChange);
   useEffect(() => {
     if (disabled) return;
