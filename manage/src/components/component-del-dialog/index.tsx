@@ -1,12 +1,5 @@
 import styled from '@emotion/styled';
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { useStatic } from '../../hooks';
 import { CustomDialog } from '../component-dialog';
 
@@ -54,21 +47,21 @@ const CustomDeleteDialog: React.FC<Props> = ({ callback, visible }) => {
   );
 };
 const Icon = styled.div`
-  /* background-color: rgba(255, 212, 213, 0.8);
+  background-color: rgba(255, 212, 213, 0.8);
   background: linear-gradient(
     to right top,
     rgba(255, 107, 107, 0.28),
     rgba(255, 135, 135, 1)
-  ); */
+  );
 `;
 const ViceIcon = styled.div`
-  /* background: linear-gradient(
+  background: linear-gradient(
     to right bottom,
     #ff9898,
     #f98484,
     #ff7272,
     #ff8787
-  ); */
+  );
 `;
 
 const Btn = styled.button`
@@ -90,6 +83,10 @@ type StateProps = {
   visible: boolean;
   result: boolean | undefined;
 };
+
+let result: boolean | undefined = undefined;
+let timer: ReturnType<typeof setInterval>;
+
 const CustomDeleteDialogContext =
   createContext<CustomDeleteDialogContextOptions>({} as any);
 export const CustomDeleteDialogProvider = ({
@@ -106,29 +103,24 @@ export const CustomDeleteDialogProvider = ({
   const [state, setState] = useState<StateProps>(initState);
   useEffect(() => {
     if (state.result === undefined) return;
-    // 监听最新的值
-    console.log('result-result-result-result-result', state);
+    result = state.result;
     return () => setState(initState);
-  }, [state]);
+  }, [state, initState]);
 
   return (
     <CustomDeleteDialogContext.Provider
       value={{
-        showDelDialog: () => {
+        showDelDialog: async () => {
           setState({ ...state, visible: true });
-          return new Promise<boolean>((resolve, reject) => {
-            console.log('result', state);
-            // return result(true);
-            // 如何在获取最新的值时才返回该promise,否则等待返回
-            // reject(false);
-            const timer = setInterval(() => {
-              if (state.result !== undefined) {
-                // 无法获取最新的值，一直是刚传入的状态undefined...
-                resolve(state.result);
+          return await new Promise<boolean>((resolve) => {
+            if (timer) clearInterval(timer);
+            timer = setInterval(() => {
+              if (result !== undefined) {
+                resolve(result);
+                result = undefined;
                 clearInterval(timer);
-                console.log('一直在执行...');
               }
-            }, 3000);
+            }, 100);
           });
         },
       }}
