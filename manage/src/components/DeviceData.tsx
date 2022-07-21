@@ -1,65 +1,49 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { AllBaseConfig, Line, Plot } from '@ant-design/plots';
-import type { LineConfig } from '@ant-design/plots';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { AllBaseConfig, Line } from '@ant-design/plots';
+import type { PlotEvent, Plot, LineConfig } from '@ant-design/plots';
+
+type Base = LineConfig;
+const PlotMaps: Record<string, Plot<Base>> = {};
+let PreTooltipData: { time: string; value: number };
 
 export const PageDeviceData = () => {
   const [data, setData] = useState<Record<string, any>[]>([]);
   const [data2, setData2] = useState<Record<string, any>[]>([]);
-  let charts: Plot<AllBaseConfig>[] = [];
-  let chart: Plot<AllBaseConfig>;
-  let chartData: Record<string, any>[] = [];
+
   useEffect(() => {
     setData(defaultData);
     setData2(defaultData2);
-    if (!chart) return;
-    chart.chart.on('tooltip:change', (ev: any) => {
-      const {
-        data: { x, y },
-      } = ev;
-      const position = { x, y };
-      console.log(position);
-      // 找出当前时间所在的位置
-      const records = chart.chart.getSnapRecords(position);
-      let time: string;
-      records.forEach((record) => {
-        // time 为 xField 字段
-        time = record._origin && record._origin.time;
-        if (time) return;
-      });
-      console.log(charts);
-      // 根据time将除了当前图表其它所有图表内同一年份的数据显示出来
-      for (let index = 0; index < charts.length; index++) {
-        const cha = charts[index];
-        if (cha != chart) {
-          // 查找此图表中该time的数据
-          const data = chartData[index].filter(
-            (data: { time: string }) => data.time === time
-          );
-          if (!data.length) {
-            continue;
-          }
-          // 查找此图表中此条数据对应的位置
-          let position;
-          for (let d of data) {
-            let position = cha.getEvents();
-            // let s = cha.getD();
-            console.log('========');
-            console.log(position);
-            // console.log(s);
-            console.log('========');
-            // position = cha.getXY(d);
-            // if (position) {
-            //   break;
-            // }
-          }
-          // 如果位置合法，则展示位置对应的 tooltip
-          // if (position.x > 0 && position.y > 0) {
-          //   // cha.showTooltip(position);
-          // }
+  }, []);
+
+  const showTooltip = useCallback((time: string) => {
+    Object.keys(PlotMaps).forEach((plot) => {
+      const chartData = PlotMaps[plot].chart.getData();
+      for (let i = 0; i < chartData?.length; i++) {
+        if (chartData[i].time === time) {
+          const { x, y } = PlotMaps[plot].chart.getXY(chartData[i]);
+          PlotMaps[plot].chart.showTooltip({ x, y });
+          break;
         }
       }
     });
   }, []);
+
+  const setTooltipPosition = useCallback((evt: PlotEvent, plot: Plot<Base>) => {
+    const { x, y } = evt.gEvent;
+    const currentData = plot.chart.getTooltipItems({ x, y });
+    if (currentData[0]?.data.time === PreTooltipData?.time) {
+      return;
+    }
+    PreTooltipData = currentData[0]?.data;
+    showTooltip(PreTooltipData?.time);
+  }, []);
+
   const defaultData = [
     {
       time: '2',
@@ -238,7 +222,7 @@ export const PageDeviceData = () => {
         start: ['min', '110'],
         end: ['max', '110'],
         style: {
-          stroke: '#F4664A',
+          stroke: '#ff9298',
           lineDash: [2, 2],
         },
       },
@@ -310,20 +294,36 @@ export const PageDeviceData = () => {
           <Line
             {...config}
             // chartRef={(ref) => ref.chart.coordinate('rect').reflect('y')}
-            chartRef={(chartRef) => {
-              chart = chartRef;
-              charts.push(chartRef);
-              chartData.push(defaultData);
+            onReady={(plot) => {
+              // key 必须唯一
+              PlotMaps.line = plot;
+              plot.on('mousemove', (evt: PlotEvent) => {
+                setTooltipPosition(evt, plot);
+              });
+              //移出遍历所有chart，然后隐藏
+              plot.on("mouseout", () => {
+                Object.values(PlotMaps).map((item) => {
+                  return item.chart.hideTooltip();
+                });
+              });
             }}
           />
         </div>
-
         <div style={{ height: '300px', width: '600px', marginLeft: '30px' }}>
           <Line
             {...config2}
-            chartRef={(chartRef) => {
-              charts.push(chartRef);
-              chartData.push(defaultData2);
+            onReady={(plot) => {
+              // key 必须唯一
+              PlotMaps.line2 = plot;
+              plot.on('mousemove', (evt: PlotEvent) => {
+                setTooltipPosition(evt, plot);
+              });
+              //移出遍历所有chart，然后隐藏
+              plot.on("mouseout", () => {
+                Object.values(PlotMaps).map((item) => {
+                  return item.chart.hideTooltip();
+                });
+              });
             }}
           />
         </div>

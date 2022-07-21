@@ -1,7 +1,14 @@
 import React from 'react';
+import { PageDeviceData } from '~/components/DeviceData';
+import { DemoPie } from '~/components/DemoPie';
 import { useAccessToken, useGlobalContext } from '~/globalContext';
-import { useShowlDialog } from '~/components';
+import { testGetFetch, testPostFetch } from '~/http/apis/test';
+import DemoLine from '~/components/DemoLine';
+import { Pagination, Progress, ToolTip, useShowlDialog } from '~/components';
 import { usePosition } from '~/hooks';
+import { DeviceCategoryStatistical } from '~/components/AntVStaistical';
+import { SignalOrVoltage } from '~/components/DualAxes';
+import { DualChart } from '~/components/DualChart';
 
 export const PageDashboard: React.FC = () => {
   const { setAccessToken, removeAccessToken } = useGlobalContext();
@@ -43,7 +50,7 @@ export const PageDashboard: React.FC = () => {
       >
         postfetch
       </button> */}
-      {/* <PageDeviceData/> */}
+      <PageDeviceData/>
       {/* <DemoLine /> */}
       {/* <DemoPie/> */}
       <div style={{ marginLeft: '50px', marginTop: '50px' }}>
@@ -98,7 +105,7 @@ export const PageDashboard: React.FC = () => {
         /> 
       </div>*/}
       <button
-        className='px-[5px] border-[1px] rounded-[5px] border-solid border-gray-300 text-[#9adaf3]'
+        className="px-[5px] border-[1px] rounded-[5px] border-solid border-gray-300 text-[#9adaf3]"
         onClick={async () => {
           const result = await showDelDialog();
           console.log(result, '最终结果');
@@ -106,7 +113,44 @@ export const PageDashboard: React.FC = () => {
       >
         dialog
       </button>
+      {/* <div className="w-[600px] h-[200px] bg-red-200 rounded-[10px]">
+        <SignalOrVoltage />
+      </div> */}
+      <div className="w-[600px] bg-red-200 rounded-[10px]">
+        <DualChart
+          config={{
+            color: ['#b656ff', '#ff4ad4'],
+            name: '倾角值',
+            min: -9,
+            max: 9,
+            tickCount: 3,
+          }}
+          data={[
+            ...generateMockData('angleX', -9, 9),
+            ...generateMockData('angleY', -9, 9),
+          ]}
+        />
+      </div>
     </React.Fragment>
   );
+};
+
+const generateMockData = (type: string, min: number, max: number) => {
+  let arr = [];
+  for (let i = 0; i <= 24; i += 2) {
+    const value = parseInt(
+      `${
+        Math.random() < 0.5 ? Math.random() * min + 1 : Math.random() * max + 1
+      }`
+    );
+    const time = i.toString();
+    const obj = {
+      time,
+      value,
+      type,
+    };
+    arr.push(obj);
+  }
+  return arr;
 };
 export default PageDashboard;

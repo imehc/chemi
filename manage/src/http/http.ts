@@ -1,85 +1,92 @@
 // query 格式化的插件
 import qs from 'query-string';
-import { useStorage } from '~/hooks';
+import fetch from 'isomorphic-unfetch';
 
-const { getAccessToken } = useStorage();
+const CAN_SEND_METHOD = ['POST', 'PUT', 'PATCH', 'DELETE'];
 
-const BASE_URL = 'http://api.openapi-generator.tech';
+const BASE_URL = 'https://v1.hitokoto.cn';
 
-const Method = ['GET', 'POST', 'PUT', 'DELETE'];
+class Http implements IHttpInterface {
+  protected static base_url = BASE_URL
+  public async request<T>(
+    url: string,
+    options?: IRequestOptions,
+    abortController?: AbortController
+  ): Promise<T> {
 
-let headers = {
-  'Content-Type': 'application/json',
-};
+    const opts: IRequestOptions = Object.assign({
+      method: 'GET',
+      headers: {},
+      credentials: 'include', // 证书
+      timeout: 5000, // 超时
+      mode: 'cors', // 模式
+      cache: 'no-cache', // 缓存
+    }, options);
 
-type ConfigProps = { [key: string]: any };
+    abortController && (opts.signal = abortController.signal)
 
-const fetchRequest = (
-  url: string = '',
-  data: ConfigProps = {},
-  method: string = 'GET',
-  isBlob: boolean = false,
-  header: ConfigProps = {}
-) => {
-  method = Method.includes(method.toUpperCase()) ? method.toUpperCase() : 'GET';
-  url = url.startsWith('/') ? `${BASE_URL}${url}` : `${BASE_URL}/${url}`;
-  header = { ...headers, ...header };
-
-  let config: RequestInit = {
-    method,
-    headers: header,
-  };
-
-  if (getAccessToken() !== null) {
-    header['Authorization'] = `Bearer ${getAccessToken()}`;
-  }
-
-  if (method === 'GET') {
-    url =
-      url.indexOf('?') === -1
-        ? `${url}?${qs.stringify(data)}`
-        : `${url}&${qs.stringify(data)}`;
-  }
-  if (method === 'POST' || method === 'PUT') {
-    if (data) {
-      config = {
-        ...config,
-        body: JSON.stringify(data),
-      };
+    if (opts?.query) {
+      url += `${url.includes('?') ? '&' : '?'}${qs.stringify(
+        filterObject(opts.query, Boolean),
+      )}`;
     }
-  }
-  return sendFetchRequest(url, config, isBlob);
-};
 
-const fetchUpload = () => {
-  const formData = new FormData();
-  // formData.append()
-};
+    const canSend = opts?.method && CAN_SEND_METHOD.includes(opts.method);
 
-const sendFetchRequest = (
-  url: string,
-  config: RequestInit,
-  isBlob: boolean
-) => {
-  return new Promise(async (resolve, reject) => {
+    if (canSend && opts.data) {
+      opts.body = JSON.stringify(filterObject(opts.data, Boolean));
+      opts.headers && Reflect.set(opts.headers, 'Content-Type', 'application/json');
+    }
+    console.log('Request Opts: ', opts);
+
     try {
-      const response = await fetch(url, config);
-      if (response.ok) {
-        if (response.status >= 200 && response.status < 300) {
-          if (isBlob) {
-            resolve(response.blob());
-          } else {
-            resolve(response.json());
-          }
-        } else {
-          reject(response.statusText);
-        }
-      } else {
-        reject(response.status);
-      }
-    } catch (e) {
-      reject(e);
+      const res = await Promise.race([
+        fetch(Http.base_url + url, opts),
+        new Promise<any>((_, reject) => {
+          setTimeout(() => {
+            return reject({ status: 408, statusText: '请求超时，请稍后重试', url });
+          }, opts.timeout);
+        }),
+      ]);
+      const result = await res.json();
+      return result;
+    } catch (error: any) {
+      dealErrToast(error, abortController);
+      return error;
+    }
+
+  }
+}
+
+const filterObject = (o: Record<string, string>, filter: Function) => {
+  const res: Record<string, string> = {};
+  Object.keys(o).forEach(k => {
+    if (filter(o[k], k)) {
+      res[k] = o[k];
     }
   });
+  return res;
 };
-export { fetchRequest };
+
+/**
+ * 错误处理
+ * @param err 
+ * @param abortController 
+ */
+function dealErrToast(err: Error & ICustomRequestError, abortController?: AbortController) {
+  switch (err.status) {
+    case 408: {
+      abortController?.abort();
+      (typeof window !== 'undefined') && console.error(err.statusText);
+      break;
+    }
+    default: {
+      console.log(err);
+      break;
+    }
+  }
+}
+
+const { request } = new Http();
+
+export { request as default };

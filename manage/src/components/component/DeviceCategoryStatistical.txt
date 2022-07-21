@@ -1,0 +1,177 @@
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { init } from "echarts";
+import type { EChartsOption } from "echarts";
+
+interface DeviceCategoryStatisticalProps {
+  data: {
+    name: string;
+    count: number;
+  }[];
+}
+
+export const DeviceCategoryStatistical: React.FC<
+  DeviceCategoryStatisticalProps
+> = ({ data: defaultData }) => {
+  const categoryStatisticalRef = useRef(null);
+  const data = useMemo(
+    () =>
+      defaultData.map((item) => {
+        return {
+          name: item.name,
+          value: item.count,
+        };
+      }),
+    [defaultData]
+  );
+  const [categoryStatistical, setCategoryStatistical] = useState();
+  useEffect(() => {
+    if (!categoryStatisticalRef) return;
+    const categoryStatisticalChart = init(categoryStatisticalRef.current!);
+    const categoryStatisticalOption: EChartsOption = {
+      color: [
+        {
+          type: "linear",
+          x: 0,
+          y: 0,
+          x2: 0,
+          y2: 1,
+          colorStops: [
+            {
+              offset: 0,
+              color: "#6F88FF",
+            },
+            {
+              offset: 1,
+              color: "#4C4DE2",
+            },
+          ],
+          global: false,
+        },
+        "#5ECA75",
+        "#EB6767",
+        "#89ECEB",
+        "#BADF40",
+      ],
+      tooltip: {
+        show: false,
+      },
+      legend: {
+        backgroundColor: "#F4F6FB",
+        borderRadius: 10,
+        orient: "vertical",
+        top: "center",
+        right: "8%",
+        itemGap: 10, // 图例之间间隔
+        icon: "circle",
+        formatter: (title) => categoryStatisticalLegendFormatter(title),
+        textStyle: {
+          rich: {
+            a: {
+              color: "#D8D8D8",
+              padding: [0, 3, 0, 0],
+            },
+            b: {
+              fontSize: 16,
+              fontWeight: "bold",
+            },
+          },
+        },
+      },
+      series: [
+        {
+          name: "Access From",
+          type: "pie",
+          clockwise: false,
+          startAngle: 300,
+          left: 0,
+          radius: ["55%", "80%"],
+          center: ["28%", "50%"],
+          avoidLabelOverlap: false,
+          itemStyle: {
+            borderRadius: 10,
+            borderColor: "#F8FAFC",
+            borderWidth: 10,
+          },
+          label: {
+            show: false,
+            position: "center",
+          },
+          emphasis: {
+            label: {
+              show: true,
+              formatter: (params) =>
+                categoryStatisticalEmphasisFormatter(params),
+              // fontSize: "40",
+              // fontWeight: "bold",
+              rich: {
+                a: {
+                  fontSize: 16,
+                  fontWeight: "bold",
+                  padding: [0, 3, 0, 0],
+                },
+                b: {},
+              },
+            },
+          },
+          labelLine: {
+            show: false,
+          },
+          data: data,
+        },
+      ],
+    };
+    categoryStatisticalChart.setOption(categoryStatisticalOption);
+    categoryStatisticalChart.on("highlight", (e: any) => {
+      setCategoryStatistical(e?.name);
+    });
+    categoryStatisticalChart.on("mouseover", (e: any) => {
+      setCategoryStatistical(e?.name);
+    });
+    window.onresize = () => {
+      // 自适应大小
+      categoryStatisticalChart.resize();
+    };
+    return () => categoryStatisticalChart.dispose();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categoryStatisticalRef]);
+
+  const categoryStatisticalLegendFormatter = useCallback(
+    (name: string) => {
+      const arr = [
+        `{a|${name}}`,
+        `{b| ${data.find((item) => item.name === name)?.value} }`,
+      ];
+      return arr.join("");
+    },
+    [data]
+  );
+  const categoryStatisticalEmphasisFormatter = useCallback(
+    (params: any) => {
+      const arr = [
+        `{a|${(
+          (params.value / data.reduce((pre, cur) => pre + cur.value, 0)) *
+          100
+        ).toFixed(2)}%}`,
+        `{b|${params.data?.name}}`,
+      ];
+      return arr.join("\n");
+    },
+    [data]
+  );
+  return (
+    <React.Fragment>
+      <div className="flex bg-white rounded-lg overflow-hidden">
+        <div className="h-36 flex-1" ref={categoryStatisticalRef}></div>
+        <div className="w-24 bg-blue-50 rounded-lg flex items-center justify-center">
+          {categoryStatistical}
+        </div>
+      </div>
+    </React.Fragment>
+  );
+};

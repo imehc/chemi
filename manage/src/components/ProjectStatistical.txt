@@ -1,0 +1,142 @@
+import styled from "@emotion/styled";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import React from "react";
+import { useMemo, useState } from "react";
+import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
+import { useConfiguration } from "../../../client";
+import { ProjectApi } from "../../../whistle-api";
+import LinearProgress, {
+  linearProgressClasses,
+} from "@mui/material/LinearProgress";
+import { styled as style } from "@mui/material/styles";
+import { DeviceCategoryStatistical } from "./component/DeviceCategoryStatistical";
+
+type Staticstical = "no" | "yes";
+
+export const PageProjectStatistical: React.FC = () => {
+  const params = useParams<{ organizationId: string; projectId: string }>();
+  const defaultConfiguration = useConfiguration();
+  const projectApi = useMemo(
+    () => new ProjectApi(defaultConfiguration),
+    [defaultConfiguration]
+  );
+  const [allDevices, setAllDevices] = useState<Staticstical>("no");
+  const [installedDevices, setInstalledDevices] = useState<Staticstical>("no");
+  const [notInstalledDevices, setNotInstalledDevices] =
+    useState<Staticstical>("no");
+  const [allDevicesGroupByProduct, setAllDevicesGroupByProduct] =
+    useState<Staticstical>("no");
+  // const { data: statisticalData, isLoading: statisticalIsLoading } = useQuery(
+  //   [
+  //     "project-statistical",
+  //     allDevices,
+  //     installedDevices,
+  //     notInstalledDevices,
+  //     allDevicesGroupByProduct,
+  //   ],
+  //   async () => {
+  //     const res = await projectApi.getProjectStatistics({
+  //       all_devices: allDevices,
+  //       installed_devices: installedDevices,
+  //       not_installed_devices: notInstalledDevices,
+  //       all_devices_group_by_product: allDevicesGroupByProduct,
+  //       organizationId: decodeURIComponent(params.organizationId ?? ""),
+  //       projectId: decodeURIComponent(params.projectId ?? ""),
+  //     });
+  //     return res.data;
+  //   },
+  //   {
+  //     enabled: !!(
+  //       decodeURIComponent(params.organizationId ?? "") &&
+  //       decodeURIComponent(params.projectId ?? "")
+  //     ),
+  //   }
+  // );
+  // if (statisticalIsLoading || !statisticalData) {
+  //   return <div>加载中...</div>;
+  // }
+  return (
+    <React.Fragment>
+      <div className="p-5 w-full bg-slate-200">
+        <Grid container spacing={1}>
+          <Grid item xs={2.5}>
+            {/* <BGBox className="bg-white rounded-lg">
+              <div className="h-10"></div>
+              <div className="flex justify-around">
+                <div>
+                  <DeviceAmoutTitle>总设备</DeviceAmoutTitle>
+                  <DeviceAmout>{statisticalData.all_devices}</DeviceAmout>
+                </div>
+                <div>
+                  <DeviceAmoutTitle>已安装</DeviceAmoutTitle>
+                  <DeviceAmout>{statisticalData.installed_devices}</DeviceAmout>
+                </div>
+                <div>
+                  <DeviceAmoutTitle>库存</DeviceAmoutTitle>
+                  <DeviceAmout>
+                    {statisticalData.not_installed_devices}
+                  </DeviceAmout>
+                </div>
+              </div>
+              <BorderLinearProgress
+                className="ml-5 mr-5 mt-5"
+                variant="determinate"
+                value={
+                  ((statisticalData?.installed_devices ?? 0) /
+                    (statisticalData?.all_devices ?? 0)) *
+                  100
+                }
+              />
+            </BGBox> */}
+          </Grid>
+          <Grid item xs={3.5}>
+            <DeviceCategoryStatistical
+              data={[
+                { name: "裂缝", count: 2269 },
+                { name: "倾斜", count: 1278 },
+                { name: "报警器", count: 342 },
+                { name: "报警", count: 852 },
+                { name: "雨量计", count: 278 },
+              ]}
+            />
+          </Grid>
+          <Grid item xs={3.5}>
+            <Paper></Paper>
+          </Grid>
+          <Grid item xs={2.5}>
+            <Paper></Paper>
+          </Grid>
+        </Grid>
+      </div>
+    </React.Fragment>
+  );
+};
+
+const BGBox = styled.div`
+  height: 120px;
+`;
+
+const DeviceAmoutTitle = styled.div`
+  font-size: 12px;
+  color: #9a9fa5;
+`;
+const DeviceAmout = styled.div`
+  font-size: 24px;
+  font-weight: bold;
+  color: #040f1f;
+  line-height: 24px;
+`;
+const BorderLinearProgress = style(LinearProgress)(({ theme }) => ({
+  height: 10,
+  borderRadius: 5,
+  [`&.${linearProgressClasses.colorPrimary}`]: {
+    backgroundColor:
+      theme.palette.grey[theme.palette.mode === "light" ? 200 : 800],
+  },
+  [`& .${linearProgressClasses.bar}`]: {
+    borderRadius: 5,
+    backgroundColor: theme.palette.mode === "light" ? "#1a90ff" : "#308fe8",
+  },
+}));
