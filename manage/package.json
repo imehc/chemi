@@ -3,9 +3,11 @@
   "description": "a chemical management system",
   "private": true,
   "version": "0.0.0",
+  "type": "module",
+  "license": "",
   "scripts": {
     "build:tailwind": "tailwind build -i src/tailwind.css -o src/tailwind.output.css",
-    "watch:tailwind": "npm run build:tailwind -- --watch",
+    "watch:tailwind": "npm run build:tailwind --watch",
     "watch": "npm-run-all build:tailwind --parallel watch:tailwind dev",
     "prebuild": "run-s build:tailwind",
     "dev": "vite",
@@ -15,27 +17,27 @@
     "serve": "vite preview --host 0.0.0.0"
   },
   "dependencies": {
-    "@emotion/react": "^11.0.0-rc.0",
-    "@emotion/styled": "^11.8.1",
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
     "query-string": "^7.1.1",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
-    "rxjs": "^7.5.5"
+    "rxjs": "^7.5.6"
   },
   "devDependencies": {
-    "@types/node": "^17.0.36",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
-    "@vitejs/plugin-react": "^1.3.0",
+    "@types/node": "^18.0.6",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "@vitejs/plugin-react": "^2.0.0",
     "autoprefixer": "^10.4.7",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.4.14",
-    "prettier": "^2.6.2",
+    "prettier": "^2.7.1",
     "tailwindcss": "^3.1.6",
-    "typescript": "^4.6.3",
-    "vite": "^2.9.9"
+    "typescript": "^4.7.4",
+    "vite": "^3.0.2"
   }
 }

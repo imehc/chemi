@@ -8,24 +8,9 @@ import AuthRouter from './AuthRouter';
 import { CustomDeleteDialogProvider } from '~/components';
 
 const BaseRouter: React.FC = () => {
-  const { getAccessToken, setAccessToken, removeAccessToken } = useStorage();
-  const accessToken = useMemo(() => getAccessToken() ?? '', []);
-  const setToken = useCallback(
-    (token: string, session?: boolean) => setAccessToken(token, session),
-    []
-  );
-  const removeToken = useCallback(() => removeAccessToken(), []);
-
-  const globalValue = useMemo<GlobalContextProps>(() => {
-    return {
-      accessToken,
-      setAccessToken: setToken,
-      removeAccessToken: removeToken,
-    };
-  }, []);
   return (
     <CustomDeleteDialogProvider>
-      <GlobalContextProvider value={globalValue}>
+      <GlobalContextProvider>
         <Routes>
           <Route path="login" element={<PageBasic />} />
           <Route path="*" element={<AuthRouter />} />

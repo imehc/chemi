@@ -1,26 +1,29 @@
 const AccessToken = 'ACCESS_TOKEN';
 // const RefreshToken = 'REFRESH_TOKEN';
 
-const setAccessToken = (token: string, session: boolean = false) => {
-  session ? sessionStorage.setItem(AccessToken, token) : localStorage.setItem(AccessToken, token);
+const session = window.sessionStorage ?? sessionStorage;
+const local = window.localStorage ?? localStorage;
+
+const setAccessToken = (token: string, isSession: boolean = false) => {
+  isSession ? session.setItem(AccessToken, token) : local.setItem(AccessToken, token);
 }
-const getAccessToken = (session: boolean = false) => {
-  return session ? sessionStorage.getItem(AccessToken) : localStorage.getItem(AccessToken);
+const getAccessToken = (isSession: boolean = false) => {
+  return isSession ? session.getItem(AccessToken) : local.getItem(AccessToken);
 }
-const removeAccessToken = (session: boolean = false) => {
-  session ? sessionStorage.removeItem(AccessToken) : localStorage.removeItem(AccessToken);
+const removeAccessToken = (isSession: boolean = false) => {
+  isSession ? session.removeItem(AccessToken) : local.removeItem(AccessToken);
 }
-const set = (key: string, value: string, session: boolean = false) => {
-  session ? sessionStorage.setItem(key, value) : localStorage.setItem(key, value);
+const set = (key: string, value: string, isSession: boolean = false) => {
+  isSession ? session.setItem(key, value) : local.setItem(key, value);
 }
-const get = (key: string, session: boolean = false) => {
-  return session ? sessionStorage.getItem(key) : localStorage.getItem(key);
+const get = (key: string, isSession: boolean = false) => {
+  return isSession ? session.getItem(key) : local.getItem(key);
 }
-const remove = (key: string, session: boolean = false) => {
-  session ? sessionStorage.removeItem(key) : localStorage.removeItem(key);
+const remove = (key: string, isSession: boolean = false) => {
+  isSession ? session.removeItem(key) : local.removeItem(key);
 }
-const clear = (session: boolean = false) => {
-  session ? sessionStorage.clear() : localStorage.clear();
+const clear = (isSession: boolean = false) => {
+  isSession ? session.clear() : local.clear();
 }
 
 export const useStorage = () => {

@@ -28,23 +28,26 @@ export const Pagination: React.FC<PaginationProps> = ({
     let remainder = total % pageLimit === 0 ? 0 : 1;
     return int + remainder;
   }, [total, pageLimit]);
-  const [pageCurrent, setPageCurrent] = useState<number>(() =>
-    current > pageTotal ? pageTotal : current
-  );
+
+  const [pageCurrent, setPageCurrent] = useState<number>(current);
+
   // hover点击向后/前翻页
   const [isHover, setIsHover] = useState<{
     hover: boolean;
     who: 'left' | 'right';
     textColor: string;
   }>({ hover: false, who: 'left', textColor: '#bfbfbf' });
-  useEffect(() => {
-    setPageCurrent(pageTotal);
-  }, [pageTotal]);
+
   const onChangeRef = useStatic(onChange);
   useEffect(() => {
     if (disabled) return;
+    if (pageTotal === 0) return;
+    const page = pageCurrent > pageTotal ? pageTotal : pageCurrent;
+    if (page !== pageCurrent) {
+      setPageCurrent(page);
+    }
     onChangeRef.current(pageCurrent);
-  }, [disabled, pageCurrent, onChangeRef]);
+  }, [disabled, onChangeRef, pageCurrent, pageTotal]);
 
   const generatePageNumberNode = useCallback(
     (total: number, startIndex: number = 0) => {
