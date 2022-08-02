@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
-import type { ReactNode } from "react";
-import { createPortal } from "react-dom";
+import React, { useEffect, useState } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 
-interface Props {
+// 可以传递className，style，和其他属性
+interface StyleProps extends HTMLAttributes<HTMLDivElement> {}
+
+interface Props extends StyleProps {
   visible: boolean;
   /**点击遮罩层关闭 */
   clickMask?: boolean;
