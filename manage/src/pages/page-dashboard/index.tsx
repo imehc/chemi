@@ -6,8 +6,8 @@ import { usePosition, useStorage } from '~/hooks';
 export const PageDashboard: React.FC = () => {
   const { setAccessToken, removeAccessToken } = useGlobalContext();
   const { position, setInitPosition } = usePosition();
-  setInitPosition('111,34');
-  console.log('position', position);
+  // setInitPosition('111,34');
+  // console.log('position', position);
   const accessToken = useAccessToken();
   const showDelDialog = useShowlDialog();
   return (
@@ -53,7 +53,7 @@ export const PageDashboard: React.FC = () => {
         // color={['pink', 'orange', 'yellow', 'skyblue']}
         color="skyblue"
       /> */}
-      {/* <button
+      <button
         className="px-[5px] border-[1px] rounded-[5px] border-solid border-gray-300 text-[#9adaf3]"
         onClick={async () => {
           const result = await showDelDialog();
@@ -61,7 +61,7 @@ export const PageDashboard: React.FC = () => {
         }}
       >
         dialog
-      </button> */}
+      </button>
     </React.Fragment>
   );
 };

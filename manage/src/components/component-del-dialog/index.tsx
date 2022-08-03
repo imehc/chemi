@@ -1,5 +1,12 @@
 import styled from '@emotion/styled';
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { useStatic } from '../../hooks';
 import { CustomDialog } from '../component-dialog';
 
@@ -85,7 +92,7 @@ type StateProps = {
 };
 
 let result: boolean | undefined = undefined;
-let timer: ReturnType<typeof setInterval>;
+let timer: ReturnType<typeof setTimeout> | undefined;
 
 const CustomDeleteDialogContext =
   createContext<CustomDeleteDialogContextOptions>({} as any);
@@ -107,18 +114,30 @@ export const CustomDeleteDialogProvider = ({
     return () => setState(initState);
   }, [state, initState]);
 
+  const interval = useCallback((func: VoidFunction, wait: number) => {
+    let invok = function () {
+      timer = setTimeout(() => {
+        invok();
+        func();
+      }, wait);
+    };
+    timer = setTimeout(invok, 0);
+  }, []);
+
   return (
     <CustomDeleteDialogContext.Provider
       value={{
         showDelDialog: async () => {
+          result = undefined;
           setState({ ...state, visible: true });
+          if (timer) clearTimeout(timer);
           return await new Promise<boolean>((resolve) => {
-            if (timer) clearInterval(timer);
-            timer = setInterval(() => {
+            interval(() => {
+              console.log(timer, 'timer');
               if (result !== undefined) {
                 resolve(result);
                 result = undefined;
-                clearInterval(timer);
+                clearTimeout(timer);
               }
             }, 100);
           });
