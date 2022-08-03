@@ -113,6 +113,7 @@ export const CustomDeleteDialogProvider = ({
         showDelDialog: async () => {
           setState({ ...state, visible: true });
           return await new Promise<boolean>((resolve) => {
+            console.log('result', result);
             if (timer) clearInterval(timer);
             timer = setInterval(() => {
               if (result !== undefined) {

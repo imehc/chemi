@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { PageDeviceData } from '~/components/DeviceData';
 import { DemoPie } from '~/components/DemoPie';
 import { useAccessToken, useGlobalContext } from '~/globalContext';
@@ -9,15 +9,33 @@ import { usePosition } from '~/hooks';
 import { DeviceCategoryStatistical } from '~/components/AntVStaistical';
 import { SignalOrVoltage } from '~/components/DualAxes';
 import { DualChart } from '~/components/DualChart';
+import { MapboxGL } from '~/components/MapboxGL';
+import { LineChart } from '~/components/Charts/LineChart';
+import { ReChartsByLineChart } from '~/components/ReCharts/LineChart';
+import { BiaXialLineChart } from '~/components/ReCharts/BiaxialLineChart';
 
 export const PageDashboard: React.FC = () => {
-  const { setAccessToken, removeAccessToken } = useGlobalContext();
-  const { position, setInitPosition } = usePosition();
-  setInitPosition('111,34');
-  console.log('position', position);
-  const accessToken = useAccessToken();
-  console.log(accessToken, 'token');
+  // const { setAccessToken, removeAccessToken } = useGlobalContext();
+  // const { position, setInitPosition } = usePosition();
+  // setInitPosition('111,34');
+  // console.log('position', position);
+  // const accessToken = useAccessToken();
+  // console.log(accessToken, 'token');
   const showDelDialog = useShowlDialog();
+  useEffect(() => {
+    const ss = function () {
+      let I = 0;
+      for (let j = 0; j < 1e9; j++) {
+        I++;
+      }
+      console.log(I);
+      return I;
+    };
+    setTimeout(() => {
+      ss();
+    }, 0);
+    console.log('其它操作');
+  }, []);
   return (
     <React.Fragment>
       {/* <button
@@ -50,7 +68,7 @@ export const PageDashboard: React.FC = () => {
       >
         postfetch
       </button> */}
-      <PageDeviceData/>
+      {/* <PageDeviceData/> */}
       {/* <DemoLine /> */}
       {/* <DemoPie/> */}
       <div style={{ marginLeft: '50px', marginTop: '50px' }}>
@@ -116,7 +134,7 @@ export const PageDashboard: React.FC = () => {
       {/* <div className="w-[600px] h-[200px] bg-red-200 rounded-[10px]">
         <SignalOrVoltage />
       </div> */}
-      <div className="w-[600px] bg-red-200 rounded-[10px]">
+      {/* <div className="w-[600px] bg-red-200 rounded-[10px]">
         <DualChart
           config={{
             color: ['#b656ff', '#ff4ad4'],
@@ -130,27 +148,18 @@ export const PageDashboard: React.FC = () => {
             ...generateMockData('angleY', -9, 9),
           ]}
         />
+      </div> */}
+      {/* <div className='w-[500px] h-[300px]'>
+        <MapboxGL/>
+      </div> */}
+      <div className="w-[400px] h-[200px] ml-5 mt-5">
+        {/* <LineChart/> */}
+        {/* <ReChartsByLineChart/> */}
+        <BiaXialLineChart />
       </div>
     </React.Fragment>
   );
 };
 
-const generateMockData = (type: string, min: number, max: number) => {
-  let arr = [];
-  for (let i = 0; i <= 24; i += 2) {
-    const value = parseInt(
-      `${
-        Math.random() < 0.5 ? Math.random() * min + 1 : Math.random() * max + 1
-      }`
-    );
-    const time = i.toString();
-    const obj = {
-      time,
-      value,
-      type,
-    };
-    arr.push(obj);
-  }
-  return arr;
-};
+const generateMockData = (type: string, min: number, max: number) => {};
 export default PageDashboard;
