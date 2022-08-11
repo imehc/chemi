@@ -1,7 +1,6 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo } from 'react';
 import { PageDeviceData } from '~/components/DeviceData';
 import { DemoPie } from '~/components/DemoPie';
-import { useAccessToken, useGlobalContext } from '~/globalContext';
 import { testGetFetch, testPostFetch } from '~/http/apis/test';
 import DemoLine from '~/components/DemoLine';
 import { Pagination, Progress, ToolTip, useShowlDialog } from '~/components';
@@ -13,6 +12,9 @@ import { MapboxGL } from '~/components/MapboxGL';
 import { LineChart } from '~/components/Charts/LineChart';
 import { ReChartsByLineChart } from '~/components/ReCharts/LineChart';
 import { BiaXialLineChart } from '~/components/ReCharts/BiaxialLineChart';
+import ReCharts from '~/components/ReCharts';
+import { DemoPieForGitHub } from '~/components/DemoPieForGitHub';
+import { SliderDemo } from '~/components/Slider';
 
 export const PageDashboard: React.FC = () => {
   // const { setAccessToken, removeAccessToken } = useGlobalContext();
@@ -22,22 +24,26 @@ export const PageDashboard: React.FC = () => {
   // const accessToken = useAccessToken();
   // console.log(accessToken, 'token');
   const showDelDialog = useShowlDialog();
-  useEffect(() => {
-    const ss = function () {
-      let I = 0;
-      for (let j = 0; j < 1e9; j++) {
-        I++;
-      }
-      console.log(I);
-      return I;
-    };
-    setTimeout(() => {
-      ss();
-    }, 0);
-    console.log('其它操作');
+  useLayoutEffect(() => {
+    // const ss = function () {
+    //   let I = 0;
+    //   for (let j = 0; j < 1e9; j++) {
+    //     I++;
+    //   }
+    //   console.log(I);
+    //   return I;
+    // };
+    // setTimeout(() => {
+    //   ss();
+    // }, 0);
+    // console.log('其它操作');
   }, []);
   return (
     <React.Fragment>
+      <div className="mt-10 ml-10">
+        <SliderDemo />
+      </div>
+      {/* <DemoPieForGitHub/> */}
       {/* <button
         onClick={() => {
           setAccessToken('new token');
@@ -114,15 +120,15 @@ export const PageDashboard: React.FC = () => {
       <div style={{ width: '300px', height: '150px',background:"rgba(0,0,0,.1)" }}>
         <DeviceCategoryStatistical
           data={[
-            { name: '裂缝', count: 2269 },
-            { name: '倾斜', count: 1278 },
-            { name: '报警器', count: 342 },
-            { name: '报警', count: 852 },
-            { name: '雨量计', count: 278 },
+            { name: '一', count: 2200 },
+            { name: '二', count: 1300 },
+            { name: '三', count: 300 },
+            { name: '四', count: 200 },
+            { name: '五', count: 800 },
           ]}
         /> 
       </div>*/}
-      <button
+      {/* <button
         className="px-[5px] border-[1px] rounded-[5px] border-solid border-gray-300 text-[#9adaf3]"
         onClick={async () => {
           const result = await showDelDialog();
@@ -130,7 +136,7 @@ export const PageDashboard: React.FC = () => {
         }}
       >
         dialog
-      </button>
+      </button> */}
       {/* <div className="w-[600px] h-[200px] bg-red-200 rounded-[10px]">
         <SignalOrVoltage />
       </div> */}
@@ -138,7 +144,7 @@ export const PageDashboard: React.FC = () => {
         <DualChart
           config={{
             color: ['#b656ff', '#ff4ad4'],
-            name: '倾角值',
+            name: '啥',
             min: -9,
             max: 9,
             tickCount: 3,
@@ -152,10 +158,12 @@ export const PageDashboard: React.FC = () => {
       {/* <div className='w-[500px] h-[300px]'>
         <MapboxGL/>
       </div> */}
+      {/* https://github.com/farhan687/chart-test?utm_source=gold_browser_extension */}
+      {/* <ReCharts/> */}
       <div className="w-[400px] h-[200px] ml-5 mt-5">
         {/* <LineChart/> */}
         {/* <ReChartsByLineChart/> */}
-        <BiaXialLineChart />
+        {/* <BiaXialLineChart /> */}
       </div>
     </React.Fragment>
   );
