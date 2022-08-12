@@ -1,0 +1,13 @@
+/* .rc-slider-handle {
+  border : none;
+  background-color : transparent;
+  color : transparent;
+} */
+/* .rc-slider-handle:active {
+  border-color : transparent;
+  box-shadow : none;
+} */
+.rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging {
+  border-color : transparent;
+  box-shadow : none;
+}

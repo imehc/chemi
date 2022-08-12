@@ -15,6 +15,7 @@ import { BiaXialLineChart } from '~/components/ReCharts/BiaxialLineChart';
 import ReCharts from '~/components/ReCharts';
 import { DemoPieForGitHub } from '~/components/DemoPieForGitHub';
 import { SliderDemo } from '~/components/Slider';
+import { Slider as CustomSlider } from '~/components/CustomSlider';
 
 export const PageDashboard: React.FC = () => {
   // const { setAccessToken, removeAccessToken } = useGlobalContext();
@@ -40,8 +41,9 @@ export const PageDashboard: React.FC = () => {
   }, []);
   return (
     <React.Fragment>
-      <div className="mt-10 ml-10">
+      <div className="mt-10 ml-10 w-[300px]">
         <SliderDemo />
+        {/* <CustomSlider/> */}
       </div>
       {/* <DemoPieForGitHub/> */}
       {/* <button
