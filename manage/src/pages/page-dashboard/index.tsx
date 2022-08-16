@@ -16,6 +16,9 @@ import ReCharts from '~/components/ReCharts';
 import { DemoPieForGitHub } from '~/components/DemoPieForGitHub';
 import { SliderDemo } from '~/components/Slider';
 import { Slider as CustomSlider } from '~/components/CustomSlider';
+import { DatePicker1 } from '~/components/DatePicker1';
+import { DatePicker2 } from '~/components/DatePicker2';
+import { TailWind } from '~/components/TailWind';
 
 export const PageDashboard: React.FC = () => {
   // const { setAccessToken, removeAccessToken } = useGlobalContext();
@@ -41,9 +44,12 @@ export const PageDashboard: React.FC = () => {
   }, []);
   return (
     <React.Fragment>
+      {/* <TailWind/> */}
       <div className="mt-10 ml-10 w-[300px]">
-        <SliderDemo />
+        {/* <SliderDemo /> */}
         {/* <CustomSlider/> */}
+        {/* <DatePicker1/> */}
+        <DatePicker2/>
       </div>
       {/* <DemoPieForGitHub/> */}
       {/* <button

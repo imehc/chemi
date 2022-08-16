@@ -1,2 +1,6 @@
 @tailwind base;
-@tailwind utilities;
+@tailwind components;
+
+.border-purple {
+  @apply border-[5px] border-dashed border-purple-300;
+}

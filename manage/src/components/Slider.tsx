@@ -1,7 +1,7 @@
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import Handle from 'rc-slider/lib/Handles/Handle';
-import './slider.css';
+// import './slider.css';
 import { useCallback, useEffect } from 'react';
 
 const startIndex = 5;
@@ -67,6 +67,13 @@ const newMarks = forMarks.reduce((res, item, i) => {
 
 console.log(forMarks, 'forMarks');
 
+const css = `
+  .rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging {
+    border-color : transparent;
+    box-shadow : none;
+  }
+`;
+
 export const SliderDemo = () => {
   // useEffect(() => {
   //   const rsHandle = document.getElementsByClassName('rc-slider-handle')[0];
@@ -82,6 +89,7 @@ export const SliderDemo = () => {
       {/* <Range className='w-50 h-8' min={0} max={50}/> */}
       <p>draggableTrack two points</p>
       <div className="w-[500px]">
+        <style>{css}</style>
         <Slider
           range
           allowCross={false}
