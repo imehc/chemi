@@ -49,7 +49,7 @@ export const PageDashboard: React.FC = () => {
         {/* <SliderDemo /> */}
         {/* <CustomSlider/> */}
         {/* <DatePicker1/> */}
-        <DatePicker2/>
+        <DatePicker2 onChange={(date) => console.log(date, 'date')} />
       </div>
       {/* <DemoPieForGitHub/> */}
       {/* <button

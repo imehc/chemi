@@ -1,6 +1,6 @@
 module.exports = {
   mode: 'jit',
-  content: [ // 作用范围
+  content: [
     'src/**/*.js',
     'src/**/*.jsx',
     'src/**/*.ts',
@@ -10,9 +10,5 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [ 
-      require("@tailwindcss/forms")({
-      strategy: 'class',
-    }),
-  ],
+  plugins: [],
 };
