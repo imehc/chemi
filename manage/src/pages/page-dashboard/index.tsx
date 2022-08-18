@@ -3,7 +3,13 @@ import { PageDeviceData } from '~/components/DeviceData';
 import { DemoPie } from '~/components/DemoPie';
 import { testGetFetch, testPostFetch } from '~/http/apis/test';
 import DemoLine from '~/components/DemoLine';
-import { Pagination, Progress, ToolTip, useShowlDialog } from '~/components';
+import {
+  DatePicker,
+  Pagination,
+  Progress,
+  ToolTip,
+  useShowlDialog,
+} from '~/components';
 import { usePosition } from '~/hooks';
 import { DeviceCategoryStatistical } from '~/components/AntVStaistical';
 import { SignalOrVoltage } from '~/components/DualAxes';
@@ -45,12 +51,17 @@ export const PageDashboard: React.FC = () => {
   return (
     <React.Fragment>
       {/* <TailWind/> */}
-      <div className="mt-10 ml-10 w-[300px]">
+      <div className="h-screen"></div>
+      <div className="ml-10 w-[300px]">
         {/* <SliderDemo /> */}
         {/* <CustomSlider/> */}
         {/* <DatePicker1/> */}
-        <DatePicker2 onChange={(date) => console.log(date, 'date')} />
+        {/* <DatePicker2 onChange={(date) => console.log(date, 'date')} /> */}
+        {/* <DatePicker3/> */}
+        <DatePicker onChange={(e) => console.log(e, '日期')} />
       </div>
+      {/* <div className='h-5'></div> */}
+      {/* <div className='h-screen'></div> */}
       {/* <DemoPieForGitHub/> */}
       {/* <button
         onClick={() => {
@@ -85,7 +96,8 @@ export const PageDashboard: React.FC = () => {
       {/* <PageDeviceData/> */}
       {/* <DemoLine /> */}
       {/* <DemoPie/> */}
-      <div style={{ marginLeft: '50px', marginTop: '50px' }}>
+      {/* <div style={{ marginLeft: '50px', marginTop: '50px' }}> */}
+      <div style={{ marginLeft: '50px', marginTop: '300px' }}>
         {/* <ToolTip
           arrow={true}
           content={
@@ -168,7 +180,8 @@ export const PageDashboard: React.FC = () => {
       </div> */}
       {/* https://github.com/farhan687/chart-test?utm_source=gold_browser_extension */}
       {/* <ReCharts/> */}
-      <div className="w-[400px] h-[200px] ml-5 mt-5">
+      {/* <div className="w-[400px] h-[200px] ml-5 mt-5"> */}
+      <div className="w-[400px] ml-5 mt-5">
         {/* <LineChart/> */}
         {/* <ReChartsByLineChart/> */}
         {/* <BiaXialLineChart /> */}
