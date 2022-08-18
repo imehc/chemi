@@ -1,6 +1,6 @@
 import DatePicker, { ReactDatePickerProps } from 'react-datepicker';
 import { forwardRef, ReactElement, useEffect, useState } from 'react';
-import { addMonths, format, getMonth, getYear } from 'date-fns';
+import { format, getMonth, getYear } from 'date-fns';
 import clsx from 'clsx';
 import zhCN from 'date-fns/locale/zh-CN';
 import 日期 from './assets/日期.svg';
@@ -21,6 +21,9 @@ interface DatePickerProps {
   onChange?: (date: DateScope) => void;
 }
 
+/**
+ * @deprecated use DatePicker instead 
+ */
 export const DateRangePicker: React.FC<DatePickerProps> = ({
   allowClear = true,
   onChange,

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAccessToken, useGlobalContext } from '~/globalContext';
 import {
+  DatePicker,
   DateRangePicker,
   Pagination,
   Progress,
@@ -58,9 +59,15 @@ export const PageDashboard: React.FC = () => {
         // color={['pink', 'orange', 'yellow', 'skyblue']}
         color="skyblue"
       /> */}
-      {/* <DateRangePicker
-        onChange={(date) => console.log('选择的日期范围：', date)}
-      /> */}
+      <div style={{ width: 300 }}>
+        <DateRangePicker
+          onChange={(date) => console.log('选择的日期范围：', date)}
+        />
+        <DatePicker
+          onChange={(date) => console.log('选择的日期范围：', date)}
+        />
+      </div>
+
       <button
         className="px-[5px] border-[1px] rounded-[5px] border-solid border-gray-300 text-[#9adaf3]"
         onClick={async () => {
