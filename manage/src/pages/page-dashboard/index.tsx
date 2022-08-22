@@ -1,30 +1,6 @@
-import React, { useEffect, useLayoutEffect, useMemo } from 'react';
-import { PageDeviceData } from '~/components/DeviceData';
-import { DemoPie } from '~/components/DemoPie';
-import { testGetFetch, testPostFetch } from '~/http/apis/test';
-import DemoLine from '~/components/DemoLine';
-import {
-  DatePicker,
-  Pagination,
-  Progress,
-  ToolTip,
-  useShowlDialog,
-} from '~/components';
-import { usePosition } from '~/hooks';
-import { DeviceCategoryStatistical } from '~/components/AntVStaistical';
-import { SignalOrVoltage } from '~/components/DualAxes';
-import { DualChart } from '~/components/DualChart';
-import { MapboxGL } from '~/components/MapboxGL';
-import { LineChart } from '~/components/Charts/LineChart';
-import { ReChartsByLineChart } from '~/components/ReCharts/LineChart';
-import { BiaXialLineChart } from '~/components/ReCharts/BiaxialLineChart';
-import ReCharts from '~/components/ReCharts';
-import { DemoPieForGitHub } from '~/components/DemoPieForGitHub';
-import { SliderDemo } from '~/components/Slider';
-import { Slider as CustomSlider } from '~/components/CustomSlider';
-import { DatePicker1 } from '~/components/DatePicker1';
-import { DatePicker2 } from '~/components/DatePicker2';
-import { TailWind } from '~/components/TailWind';
+import React, { useLayoutEffect } from 'react';
+import { useShowlDialog } from '~/components';
+import { MapboxGL } from '~/components/mapbox/MapboxGL';
 
 export const PageDashboard: React.FC = () => {
   // const { setAccessToken, removeAccessToken } = useGlobalContext();
@@ -48,17 +24,18 @@ export const PageDashboard: React.FC = () => {
     // }, 0);
     // console.log('其它操作');
   }, []);
+  // [...Array(4)].map((_, i) => console.log(i))
   return (
     <React.Fragment>
       {/* <TailWind/> */}
-      <div className="h-screen"></div>
+      {/* <div className="h-screen"></div> */}
       <div className="ml-10 w-[300px]">
         {/* <SliderDemo /> */}
         {/* <CustomSlider/> */}
         {/* <DatePicker1/> */}
         {/* <DatePicker2 onChange={(date) => console.log(date, 'date')} /> */}
         {/* <DatePicker3/> */}
-        <DatePicker onChange={(e) => console.log(e, '日期')} />
+        {/* <DatePicker onChange={(e) => console.log(e, '日期')} /> */}
       </div>
       {/* <div className='h-5'></div> */}
       {/* <div className='h-screen'></div> */}
@@ -97,7 +74,7 @@ export const PageDashboard: React.FC = () => {
       {/* <DemoLine /> */}
       {/* <DemoPie/> */}
       {/* <div style={{ marginLeft: '50px', marginTop: '50px' }}> */}
-      <div style={{ marginLeft: '50px', marginTop: '300px' }}>
+      <div style={{ marginLeft: '50px' }}>
         {/* <ToolTip
           arrow={true}
           content={
@@ -175,9 +152,9 @@ export const PageDashboard: React.FC = () => {
           ]}
         />
       </div> */}
-      {/* <div className='w-[500px] h-[300px]'>
-        <MapboxGL/>
-      </div> */}
+      <div className="w-[500px] h-[300px]">
+        <MapboxGL onResult={(e) => console.log(e, 'result')} />
+      </div>
       {/* https://github.com/farhan687/chart-test?utm_source=gold_browser_extension */}
       {/* <ReCharts/> */}
       {/* <div className="w-[400px] h-[200px] ml-5 mt-5"> */}

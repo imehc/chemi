@@ -650,6 +650,14 @@ video {
   margin-left: 1.25rem;
 }
 
+.ml-\[-2px\] {
+  margin-left: -2px;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
 .ml-3 {
   margin-left: 0.75rem;
 }
@@ -942,9 +950,9 @@ video {
   border-style: none;
 }
 
-.border-gray-100 {
+.border-\[\#e6e6e6\] {
   --tw-border-opacity: 1;
-  border-color: rgb(243 244 246 / var(--tw-border-opacity));
+  border-color: rgb(230 230 230 / var(--tw-border-opacity));
 }
 
 .border-gray-300 {
@@ -1046,6 +1054,10 @@ video {
   padding-right: 5px;
 }
 
+.pr-5 {
+  padding-right: 1.25rem;
+}
+
 .text-center {
   text-align: center;
 }
@@ -1053,10 +1065,6 @@ video {
 .text-sm {
   font-size: 0.875rem;
   line-height: 1.25rem;
-}
-
-.text-\[12px\] {
-  font-size: 12px;
 }
 
 .font-medium {
@@ -1176,43 +1184,17 @@ video {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.react-datepicker__input-container input {
-  display: block;
-  height: 2rem;
-  width: 100%;
-  border-radius: 0.5rem;
-  border-width: 1px;
-  --tw-border-opacity: 1;
-  border-color: rgb(209 213 219 / var(--tw-border-opacity));
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-  font-size: 1rem;
-  line-height: 1.5rem;
-  --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
-
-@media (min-width: 768px) {
-  .react-datepicker__input-container input {
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-  }
-}
-
-.react-datepicker-popper {
-  z-index: 40;
-  width: 18rem;
+.react-datepicker {
   border-radius: 0.75rem;
   border-top-width: 1px;
   --tw-border-opacity: 1;
   border-color: rgb(243 244 246 / var(--tw-border-opacity));
   --tw-bg-opacity: 1;
   background-color: rgb(244 246 251 / var(--tw-bg-opacity));
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
   --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
@@ -1220,63 +1202,59 @@ video {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
-.react-datepicker-left {
-  position: absolute !important;
-  left: 0px !important;
-  right: auto !important;
-  top: 2.75rem !important;
-  transform: none !important;
+.react-datepicker-popper {
+  z-index: 9999;
 }
 
-.react-datepicker-right {
-  position: absolute !important;
-  right: 0px !important;
-  left: auto !important;
-  top: 2.75rem !important;
-  transform: none !important;
+.react-datepicker-wrapper {
+  display: block !important;
+  height: 2rem !important;
+  width: 100% !important;
+  padding-left: 0.75rem !important;
+  padding-right: 0.75rem !important;
+  font-size: 1rem !important;
+  line-height: 1.5rem !important;
 }
 
-.react-datepicker__portal {
-  position: absolute;
-  top: 3rem;
-  right: 0px;
-  z-index: 10;
-  width: 18rem;
-  transform: none;
-  border-radius: 0.25rem;
-  border-width: 2px;
-  --tw-border-opacity: 1;
-  border-color: rgb(229 231 235 / var(--tw-border-opacity));
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+@media (min-width: 768px) {
+  .react-datepicker-wrapper {
+    font-size: 0.875rem !important;
+    line-height: 1.25rem !important;
+  }
 }
 
-.react-datepicker__month-container {
+.react-datepicker__input-container {
   display: flex;
-  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
 }
 
-.react-datepicker__month {
-  display: flex;
-  flex-direction: column;
+.react-datepicker__input-container > input {
+  height: 100% !important;
+  width: 100% !important;
+  cursor: pointer !important;
+  border-style: none !important;
+  background-color: transparent !important;
+  outline: 2px solid transparent !important;
+  outline-offset: 2px !important;
 }
 
-.react-datepicker__current-month {
-  margin-left: 0.625rem;
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-  font-weight: 600;
-  --tw-text-opacity: 1;
-  color: rgb(31 41 55 / var(--tw-text-opacity));
+.react-datepicker__input-container > input::-moz-placeholder {
+  font-size: 12px !important;
+}
+
+.react-datepicker__input-container > input::placeholder {
+  font-size: 12px !important;
+}
+
+.react-datepicker-popper {
+  height : -webkit-max-content;
+  height : -moz-max-content;
+  height : max-content;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem
 }
 
 .react-datepicker__week {
@@ -1293,62 +1271,6 @@ video {
   font-weight: 500;
   --tw-text-opacity: 1;
   color: rgb(156 163 175 / var(--tw-text-opacity));
-}
-
-.react-datepicker__day-name {
-  display: flex;
-  height: 2rem;
-  width: 2rem;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-}
-
-.react-datepicker__navigation {
-  position: absolute;
-  top: 0.5rem;
-}
-
-.react-datepicker__navigation--previous {
-  right: 3rem;
-  display: flex;
-  height: 2rem;
-  width: 2rem;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.25rem;
-  transition-property: color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
-.react-datepicker__navigation--previous:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
-}
-
-.react-datepicker__navigation--next {
-  right: 1rem;
-  display: flex;
-  height: 2rem;
-  width: 2rem;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.25rem;
-  transition-property: color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
-.react-datepicker__navigation--next:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
 }
 
 .react-datepicker__day {
@@ -1377,10 +1299,10 @@ video {
 
 .react-datepicker__day:hover {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
-  --tw-gradient-from: #6f88ff;
+  --tw-gradient-from: #6F88FF;
   --tw-gradient-to: rgb(111 136 255 / 0);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-  --tw-gradient-to: #4c4de2;
+  --tw-gradient-to: #4C4DE2;
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
@@ -1406,19 +1328,12 @@ video {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
-.react-datepicker__day--selected {
-  --tw-bg-opacity: 1;
-  background-color: rgb(59 130 246 / var(--tw-bg-opacity));
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
 .react-datepicker__day--range-start {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
-  --tw-gradient-from: #6f88ff;
+  --tw-gradient-from: #6F88FF;
   --tw-gradient-to: rgb(111 136 255 / 0);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-  --tw-gradient-to: #4c4de2;
+  --tw-gradient-to: #4C4DE2;
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
@@ -1432,10 +1347,10 @@ video {
 
 .react-datepicker__day--range-end {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
-  --tw-gradient-from: #6f88ff;
+  --tw-gradient-from: #6F88FF;
   --tw-gradient-to: rgb(111 136 255 / 0);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-  --tw-gradient-to: #4c4de2;
+  --tw-gradient-to: #4C4DE2;
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
@@ -1462,6 +1377,21 @@ video {
   left: 50%;
 }
 
+.before\:left-\[8px\]::before {
+  content: var(--tw-content);
+  left: 8px;
+}
+
+.before\:top-\[58\%\]::before {
+  content: var(--tw-content);
+  top: 58%;
+}
+
+.before\:left-\[9px\]::before {
+  content: var(--tw-content);
+  left: 9px;
+}
+
 .before\:h-\[2px\]::before {
   content: var(--tw-content);
   height: 2px;
@@ -1470,6 +1400,11 @@ video {
 .before\:w-3::before {
   content: var(--tw-content);
   width: 0.75rem;
+}
+
+.before\:w-\[10px\]::before {
+  content: var(--tw-content);
+  width: 10px;
 }
 
 .before\:translate-x-\[-50\%\]::before {
@@ -1490,15 +1425,32 @@ video {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+.before\:rotate-45::before {
+  content: var(--tw-content);
+  --tw-rotate: 45deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
 .before\:rounded::before {
   content: var(--tw-content);
   border-radius: 0.25rem;
+}
+
+.before\:rounded-\[4px\]::before {
+  content: var(--tw-content);
+  border-radius: 4px;
 }
 
 .before\:bg-gray-200::before {
   content: var(--tw-content);
   --tw-bg-opacity: 1;
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
+}
+
+.before\:bg-\[\#c7cbd1\]::before {
+  content: var(--tw-content);
+  --tw-bg-opacity: 1;
+  background-color: rgb(199 203 209 / var(--tw-bg-opacity));
 }
 
 .before\:content-\[\'\'\]::before {
@@ -1521,6 +1473,21 @@ video {
   left: 50%;
 }
 
+.after\:left-\[8px\]::after {
+  content: var(--tw-content);
+  left: 8px;
+}
+
+.after\:top-\[35\%\]::after {
+  content: var(--tw-content);
+  top: 35%;
+}
+
+.after\:left-\[9px\]::after {
+  content: var(--tw-content);
+  left: 9px;
+}
+
 .after\:h-\[2px\]::after {
   content: var(--tw-content);
   height: 2px;
@@ -1529,6 +1496,11 @@ video {
 .after\:w-3::after {
   content: var(--tw-content);
   width: 0.75rem;
+}
+
+.after\:w-\[10px\]::after {
+  content: var(--tw-content);
+  width: 10px;
 }
 
 .after\:translate-x-\[-50\%\]::after {
@@ -1549,15 +1521,38 @@ video {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+.after\:rotate-\[-45deg\]::after {
+  content: var(--tw-content);
+  --tw-rotate: -45deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.after\:rotate-\[45deg\]::after {
+  content: var(--tw-content);
+  --tw-rotate: 45deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
 .after\:rounded::after {
   content: var(--tw-content);
   border-radius: 0.25rem;
+}
+
+.after\:rounded-\[4px\]::after {
+  content: var(--tw-content);
+  border-radius: 4px;
 }
 
 .after\:bg-gray-200::after {
   content: var(--tw-content);
   --tw-bg-opacity: 1;
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
+}
+
+.after\:bg-\[\#c7cbd1\]::after {
+  content: var(--tw-content);
+  --tw-bg-opacity: 1;
+  background-color: rgb(199 203 209 / var(--tw-bg-opacity));
 }
 
 .after\:content-\[\'\'\]::after {
@@ -1596,6 +1591,18 @@ video {
 .hover\:text-white:hover {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.before\:hover\:bg-white:hover::before {
+  content: var(--tw-content);
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.after\:hover\:bg-white:hover::after {
+  content: var(--tw-content);
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
 .focus\:outline-none:focus {
