@@ -3,7 +3,7 @@ import 日期 from './assets/日期.svg';
 import { useStatic } from '~/hooks';
 import { DatePick } from './DatePick';
 
-type Range = {
+export type DateRange = {
   startDate: Date;
   endDate?: Date;
 };
@@ -11,7 +11,7 @@ type Range = {
 interface DatePickerProps {
   allowClear?: boolean;
   range?: boolean;
-  onChange?: (date: Range | Date) => void;
+  onChange?: (date: DateRange | Date) => void;
   allResults?: boolean;
   placeholderText?: string;
 }
