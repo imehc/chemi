@@ -64,6 +64,8 @@ export const PageDashboard: React.FC = () => {
           onChange={(date) => console.log('选择的日期范围：', date)}
         />
         <DatePicker
+          range
+          // allResults
           onChange={(date) => console.log('选择的日期范围：', date)}
         />
       </div>
