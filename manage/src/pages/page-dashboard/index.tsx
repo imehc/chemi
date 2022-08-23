@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { useAccessToken, useGlobalContext } from '~/globalContext';
 import {
   DatePicker,
+  DateRange,
   DateRangePicker,
   Pagination,
   Progress,
@@ -16,6 +17,11 @@ export const PageDashboard: React.FC = () => {
   // console.log('position', position);
   const accessToken = useAccessToken();
   const showDelDialog = useShowlDialog();
+
+  const [date, setDate] = useState<DateRange | undefined>({
+    startDate: new Date(),
+    endDate: new Date('2022-09-25'),
+  });
   return (
     <React.Fragment>
       <button
@@ -64,10 +70,22 @@ export const PageDashboard: React.FC = () => {
           onChange={(date) => console.log('选择的日期范围：', date)}
         />
         <DatePicker
+          defaultValue={date}
           range
           // allResults
-          onChange={(date) => console.log('选择的日期范围：', date)}
+          onChange={(date) => {
+            console.log('选择的日期范围：', date);
+            setDate(date as DateRange);
+          }}
         />
+        <button
+          onClick={() => {
+            setDate(undefined);
+          }}
+        >
+          重置
+        </button>
+        <br />
       </div>
 
       <button

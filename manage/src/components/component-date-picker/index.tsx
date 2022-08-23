@@ -9,25 +9,48 @@ export type DateRange = {
 };
 
 interface DatePickerProps {
+  defaultValue?: DateRange | Date;
   allowClear?: boolean;
   range?: boolean;
   onChange?: (date: DateRange | Date) => void;
   allResults?: boolean;
   placeholderText?: string;
+  maxDate?: Date;
+  disabled?: boolean;
 }
 
 export const DatePicker: React.FC<DatePickerProps> = ({
+  defaultValue,
   allowClear = true, // 是否允许清除
   range = false, // 是否是区间选择
   onChange,
   allResults = false, // 是否允许选择起始日期和结束日期后才会返回，需range为true
   placeholderText = '请选择日期',
+  maxDate,
+  disabled = false,
 }) => {
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
 
   const handleStartDate = useCallback((date: Date) => setStartDate(date), []);
   const handleEndDate = useCallback((date: Date) => setEndDate(date), []);
+  const handleResetDate = useCallback(() => {
+    setStartDate(undefined);
+    setEndDate(undefined);
+  }, []);
+
+  useMemo(() => {
+    if (defaultValue) {
+      setStartDate(
+        defaultValue instanceof Date ? defaultValue : defaultValue?.startDate
+      );
+      setEndDate(
+        defaultValue instanceof Date ? undefined : defaultValue?.endDate
+      );
+    } else {
+      handleResetDate();
+    }
+  }, [defaultValue, handleResetDate]);
 
   const changeRef = useStatic(onChange);
   useEffect(() => {
@@ -70,9 +93,10 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     []
   );
   return (
-    <div className="flex justify-center items-center w-full bg-[#F4F6FB] border border-solid border-[#e6e6e6] shadow-sm rounded-lg pr-5 relative">
+    <div className="flex justify-center items-center w-full h-8 bg-[#F4F6FB] border border-solid border-[#ecedf0] shadow-sm rounded-lg pr-5 relative">
       <img src={日期} alt="" className="h-4 ml-3" />
       <DatePick
+        disabled={disabled}
         months={months}
         selected={startDate}
         selectsStart
@@ -80,7 +104,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         startDate={startDate}
         endDate={endDate}
         setDate={handleStartDate}
-        maxDate={new Date()}
+        maxDate={maxDate}
         placeholderText={!range ? placeholderText : '起始日期'}
       />
       {range && (
@@ -88,6 +112,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
           <div className="text-sm text-[#040F1F] font-bold">至</div>
           <img src={日期} alt="" className="h-4 ml-3" />
           <DatePick
+            disabled={!allResults ? (startDate ? disabled : true) : undefined}
             months={months}
             selected={endDate}
             selectsStart={false}
@@ -95,18 +120,15 @@ export const DatePicker: React.FC<DatePickerProps> = ({
             startDate={startDate}
             endDate={endDate}
             setDate={handleEndDate}
-            maxDate={new Date()}
+            maxDate={maxDate}
             placeholderText={'结束日期'}
           />
         </React.Fragment>
       )}
-      {allowClear && (startDate || endDate) && (
+      {allowClear && (startDate || endDate) && !disabled && (
         <div
           className="absolute right-1 top-[50%] translate-y-[-50%] w-5 h-5 rounded-[50%] border-[1px] border-solid border-gray-10 after:content-[''] after:absolute after:w-3 after:h-[2px] after:rounded after:bg-gray-200  after:top-[50%] after:left-[50%] after:rotate-45 after:translate-x-[-50%] after:translate-y-[-50%] before:content-[''] before:absolute before:w-3 before:h-[2px] before:rounded before:bg-gray-200 before:top-[50%] before:left-[50%] before:rotate-[-45deg] before:translate-x-[-50%] before:translate-y-[-50%] cursor-pointer hover:bg-gray-100"
-          onClick={() => {
-            setStartDate(undefined);
-            setEndDate(undefined);
-          }}
+          onClick={() => handleResetDate()}
         ></div>
       )}
     </div>

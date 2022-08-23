@@ -23,6 +23,7 @@ interface DatePickerProps {
   startDate?: Date;
   endDate?: Date;
   maxDate?: Date;
+  disabled?: boolean;
 }
 
 export const DatePick: React.FC<DatePickerProps> = ({
@@ -35,9 +36,11 @@ export const DatePick: React.FC<DatePickerProps> = ({
   startDate,
   endDate,
   maxDate,
+  disabled = false,
 }) => {
   return (
     <DateSelector
+      disabled={disabled}
       locale={zhCN}
       selected={selected}
       placeholderText={placeholderText}
@@ -104,4 +107,3 @@ export const DatePick: React.FC<DatePickerProps> = ({
     />
   );
 };
-
