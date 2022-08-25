@@ -9,6 +9,7 @@ import {
   useShowlDialog,
 } from '~/components';
 import { usePosition, useStorage } from '~/hooks';
+import { getUnixTime } from 'date-fns';
 
 export const PageDashboard: React.FC = () => {
   const { setAccessToken, removeAccessToken } = useGlobalContext();
@@ -18,10 +19,19 @@ export const PageDashboard: React.FC = () => {
   const accessToken = useAccessToken();
   const showDelDialog = useShowlDialog();
 
+  // const { set,get } = useStorage();
+
   const [date, setDate] = useState<DateRange | undefined>({
     startDate: new Date(),
     endDate: new Date('2022-09-25'),
   });
+
+  // set("tese_type",JSON.stringify(12345))
+  // console.log('类型为：',typeof JSON.parse(get("tese_type") as string))// 为stringify之前的类型
+
+  console.log('getUnixTime:', getUnixTime(new Date())); // 获取秒
+  console.log('getTime:', new Date().getTime());
+
   return (
     <React.Fragment>
       <button
