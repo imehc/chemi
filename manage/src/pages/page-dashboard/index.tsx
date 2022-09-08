@@ -6,6 +6,7 @@ import {
   DateRangePicker,
   Pagination,
   Progress,
+  Slider,
   useShowlDialog,
 } from '~/components';
 import { usePosition, useStorage } from '~/hooks';
@@ -58,7 +59,7 @@ export const PageDashboard: React.FC = () => {
       >
         查看token
       </button>
-
+      {/* <Slider handleUpdate={() => {}} /> */}
       {/* <Pagination
         total={30}
         onChange={(e) => console.log(e)}
