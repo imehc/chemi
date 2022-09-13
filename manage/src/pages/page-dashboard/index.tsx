@@ -33,6 +33,14 @@ export const PageDashboard: React.FC = () => {
   console.log('getUnixTime:', getUnixTime(new Date())); // 获取秒
   console.log('getTime:', new Date().getTime());
 
+  const [brushIndex, setBrushIndex] = useState<{
+    startIndex: number;
+    endIndex: number;
+  }>({
+    startIndex: 0,
+    endIndex: 5,
+  });
+
   return (
     <React.Fragment>
       <button
@@ -59,7 +67,32 @@ export const PageDashboard: React.FC = () => {
       >
         查看token
       </button>
-      {/* <Slider handleUpdate={() => {}} /> */}
+      <div className="w-[900px]">
+        <Slider
+          handleUpdate={(val) => {
+            console.log(val, 'val');
+            setBrushIndex({ startIndex: val[0], endIndex: val[1] });
+          }}
+          startIndex={brushIndex.startIndex}
+          endIndex={brushIndex.endIndex}
+          max={13}
+          marks={[
+            new Date('2022-09-13T00:00:00+08:00'),
+            new Date('2022-09-13T01:00:00+08:00'),
+            new Date('2022-09-13T02:00:00+08:00'),
+            new Date('2022-09-13T03:00:00+08:00'),
+            new Date('2022-09-13T04:00:00+08:00'),
+            new Date('2022-09-13T05:00:00+08:00'),
+            new Date('2022-09-13T06:00:00+08:00'),
+            new Date('2022-09-13T07:00:00+08:00'),
+            new Date('2022-09-13T08:00:00+08:00'),
+            new Date('2022-09-13T09:00:00+08:00'),
+            new Date('2022-09-13T10:00:00+08:00'),
+            new Date('2022-09-13T11:00:00+08:00'),
+            new Date('2022-09-13T12:00:00+08:00'),
+          ]}
+        />
+      </div>
       {/* <Pagination
         total={30}
         onChange={(e) => console.log(e)}

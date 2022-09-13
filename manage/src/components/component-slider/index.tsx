@@ -1,9 +1,8 @@
-import { format, parseISO } from "date-fns";
-import RcSlider from "rc-slider";
+import { format } from "date-fns";
+import RSlider from "rc-slider";
 import "rc-slider/assets/index.css";
 import Handle from "rc-slider/lib/Handles/Handle";
 import React, { HTMLAttributes, useCallback, useMemo } from "react";
-// import dot from "../images/dot.svg";
 
 interface BaseSliderProps extends HTMLAttributes<HTMLDivElement> {
   startIndex?: number;
@@ -67,10 +66,8 @@ export const Slider: React.FC<BaseSliderProps> = (props) => {
     (date: Date, marksType: string[], b: boolean): string => {
       let d: string = "";
       try {
-        d = format(
-          parseISO(date as unknown as string),
-          b ? `${marksType[0]}` : `${marksType[1]}`
-        );
+        const formatDate = b ? marksType[0] : marksType[1];
+        d = format(date, formatDate);
       } catch (e) {
         console.error(e);
       }
@@ -90,7 +87,15 @@ export const Slider: React.FC<BaseSliderProps> = (props) => {
             (marks.length > 20 && marks.length <= 50 && i % 2 === 0) ||
             (marks.length > 50 && i % 5 === 0);
           return (
-            <div className="whitespace-nowrap m-2" key={`mark-${i}`}>
+            <div
+              className="whitespace-nowrap m-2"
+              key={`mark-${i}`}
+              style={{
+                color: i === startIndex || i === endIndex ? "#0D1827" : "",
+                fontWeight:
+                  i === startIndex || i === endIndex ? "bold" : "normal",
+              }}
+            >
               {v || i === marks.length - 1 ? formatDate(m, marksType, f) : ""}
             </div>
           );
@@ -101,25 +106,19 @@ export const Slider: React.FC<BaseSliderProps> = (props) => {
     let start = "";
     let end = "";
     try {
-      start = format(
-        parseISO(marks?.[startIndex] as unknown as string),
-        "yy-MM-dd hh:mm:ss"
-      );
-      end = format(
-        parseISO(marks?.[endIndex] as unknown as string),
-        "yy-MM-dd hh:mm:ss"
-      );
+      if (!marks?.[startIndex] || !marks?.[endIndex]) return;
+      start = format(marks?.[startIndex], "yy-MM-dd hh:mm:ss");
+      end = format(marks?.[endIndex], "yy-MM-dd hh:mm:ss");
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
     return { start, end };
   }, [endIndex, marks, startIndex]);
   return (
-    <div className="w-full h-16 pl-2 pr-3 overflow-x-hidden">
+    <div className="w-full h-16 pl-2 pr-3 overflow-x-hidden mt-3">
       <style>{css}</style>
-      <RcSlider
+      <RSlider
         {...attr}
-        className="my-3"
         range
         allowCross={false}
         defaultValue={[startIndex, endIndex]}
@@ -133,7 +132,7 @@ export const Slider: React.FC<BaseSliderProps> = (props) => {
           borderRadius: 15,
         }}
         trackStyle={{
-          backgroundColor: "#6070F3",
+          backgroundColor: "#a0daed",
           height: 15,
           boxShadow: "3px 3px 3px 3px rgba(216, 216, 216,0.5)",
         }}
@@ -148,7 +147,7 @@ export const Slider: React.FC<BaseSliderProps> = (props) => {
         handleRender={(state, i) => {
           return (
             <Handle {...state.props}>
-              <img src="" alt="图片" />
+              <img src="" alt="img" />
               <p
                 className="absolute top-[50%] translate-y-[-50%] text-[12px] whitespace-nowrap"
                 style={{
@@ -157,7 +156,7 @@ export const Slider: React.FC<BaseSliderProps> = (props) => {
                   left: i.index === 1 ? "30px" : "",
                 }}
               >
-                {i.index === 0 ? date.start : i.index === 1 ? date.end : ""}
+                {i.index === 0 ? date?.start : i.index === 1 ? date?.end : ""}
               </p>
             </Handle>
           );

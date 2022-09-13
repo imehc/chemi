@@ -7,7 +7,7 @@
   "license": "",
   "scripts": {
     "build:tailwind": "tailwind build -i src/tailwind.css -o src/tailwind.output.css",
-    "watch:tailwind": "npm run build:tailwind --watch",
+    "watch:tailwind": "npm run build:tailwind -- --watch",
     "watch": "npm-run-all build:tailwind --parallel watch:tailwind dev",
     "prebuild": "run-s build:tailwind",
     "dev": "vite",
