@@ -1,6 +1,9 @@
 import React, { useLayoutEffect } from 'react';
 import { useShowlDialog } from '~/components';
+import { BaiscSensorDataChart } from '~/components/BasicRechart';
 import { MapboxGL } from '~/components/mapbox/MapboxGL';
+import { PieChart } from '~/components/PieChart';
+import ReCharts from '~/components/ReCharts';
 
 export const PageDashboard: React.FC = () => {
   // const { setAccessToken, removeAccessToken } = useGlobalContext();
@@ -26,10 +29,21 @@ export const PageDashboard: React.FC = () => {
   }, []);
   // [...Array(4)].map((_, i) => console.log(i))
   return (
-    <React.Fragment>
+    <div className="bg-blue-50 overflow-hidden">
       {/* <TailWind/> */}
       {/* <div className="h-screen"></div> */}
-      <div className="ml-10 w-[300px]">
+      <div className="ml-10 w-[353px] h-[179px] bg-white mt-12">
+        <PieChart
+          data={[
+            // 数据
+            { value: 10800, name: '一' },
+            { value: 735, name: '一二三四五' },
+            { value: 5080, name: '一二三' },
+            { value: 4484, name: '一二' },
+            { value: 1000, name: '一二三四' },
+          ]}
+          onChange={(idx) => console.log(idx, 'idx...')}
+        />
         {/* <SliderDemo /> */}
         {/* <CustomSlider/> */}
         {/* <DatePicker1/> */}
@@ -153,17 +167,35 @@ export const PageDashboard: React.FC = () => {
         />
       </div> */}
       <div className="w-[500px] h-[300px]">
-        <MapboxGL onResult={(e) => console.log(e, 'result')} />
+        {/* <MapboxGL onResult={(e) => console.log(e, 'result')} /> */}
       </div>
       {/* https://github.com/farhan687/chart-test?utm_source=gold_browser_extension */}
-      {/* <ReCharts/> */}
+      {/* <ReCharts /> */}
+      <div className="w-[500px] h-[200px]">
+        {/* <BaiscSensorDataChart
+          config={{
+            name: '测试',
+          }}
+          data={[
+            { time: '0', temp_value_max: 40, temp_value_min: 15, humidity_value_max: 200, humidity_value_min: 100 },
+            { time: '2', temp_value_max: 40, temp_value_min: 20, humidity_value_max: 200, humidity_value_min: 100 },
+            { time: '4', temp_value_max: 50, temp_value_min: 15, humidity_value_max: 200, humidity_value_min: 80 },
+            { time: '6', temp_value_max: 45, temp_value_min: 20, humidity_value_max: 150, humidity_value_min: 100 },
+            { time: '8', temp_value_max: 30, temp_value_min: 10, humidity_value_max: 200, humidity_value_min: 100 },
+            { time: '10', temp_value_max: 20, temp_value_min: 10, humidity_value_max: 100, humidity_value_min: 70 },
+            { time: '12', temp_value_max: 30, temp_value_min: 20, humidity_value_max: 200, humidity_value_min: 100 },
+            { time: '14', temp_value_max: 37, temp_value_min: 10, humidity_value_max: 200, humidity_value_min: 100 },
+          ]}
+          threshold={[{ value: 223 }]}
+        /> */}
+      </div>
       {/* <div className="w-[400px] h-[200px] ml-5 mt-5"> */}
       <div className="w-[400px] ml-5 mt-5">
         {/* <LineChart/> */}
         {/* <ReChartsByLineChart/> */}
         {/* <BiaXialLineChart /> */}
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 

@@ -24,6 +24,8 @@
     "chart.js": "^3.8.2",
     "clsx": "^1.2.1",
     "date-fns": "^2.29.1",
+    "echarts": "^5.3.3",
+    "echarts-for-react": "^3.0.2",
     "faker": "^5.5.3",
     "geojson": "^0.5.0",
     "isomorphic-unfetch": "^3.1.0",

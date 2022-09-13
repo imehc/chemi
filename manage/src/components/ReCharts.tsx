@@ -8,7 +8,8 @@ import {
   Tooltip,
   Brush,
   AreaChart,
-  Area
+  Area,
+  ReferenceLine
 } from "recharts";
 
 export default function ReCharts() {
@@ -91,6 +92,7 @@ export default function ReCharts() {
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
+        <ReferenceLine y={3000} label="Max" stroke="red" strokeDasharray="3 3"/>
         <XAxis dataKey="name" type="category" />
         <YAxis />
         <Tooltip />
