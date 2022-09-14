@@ -16,10 +16,11 @@
   },
   "dependencies": {
     "@ant-design/plots": "^1.0.9",
-    "@emotion/react": "^11.0.0-rc.0",
-    "@emotion/styled": "^11.8.1",
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
     "@mapbox/mapbox-gl-geocoder": "^5.0.1",
     "@mapbox/mapbox-gl-language": "^1.0.0",
+    "@mui/material": "^5.10.5",
     "@types/mapbox__mapbox-gl-geocoder": "^4.7.3",
     "chart.js": "^3.8.2",
     "clsx": "^1.2.1",

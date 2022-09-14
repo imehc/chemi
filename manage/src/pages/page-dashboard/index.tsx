@@ -1,5 +1,6 @@
 import React, { useLayoutEffect } from 'react';
 import { useShowlDialog } from '~/components';
+import { AutoInput } from '~/components/AutoComplete';
 import { BaiscSensorDataChart } from '~/components/BasicRechart';
 import { MapboxGL } from '~/components/mapbox/MapboxGL';
 import { PieChart } from '~/components/PieChart';
@@ -33,7 +34,7 @@ export const PageDashboard: React.FC = () => {
       {/* <TailWind/> */}
       {/* <div className="h-screen"></div> */}
       <div className="ml-10 w-[353px] h-[179px] bg-white mt-12">
-        <PieChart
+        {/* <PieChart
           data={[
             // 数据
             { value: 10800, name: '一' },
@@ -43,7 +44,7 @@ export const PageDashboard: React.FC = () => {
             { value: 1000, name: '一二三四' },
           ]}
           onChange={(idx) => console.log(idx, 'idx...')}
-        />
+        /> */}
         {/* <SliderDemo /> */}
         {/* <CustomSlider/> */}
         {/* <DatePicker1/> */}
@@ -89,6 +90,7 @@ export const PageDashboard: React.FC = () => {
       {/* <DemoPie/> */}
       {/* <div style={{ marginLeft: '50px', marginTop: '50px' }}> */}
       <div style={{ marginLeft: '50px' }}>
+        <AutoInput/>
         {/* <ToolTip
           arrow={true}
           content={
