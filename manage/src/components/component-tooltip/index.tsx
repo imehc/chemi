@@ -15,9 +15,13 @@ export const ToolTip: React.FC<TooltipProps> = (props): JSX.Element => {
   const {
     children: child,
     diretion = 'bottom',
+    /**展示的组件 */
     content,
+    /**触发方式 */
     trigger = 'hover',
     color = '#f5f5f5',
+    radius,
+    /**是否需要箭头 */
     arrow = false,
     ...otherProps
   } = props;
@@ -43,7 +47,7 @@ export const ToolTip: React.FC<TooltipProps> = (props): JSX.Element => {
       .subscribe();
 
     return () => watchAllClick.unsubscribe();
-  }, [visible]);
+  }, [visible, visibleClick?.target]);
 
   const children =
     trigger === 'click'
@@ -63,6 +67,7 @@ export const ToolTip: React.FC<TooltipProps> = (props): JSX.Element => {
     }
     return ctt;
   }, []);
+
   return (
     <TooltipBox>
       {children}
@@ -71,6 +76,7 @@ export const ToolTip: React.FC<TooltipProps> = (props): JSX.Element => {
           {...otherProps}
           diretion={diretion}
           color={color}
+          radius={radius}
           onMouseEnter={() => trigger !== 'click' && setVisible(true)}
           onMouseLeave={() => trigger !== 'click' && setVisible(false)}
           ref={tooltipRef}
@@ -91,13 +97,19 @@ const TooltipBox = styled.div`
   cursor: pointer;
 `;
 const TooltipContent = styled.div`
-  top: ${(props: { diretion: Direction }) => {
+  top: ${(props: {
+    diretion: Direction;
+    radius: number | string | undefined;
+  }) => {
     if (props.diretion === 'bottom') {
       return '130%';
     }
     return 'auto';
   }};
-  bottom: ${(props: { diretion: Direction }) => {
+  bottom: ${(props: {
+    diretion: Direction;
+    radius: number | string | undefined;
+  }) => {
     if (props.diretion === 'top') {
       return '130%';
     }
@@ -106,8 +118,22 @@ const TooltipContent = styled.div`
   left: 50%;
   transform: translateX(-50%);
   position: absolute;
-  min-width: 80px;
-  background-color: ${(props: { diretion: Direction; color: string }) => {
+  min-width: 35px;
+  min-height: 20px;
+  border-radius: ${(props: {
+    diretion: Direction;
+    radius: number | string | undefined;
+  }) => {
+    if (props.radius !== undefined) {
+      return props.radius;
+    }
+    return 0;
+  }};
+  background-color: ${(props: {
+    diretion: Direction;
+    color: string;
+    radius: number | string | undefined;
+  }) => {
     return props.color;
   }};
   box-shadow: 1px 1px 1px #f5f5f5;

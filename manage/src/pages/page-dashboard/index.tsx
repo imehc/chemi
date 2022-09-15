@@ -7,6 +7,7 @@ import {
   Pagination,
   Progress,
   Slider,
+  ToolTip,
   useShowlDialog,
 } from '~/components';
 import { usePosition, useStorage } from '~/hooks';
@@ -67,6 +68,17 @@ export const PageDashboard: React.FC = () => {
       >
         查看token
       </button>
+      <div className="m-10 w-20">
+        <ToolTip
+          content={<div className="w-12 h-6 flex justify-center items-center rounded-[8px]">tool</div>}
+          color="#ff5f5f"
+          diretion="top"
+          radius="6px"
+          arrow
+        >
+          <div className='bg-blue-200'>tooltip</div>
+        </ToolTip>
+      </div>
       <div className="w-[900px]">
         <Slider
           handleUpdate={(val) => {

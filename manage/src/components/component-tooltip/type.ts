@@ -8,6 +8,7 @@ export interface TooltipProps {
   diretion?: Direction;
   style?: CSSProperties;
   className?: string;
+  radius?: number | string;
   content?: ReactNode;
   trigger?: Trigger;
   color?: string;
