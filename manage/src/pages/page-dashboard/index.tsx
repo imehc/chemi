@@ -1,6 +1,7 @@
 import React, { useLayoutEffect } from 'react';
 import { useShowlDialog } from '~/components';
 import { AutoInput } from '~/components/AutoComplete';
+import { SearchInput } from '~/components/AutoInput';
 import { BaiscSensorDataChart } from '~/components/BasicRechart';
 import { MapboxGL } from '~/components/mapbox/MapboxGL';
 import { PieChart } from '~/components/PieChart';
@@ -89,8 +90,9 @@ export const PageDashboard: React.FC = () => {
       {/* <DemoLine /> */}
       {/* <DemoPie/> */}
       {/* <div style={{ marginLeft: '50px', marginTop: '50px' }}> */}
-      <div style={{ marginLeft: '50px' }}>
-        <AutoInput/>
+      <div style={{ marginLeft: '50px' }} className="bg-purple-100 w-40">
+        {/* <AutoInput/> */}
+        <SearchInput/>
         {/* <ToolTip
           arrow={true}
           content={

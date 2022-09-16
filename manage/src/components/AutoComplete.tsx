@@ -3,7 +3,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import styled from '@emotion/styled';
 
 interface Props {
-  options?: string[];
+  options?: readonly string[] | readonly number[];
   onChange?: (v: string | null) => void;
 }
 
@@ -12,14 +12,16 @@ export const AutoInput: React.FC<Props> = ({ options, onChange }) => {
     <AutocompleteStyled
       freeSolo
       options={
-        options?.length ? options : top100Films.map((option) => option.title)
+        // options?.length ? options : top100Films.map((option) => option.title)
+        empty
       }
-      sx={{ width: 300 }}
       onChange={(_, d) => {
         onChange && onChange(d as string | null);
         console.log(d, 'evt');
       }}
-      renderInput={(params) => <TextFieldStyled {...params} />}
+      renderInput={(params) => (
+        <TextFieldStyled {...params} placeholder="请填写设备SN" />
+      )}
     />
   );
 };
@@ -27,6 +29,7 @@ export const AutoInput: React.FC<Props> = ({ options, onChange }) => {
 const AutocompleteStyled = styled(Autocomplete)({
   '& .MuiOutlinedInput-root': {
     padding: 0,
+    backgroundColor: 'pink',
   },
   '& .MuiOutlinedInput-root .MuiAutocomplete-input': {
     padding: '0 10px 0 10px',
@@ -56,12 +59,16 @@ const TextFieldStyled = styled(TextField)({
     '&:hover fieldset': {
       borderColor: '#4773f5',
     },
-    '&.Mui-focused fieldset': {
+    '& .Mui-focused fieldset': {
       borderColor: '#4773f5',
+    },
+    '& ::-webkit-input-placeholder': {
+      fontSize: '14px',
     },
   },
 });
 
+const empty: readonly unknown[] = [11, 22, 33];
 // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
 const top100Films = [
   { title: 'The Shawshank Redemption', year: 1994 },
