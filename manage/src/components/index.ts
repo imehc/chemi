@@ -4,5 +4,6 @@ export * from './component-del-dialog';
 export * from './component-dialog';
 export * from './component-pagination';
 export * from './component-progress';
+export * from './component-search-input';
 export * from './component-slider';
 export * from './component-tooltip';
