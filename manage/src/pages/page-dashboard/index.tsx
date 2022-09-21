@@ -1,8 +1,13 @@
+/**
+ * @deprecated
+ */
+
 import React, { useLayoutEffect } from 'react';
 import { useShowlDialog } from '~/components';
 import { AutoInput } from '~/components/AutoComplete';
 import { SearchInput } from '~/components/AutoInput';
 import { BaiscSensorDataChart } from '~/components/BasicRechart';
+import { Table } from '~/components/component-table';
 import { MapboxGL } from '~/components/mapbox/MapboxGL';
 import { PieChart } from '~/components/PieChart';
 import ReCharts from '~/components/ReCharts';
@@ -31,7 +36,37 @@ export const PageDashboard: React.FC = () => {
   }, []);
   // [...Array(4)].map((_, i) => console.log(i))
   return (
-    <div className="bg-blue-50 overflow-hidden">
+    <div className="bg-purple-200 overflow-hidde">
+      <div
+        className="p-5"
+        // style={{background:`url() no-repeat center/100%`}}
+      >
+        {/* <Table
+          columns={[
+            {
+              title: '标题',
+              detaIndex: 'title',
+              render(item, index) {
+                console.log(item, index, '111');
+                return <div>12345</div>;
+              },
+            },
+            {
+              title: '编号',
+              detaIndex: 'no',
+              render(item, index) {
+                console.log(item, index, '111');
+                return <div>12345</div>;
+              },
+            },
+          ]}
+          dataSource={[
+            { title: '标题1', no: 1231323232 },
+            { title: '标题2', no: 12231323232 },
+          ]}
+          onRowClick={(data, index) => console.log(data, index, '..........')}
+        /> */}
+      </div>
       {/* <TailWind/> */}
       {/* <div className="h-screen"></div> */}
       <div className="ml-10 w-[353px] h-[179px] bg-white mt-12">
@@ -90,9 +125,10 @@ export const PageDashboard: React.FC = () => {
       {/* <DemoLine /> */}
       {/* <DemoPie/> */}
       {/* <div style={{ marginLeft: '50px', marginTop: '50px' }}> */}
+
       <div style={{ marginLeft: '50px' }} className="bg-purple-100 w-40">
         {/* <AutoInput/> */}
-        <SearchInput/>
+        {/* <SearchInput/> */}
         {/* <ToolTip
           arrow={true}
           content={
