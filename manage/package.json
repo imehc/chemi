@@ -5,8 +5,8 @@
   "version": "0.0.0",
   "scripts": {
     "build:tailwind": "tailwind build -i src/tailwind.css -o src/tailwind.output.css",
-    "watch:tailwind": "npm run build:tailwind -- --watch",
-    "watch": "npm-run-all build:tailwind --parallel watch:tailwind dev",
+    "go:tailwind": "npm run build:tailwind -- --watch",
+    "go": "npm-run-all build:tailwind --parallel go:tailwind dev",
     "prebuild": "run-s build:tailwind",
     "dev": "vite",
     "start": "vite --host 0.0.0.0",

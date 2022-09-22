@@ -7,6 +7,7 @@ import { useShowlDialog } from '~/components';
 import { AutoInput } from '~/components/AutoComplete';
 import { SearchInput } from '~/components/AutoInput';
 import { BaiscSensorDataChart } from '~/components/BasicRechart';
+import { CustomButton } from '~/components/component-button';
 import { Table } from '~/components/component-table';
 import { MapboxGL } from '~/components/mapbox/MapboxGL';
 import { PieChart } from '~/components/PieChart';
@@ -36,7 +37,18 @@ export const PageDashboard: React.FC = () => {
   }, []);
   // [...Array(4)].map((_, i) => console.log(i))
   return (
-    <div className="bg-purple-200 overflow-hidde">
+    <div className="bg-white overflow-hidde">
+      <div className="w-24 h-60 m-10 p-2 bg-purple-50 flex flex-col justify-around items-center">
+        <CustomButton
+          theme="second"
+          start={<div className="w-5 h-5 bg-purple-400"></div>}
+        >
+          second
+        </CustomButton>
+        <CustomButton theme="primary" onClick={()=>console.log("111")}>primary</CustomButton>
+        <CustomButton theme="hover-primary">hover</CustomButton>
+        <CustomButton theme="delete">delete</CustomButton>
+      </div>
       <div
         className="p-5"
         // style={{background:`url() no-repeat center/100%`}}
