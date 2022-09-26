@@ -11,7 +11,10 @@ import React, {
 interface Props extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "color"> {
   startIcon?: React.ReactNode;
   children: React.ReactNode;
-  size?: "default" | "small";
+  /**
+   * @default 'middle''
+   */
+  size?: "large" | "middle" | "small";
   theme?: "primary" | "default" | "contained";
   color?: string | "delete";
 }
@@ -22,9 +25,10 @@ type StyledButtonType = Required<Pick<Props, "size" | "theme">> &
 export const Button: React.FC<Props> = ({
   startIcon,
   children,
-  size = "default",
+  size = "middle",
   theme = "default",
   color,
+  type = "button",
   ...props
 }): JSX.Element => {
   const ref = useRef(null);
@@ -96,6 +100,7 @@ export const Button: React.FC<Props> = ({
       theme={theme}
       size={size}
       color={color}
+      type={type}
       {...props}
     >
       <style>{style}</style>
@@ -114,10 +119,14 @@ export const Button: React.FC<Props> = ({
 
 const StyledButton = styled.button`
   height: ${(props: StyledButtonType) => {
-    if (props.size === "default") {
-      return "2.5rem";
+    switch (props.size) {
+      case "large":
+        return "2.75rem";
+      case "middle":
+        return "2.5rem";
+      default:
+        return "1.875rem";
     }
-    return "1.75rem";
   }};
   position: relative;
   display: flex;
@@ -143,7 +152,7 @@ const StyledButton = styled.button`
   user-select: none;
   overflow: hidden;
   background: ${(props: StyledButtonType) => {
-    let bg = "linear-gradient(to bottom right, #ffa16f,#fb7a35)";
+    let bg = "linear-gradient(to bottom right, #6fcdff,#2ab0f8)";
     if (props?.color) {
       bg = props.color === "delete" ? "#FF5F5F" : props.color;
     }
@@ -185,7 +194,7 @@ const StyledButton = styled.button`
       }
     }};
     background: ${(props: StyledButtonType) => {
-      let bg = "linear-gradient(to bottom right, #ffa16f,#fb7a35)";
+      let bg = "linear-gradient(to bottom right, #6fcdff,#2ab0f8)";
       if (props?.color) {
         bg = props.color === "delete" ? "#FF5F5F" : props.color;
       }
