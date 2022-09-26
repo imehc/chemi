@@ -127,7 +127,7 @@ export const DateRangePicker: React.FC<DatePickerProps> = ({
                   disabled={prevMonthButtonDisabled}
                   type="button"
                   className={clsx(
-                    'w-7 h-7 inline-flex p-1 text-sm font-medium text-[#9A9FA5] border border-gray-300 rounded-[50%] shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-offset-0 focus:ring-0 relative hover:bg-gradient-to-r hover:from-[#6f88ff] hover:to-[#4c4de2] hover:text-white hover:border-none',
+                    'w-7 h-7 inline-flex p-1 text-sm font-medium text-[#9A9FA5] border border-gray-300 rounded-[50%] shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-offset-0 focus:ring-0 relative hover:bg-gradient-to-r hover:from-[#6FCDFF] hover:to-[#2AB0F8] hover:text-white hover:border-none',
                     {
                       'cursor-not-allowed opacity-50': prevMonthButtonDisabled,
                     }
@@ -142,7 +142,7 @@ export const DateRangePicker: React.FC<DatePickerProps> = ({
                   disabled={nextMonthButtonDisabled}
                   type="button"
                   className={clsx(
-                    'w-7 h-7 inline-flex p-1 text-sm font-medium text-[#9A9FA5] border border-gray-300 rounded-[50%] shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-offset-0 focus:ring-0 relative hover:bg-gradient-to-r hover:from-[#6f88ff] hover:to-[#4c4de2] hover:text-white hover:border-none',
+                    'w-7 h-7 inline-flex p-1 text-sm font-medium text-[#9A9FA5] border border-gray-300 rounded-[50%] shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-offset-0 focus:ring-0 relative hover:bg-gradient-to-r hover:from-[#6FCDFF] hover:to-[#2AB0F8] hover:text-white hover:border-none',
                     {
                       'cursor-not-allowed opacity-50': nextMonthButtonDisabled,
                     }
@@ -201,7 +201,7 @@ export const DateRangePicker: React.FC<DatePickerProps> = ({
                   disabled={prevMonthButtonDisabled}
                   type="button"
                   className={clsx(
-                    'w-7 h-7 inline-flex p-1 text-sm font-medium text-[#9A9FA5] border border-gray-300 rounded-[50%] shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-offset-0 focus:ring-0 relative hover:bg-gradient-to-r hover:from-[#6f88ff] hover:to-[#4c4de2] hover:text-white hover:border-none',
+                    'w-7 h-7 inline-flex p-1 text-sm font-medium text-[#9A9FA5] border border-gray-300 rounded-[50%] shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-offset-0 focus:ring-0 relative hover:bg-gradient-to-r hover:from-[#6FCDFF] hover:to-[#2AB0F8] hover:text-white hover:border-none',
                     {
                       'cursor-not-allowed opacity-50': prevMonthButtonDisabled,
                     }
@@ -217,7 +217,7 @@ export const DateRangePicker: React.FC<DatePickerProps> = ({
                   disabled={nextMonthButtonDisabled}
                   type="button"
                   className={clsx(
-                    'w-7 h-7 inline-flex p-1 text-sm font-medium text-[#9A9FA5] border border-gray-300 rounded-[50%] shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-offset-0 focus:ring-0 relative hover:bg-gradient-to-r hover:from-[#6f88ff] hover:to-[#4c4de2] hover:text-white hover:border-none',
+                    'w-7 h-7 inline-flex p-1 text-sm font-medium text-[#9A9FA5] border border-gray-300 rounded-[50%] shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-offset-0 focus:ring-0 relative hover:bg-gradient-to-r hover:from-[#6FCDFF] hover:to-[#2AB0F8] hover:text-white hover:border-none',
                     {
                       'cursor-not-allowed opacity-50': nextMonthButtonDisabled,
                     }

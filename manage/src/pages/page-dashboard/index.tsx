@@ -126,7 +126,7 @@ export const PageDashboard: React.FC = () => {
         // color={['pink', 'orange', 'yellow', 'skyblue']}
         color="skyblue"
       /> */}
-      <div style={{ width: 300 }}>
+      <div style={{ width: 350 }}>
         <DateRangePicker
           onChange={(date) => console.log('选择的日期范围：', date)}
         />
