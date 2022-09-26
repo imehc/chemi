@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useAccessToken, useGlobalContext } from '~/globalContext';
 import {
+  Button,
   DatePicker,
   DateRange,
   DateRangePicker,
@@ -70,13 +71,17 @@ export const PageDashboard: React.FC = () => {
       </button>
       <div className="m-10 w-20">
         <ToolTip
-          content={<div className="w-12 h-6 flex justify-center items-center rounded-[8px]">tool</div>}
+          content={
+            <div className="w-12 h-6 flex justify-center items-center rounded-[8px]">
+              tool
+            </div>
+          }
           color="#ff5f5f"
           diretion="top"
           radius="6px"
           arrow
         >
-          <div className='bg-blue-200'>tooltip</div>
+          <div className="bg-blue-200">tooltip</div>
         </ToolTip>
       </div>
       <div className="w-[900px]">
@@ -153,6 +158,17 @@ export const PageDashboard: React.FC = () => {
       >
         dialog
       </button>
+      <div className="w-[120px] h-60 p-2 flex flex-col justify-between items-center bg-purple-100">
+        <Button>default</Button>
+        <Button theme="primary">primary</Button>
+        <Button theme="contained">contained</Button>
+        <Button theme="contained" color="delete">
+          delete
+        </Button>
+        <Button theme="primary" color="lightgreen">
+          custom
+        </Button>
+      </div>
     </React.Fragment>
   );
 };

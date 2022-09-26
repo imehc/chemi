@@ -5,6 +5,7 @@
   "version": "0.0.0",
   "type": "module",
   "license": "",
+  "packageManager": "yarn@3.2.3",
   "scripts": {
     "build:tailwind": "tailwind build -i src/tailwind.css -o src/tailwind.output.css",
     "watch:tailwind": "npm run build:tailwind -- --watch",

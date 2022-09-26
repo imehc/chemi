@@ -1,3 +1,4 @@
+export * from './component-button';
 export * from './component-date-picker';
 export * from './component-date-range-picker';
 export * from './component-del-dialog';

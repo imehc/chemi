@@ -1,5 +1,9 @@
+/**
+ * @examples
+ */
+
 import styled from '@emotion/styled';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
+// import ClickAwayListener from '@mui/material/ClickAwayListener';
 import clsx from 'clsx';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
@@ -110,7 +114,7 @@ export const SearchInput: React.FC<Props> = ({ onChange, valid = true }) => {
   );
 
   return (
-    <ClickAwayListener onClickAway={() => setVisible(false)}>
+    // <ClickAwayListener onClickAway={() => setVisible(false)}>
       <div className="relative">
         <Input
           className={clsx(
@@ -154,7 +158,7 @@ export const SearchInput: React.FC<Props> = ({ onChange, valid = true }) => {
           </div>
         )}
       </div>
-    </ClickAwayListener>
+    // </ClickAwayListener>
   );
 };
 
