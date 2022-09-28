@@ -1,5 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import progress from 'vite-plugin-progress'
+// import { qrcode } from 'vite-plugin-qrcode';// 在服务器启动时显示 QR 码
 import { resolve } from 'path';
 
 // https://vitejs.dev/config/
@@ -7,6 +9,8 @@ export default defineConfig({
   // https://github.com/vitejs/awesome-vite#plugins
   plugins: [
     react(),
+    progress(),
+    // qrcode(),
   ],
   server: {
     host: '0.0.0.0',
