@@ -16,13 +16,14 @@ export const ToolTip: React.FC<TooltipProps> = (props): JSX.Element => {
     children: child,
     diretion = 'bottom',
     content,
-    trigger = 'hover',
+    trigger = 'all',
     color = '#f5f5f5',
     arrow = false,
     ...otherProps
   } = props;
   const [visible, setVisible] = useState<boolean>(false);
   const [visibleClick, setVisibleClick] = useState<Event>();
+  const [clickvisible, setClickVisible] = useState<boolean>(false);
 
   const tooltipRef = useRef(null);
   useEffect(() => {
@@ -34,6 +35,7 @@ export const ToolTip: React.FC<TooltipProps> = (props): JSX.Element => {
             e.target as Node
           );
           if (!isContains && e.target !== visibleClick?.target) {
+            setClickVisible(false);
             setVisible(false);
             return of(true);
           }
@@ -53,9 +55,27 @@ export const ToolTip: React.FC<TooltipProps> = (props): JSX.Element => {
             setVisible(true);
           },
         })
-      : cloneElement(child, {
+      : trigger === 'hover'
+      ? cloneElement(child, {
           onMouseEnter: () => setVisible(true),
           onMouseLeave: () => setVisible(false),
+        })
+      : cloneElement(child, {
+          onMouseEnter: () => setVisible(true),
+          onMouseLeave: () => {
+            if (clickvisible) {
+              return;
+            }
+            setClickVisible(false);
+            setVisible(false);
+          },
+          onClick: (e: Event) => {
+            if (!clickvisible) {
+              setClickVisible(true);
+            }
+            setVisibleClick(e);
+            setVisible(true);
+          },
         });
   const handleContent = useCallback((ctt: ReactNode) => {
     if (typeof ctt === 'number' || typeof ctt === 'string') {
@@ -72,7 +92,12 @@ export const ToolTip: React.FC<TooltipProps> = (props): JSX.Element => {
           diretion={diretion}
           color={color}
           onMouseEnter={() => trigger !== 'click' && setVisible(true)}
-          onMouseLeave={() => trigger !== 'click' && setVisible(false)}
+          onMouseLeave={() => {
+            if (trigger !== 'click' && !clickvisible) {
+              setClickVisible(false);
+              setVisible(false);
+            }
+          }}
           ref={tooltipRef}
         >
           {diretion === 'bottom' && arrow && <TriangleByTop color={color} />}

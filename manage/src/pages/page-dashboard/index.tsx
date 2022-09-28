@@ -3,7 +3,7 @@
  */
 
 import React, { useLayoutEffect } from 'react';
-import { useShowlDialog } from '~/components';
+import { ToolTip, useShowlDialog } from '~/components';
 import { AutoInput } from '~/components/AutoComplete';
 import { SearchInput } from '~/components/AutoInput';
 import { BaiscSensorDataChart } from '~/components/BasicRechart';
@@ -38,7 +38,7 @@ export const PageDashboard: React.FC = () => {
   // [...Array(4)].map((_, i) => console.log(i))
   return (
     <div className="bg-white overflow-hidde">
-      <div className="w-24 h-60 m-10 p-2 bg-purple-50 flex flex-col justify-around items-center">
+      {/* <div className="w-24 h-60 m-10 p-2 bg-purple-50 flex flex-col justify-around items-center">
         <CustomButton
           theme="second"
           start={<div className="w-5 h-5 bg-purple-400"></div>}
@@ -48,7 +48,7 @@ export const PageDashboard: React.FC = () => {
         <CustomButton theme="primary" onClick={()=>console.log("111")}>primary</CustomButton>
         <CustomButton theme="hover-primary">hover</CustomButton>
         <CustomButton theme="delete">delete</CustomButton>
-      </div>
+      </div> */}
       <div
         className="p-5"
         // style={{background:`url() no-repeat center/100%`}}
@@ -141,7 +141,7 @@ export const PageDashboard: React.FC = () => {
       <div style={{ marginLeft: '50px' }} className="bg-purple-100 w-40">
         {/* <AutoInput/> */}
         {/* <SearchInput/> */}
-        {/* <ToolTip
+        <ToolTip
           arrow={true}
           content={
             <div
@@ -159,10 +159,10 @@ export const PageDashboard: React.FC = () => {
               <div onClick={()=>{console.log('刷新')}}>刷新</div>
             </div>
           }
-          trigger="click"
+          trigger="all"
         >
           <div>tip</div>
-        </ToolTip> */}
+        </ToolTip>
       </div>
       {/* <Pagination
         total={30}

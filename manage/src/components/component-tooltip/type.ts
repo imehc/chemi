@@ -1,6 +1,6 @@
 import type { CSSProperties, ReactElement, ReactNode } from 'react';
 
-type Trigger = 'hover' | 'click';
+type Trigger = 'hover' | 'click' | "all";
 export type Direction = 'top' | 'bottom';
 
 export interface TooltipProps {
