@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import progress from 'vite-plugin-progress'
+import windiCSS from 'vite-plugin-windicss'
 // import { qrcode } from 'vite-plugin-qrcode';// 在服务器启动时显示 QR 码
 import { resolve } from 'path';
 
@@ -10,6 +11,7 @@ export default defineConfig({
   plugins: [
     react(),
     progress(),
+    windiCSS(),
     // qrcode(),
   ],
   server: {
