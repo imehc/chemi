@@ -1,0 +1,60 @@
+import { useEffect, useRef } from 'react';
+import { Engine, Scene } from '@babylonjs/core';
+
+const BasicBabylon: React.FC = ({
+  antialias,
+  engineOptions,
+  adaptToDeviceRatio,
+  sceneOptions,
+  onRender,
+  onSceneReady,
+  ...rest
+}: any) => {
+  const ref = useRef(null);
+
+  // set up basic engine and scene
+  useEffect(() => {
+    const { current: canvas } = ref;
+    if (!canvas) return;
+
+    const engine = new Engine(
+      canvas,
+      antialias,
+      engineOptions,
+      adaptToDeviceRatio
+    );
+    const scene = new Scene(engine, sceneOptions);
+    // 检查场景是否可以渲染(纹理被加载，着色器被编译)延迟加载的资源没有考虑到
+    if (scene.isReady()) {
+      onSceneReady(scene);
+    } else {
+      // 场景准备好时触发的事件
+      scene.onReadyObservable.addOnce((scene) => onSceneReady(scene));
+    }
+    // 注册并执行一个渲染循环。引擎可以有多个渲染函数
+    engine.runRenderLoop(() => {
+      if (typeof onRender === 'function') onRender(scene);
+      scene.render();
+    });
+
+    const resize = () => {
+      scene.getEngine().resize();
+    };
+
+    if (window) {
+      window.addEventListener('resize', resize);
+    }
+
+    return () => {
+      // 处置并释放所有相关资源
+      scene.getEngine().dispose();
+      if (window) {
+        window.removeEventListener('resize', resize);
+      }
+    };
+  }, []);
+
+  return <canvas ref={ref} {...rest} />;
+};
+
+export default BasicBabylon;

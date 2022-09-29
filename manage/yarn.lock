@@ -390,6 +390,83 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babylonjs/core@npm:^5.25.0":
+  version: 5.25.0
+  resolution: "@babylonjs/core@npm:5.25.0"
+  checksum: 79bc0cdf8cd04dc200c9abd56a81b543a6a70975fdb07e452e71c89be130c1b844bc27061c57b161ec3ea20673684d65e68a9f5e6e77a0d21cda1ff403f57ee3
+  languageName: node
+  linkType: hard
+
+"@babylonjs/gui-editor@npm:^5.25.0":
+  version: 5.25.0
+  resolution: "@babylonjs/gui-editor@npm:5.25.0"
+  peerDependencies:
+    "@babylonjs/core": ^5.22.0
+    "@babylonjs/gui": ^5.22.0
+    "@types/react": ">=16.7.3"
+    "@types/react-dom": ">=16.0.9"
+  checksum: cc0e5bbf50188ac5b0933e57a277b5fac13f7d749a0a05e6ae18b1e8bce641739e699396f3c8b431199e734c2b1f48ff66750b74385da9761f4299276e8224b9
+  languageName: node
+  linkType: hard
+
+"@babylonjs/gui@npm:^5.25.0":
+  version: 5.25.0
+  resolution: "@babylonjs/gui@npm:5.25.0"
+  peerDependencies:
+    "@babylonjs/core": ^5.22.0
+  checksum: d84e393728a50960c30fa2f8e734b6d0e530af0251b09880aed4019eb88f1ec0788c27620acde187bffc6d6cc0547a5864dcf0d4d3e124257b7a479abd5223c1
+  languageName: node
+  linkType: hard
+
+"@babylonjs/inspector@npm:^5.25.0":
+  version: 5.25.0
+  resolution: "@babylonjs/inspector@npm:5.25.0"
+  dependencies:
+    "@fortawesome/fontawesome-svg-core": ^6.1.0
+    "@fortawesome/free-regular-svg-icons": ^6.0.0
+    "@fortawesome/free-solid-svg-icons": ^6.0.0
+  peerDependencies:
+    "@babylonjs/core": ^5.22.0
+    "@babylonjs/gui": ^5.22.0
+    "@babylonjs/gui-editor": ^5.22.0
+    "@babylonjs/loaders": ^5.22.0
+    "@babylonjs/materials": ^5.22.0
+    "@babylonjs/serializers": ^5.22.0
+    "@types/react": ">=16.7.3"
+    "@types/react-dom": ">=16.0.9"
+  checksum: fa9792d18f30e18795c89fbd3ca32cc1ca5c9b8216f20620dd1f230173f523a5a158deef84ac493ee30cb621bd2d7cf54820a29e7b7cac3c25a17393159cdf85
+  languageName: node
+  linkType: hard
+
+"@babylonjs/loaders@npm:^5.25.0":
+  version: 5.25.0
+  resolution: "@babylonjs/loaders@npm:5.25.0"
+  peerDependencies:
+    "@babylonjs/core": ^5.22.0
+    babylonjs-gltf2interface: ^5.22.0
+  checksum: 262a85143fb79a02fbae4857dd3297fd41c643b8d422f2f7c2641bed0adb394cb9f348240e163844dc4399dbcb53955ee9d4d669ecb3883505bc1e788452b0b4
+  languageName: node
+  linkType: hard
+
+"@babylonjs/materials@npm:^5.25.0":
+  version: 5.25.0
+  resolution: "@babylonjs/materials@npm:5.25.0"
+  peerDependencies:
+    "@babylonjs/core": ^5.22.0
+  checksum: c879aab2e1258c9a719f280a22fbb2af43b5938b5d8c99e4f01edc3056d834bf7d72ac3ea00094b0a3bd345bb3ddfece0af342f043be002563e8fcf6d7aa149c
+  languageName: node
+  linkType: hard
+
+"@babylonjs/serializers@npm:^5.25.0":
+  version: 5.25.0
+  resolution: "@babylonjs/serializers@npm:5.25.0"
+  peerDependencies:
+    "@babylonjs/core": ^5.22.0
+    babylonjs-gltf2interface: ^5.22.0
+  checksum: 40cc747408f266a885cc815474717486d7dabf3a8306e4330257b5f7c2dce59615ed61e3f3f8a3b80fbb627cfadabc016813ce5ed0d7bfa4c6a8fa45f374cbae
+  languageName: node
+  linkType: hard
+
 "@emotion/babel-plugin@npm:^11.10.0":
   version: 11.10.2
   resolution: "@emotion/babel-plugin@npm:11.10.2"
@@ -556,6 +633,40 @@ __metadata:
   version: 0.15.9
   resolution: "@esbuild/linux-loong64@npm:0.15.9"
   conditions: os=linux & cpu=loong64
+  languageName: node
+  linkType: hard
+
+"@fortawesome/fontawesome-common-types@npm:6.2.0":
+  version: 6.2.0
+  resolution: "@fortawesome/fontawesome-common-types@npm:6.2.0"
+  checksum: 1d0a3340dc2d2798609195cf77f1b0db98f0d87144044eb7cd3d78745baac8509705c6ebc7cce3d9bb36c7d7358ca064f77f39d86478ab1e7aa7aadc344cfd91
+  languageName: node
+  linkType: hard
+
+"@fortawesome/fontawesome-svg-core@npm:^6.1.0":
+  version: 6.2.0
+  resolution: "@fortawesome/fontawesome-svg-core@npm:6.2.0"
+  dependencies:
+    "@fortawesome/fontawesome-common-types": 6.2.0
+  checksum: 3bae680cba4098bc3a6aee04e655e0c6b6bab2d78e6709dc0a44d106f57a09bc2fd979310108777a373df301273a2a276739056f8984cd8bc5a50d37338c5380
+  languageName: node
+  linkType: hard
+
+"@fortawesome/free-regular-svg-icons@npm:^6.0.0":
+  version: 6.2.0
+  resolution: "@fortawesome/free-regular-svg-icons@npm:6.2.0"
+  dependencies:
+    "@fortawesome/fontawesome-common-types": 6.2.0
+  checksum: 1b68a25590b273653c7adfa18bd6ef0ee533710687a46ef21c7b5395deae280a2faaff0b024717d9e54fdaedb8165769f281342704821777f86316223d5264ba
+  languageName: node
+  linkType: hard
+
+"@fortawesome/free-solid-svg-icons@npm:^6.0.0":
+  version: 6.2.0
+  resolution: "@fortawesome/free-solid-svg-icons@npm:6.2.0"
+  dependencies:
+    "@fortawesome/fontawesome-common-types": 6.2.0
+  checksum: b5edf24be491e8493028b7fd2158fb73f3a76491087970609c0ef6a4449fd4744312fe768bfcffc90a5ef86b9980f9ab8ebb36927ba8d9854c2fa638ceadb0ac
   languageName: node
   linkType: hard
 
@@ -1093,6 +1204,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/cannon@npm:^0.1.8":
+  version: 0.1.8
+  resolution: "@types/cannon@npm:0.1.8"
+  checksum: 84e975c7450b1d69783a99a0d3e75c2765a38601e9aacaafa419a315c2d2f8b540ee540fb0fce8cda2b032a8e2a7c50408d493825cddb5207957b8f5f2a37ee8
+  languageName: node
+  linkType: hard
+
 "@types/earcut@npm:^2.1.0":
   version: 2.1.1
   resolution: "@types/earcut@npm:2.1.1"
@@ -1297,6 +1415,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"babylonjs-hook@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "babylonjs-hook@npm:0.1.1"
+  peerDependencies:
+    "@babylonjs/core": 4.x||>5.0.0-rc||5.x
+    react: ">=16"
+  checksum: 0d99b300005efe81214a7ee9e7ee0a75388e46f1833c3905e85b6876a4a0886ae6924381c7cf268804936b3e82cba21b86d32213b8fa21f6f76c3b70d1eb02be
+  languageName: node
+  linkType: hard
+
 "balanced-match@npm:^1.0.0":
   version: 1.0.2
   resolution: "balanced-match@npm:1.0.2"
@@ -1386,6 +1514,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cannon@npm:^0.6.2":
+  version: 0.6.2
+  resolution: "cannon@npm:0.6.2"
+  checksum: 67f318ab1585b1609b67155ef9d25efccaefcd02f84feabb4d7e9334303eb8c100a2bd7f4ac0f558545a42186e6e567f849cdef6ed302d9bf7a2ddaa292aa938
+  languageName: node
+  linkType: hard
+
 "chalk@npm:^2.0.0":
   version: 2.4.2
   resolution: "chalk@npm:2.4.2"
@@ -1401,12 +1536,22 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "chemi_manage@workspace:."
   dependencies:
+    "@babylonjs/core": ^5.25.0
+    "@babylonjs/gui": ^5.25.0
+    "@babylonjs/gui-editor": ^5.25.0
+    "@babylonjs/inspector": ^5.25.0
+    "@babylonjs/loaders": ^5.25.0
+    "@babylonjs/materials": ^5.25.0
+    "@babylonjs/serializers": ^5.25.0
     "@emotion/react": ^11.10.4
     "@emotion/styled": ^11.10.4
+    "@types/cannon": ^0.1.8
     "@types/node": ^18.7.23
     "@types/react": ^18.0.21
     "@types/react-dom": ^18.0.6
     "@vitejs/plugin-react": ^2.1.0
+    babylonjs-hook: ^0.1.1
+    cannon: ^0.6.2
     clsx: ^1.2.1
     date-fns: ^2.29.3
     eslint-config-prettier: ^8.5.0
@@ -1416,6 +1561,8 @@ __metadata:
     pixi.js: ^6.5.4
     prettier: ^2.7.1
     react: ^18.2.0
+    react-babylonjs: ^3.1.11
+    react-babylonjs-loaders: ^0.0.5
     react-dom: ^18.2.0
     react-router-dom: ^6.4.1
     rimraf: ^3.0.2
@@ -2775,6 +2922,35 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-babylonjs-loaders@npm:^0.0.5":
+  version: 0.0.5
+  resolution: "react-babylonjs-loaders@npm:0.0.5"
+  peerDependencies:
+    "@babylonjs/core": 4.x
+    "@babylonjs/loaders": 4.x
+    babylonjs-hook: "*"
+    react: 16.x
+  checksum: 98b65918e363742862ac2c7f47f694c5191a7f40e44a4db77fc7ec2147758325013e88944bcc866a2005c7e613164616304e4933a34d48236b42a092e1840499
+  languageName: node
+  linkType: hard
+
+"react-babylonjs@npm:^3.1.11":
+  version: 3.1.11
+  resolution: "react-babylonjs@npm:3.1.11"
+  dependencies:
+    react-reconciler: ^0.27.0
+  peerDependencies:
+    "@babylonjs/core": 5.x
+    "@babylonjs/gui": 5.x
+    react: ">=18"
+    react-dom: ">=18"
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+  checksum: b6ac755f4bdd933fe2830a4313e02721a1c49b81a145fd76bd565f3c621be82988beb2b1ae710cfb101c3c1b830904e5b03f1210ad9a2c619be43870fb5a1d73
+  languageName: node
+  linkType: hard
+
 "react-dom@npm:^18.2.0":
   version: 18.2.0
   resolution: "react-dom@npm:18.2.0"
@@ -2791,6 +2967,18 @@ __metadata:
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
   checksum: f7a19ac3496de32ca9ae12aa030f00f14a3d45374f1ceca0af707c831b2a6098ef0d6bdae51bd437b0a306d7f01d4677fcc8de7c0d331eb47ad0f46130e53c5f
+  languageName: node
+  linkType: hard
+
+"react-reconciler@npm:^0.27.0":
+  version: 0.27.0
+  resolution: "react-reconciler@npm:0.27.0"
+  dependencies:
+    loose-envify: ^1.1.0
+    scheduler: ^0.21.0
+  peerDependencies:
+    react: ^18.0.0
+  checksum: c2ae111f150c2a46970182df12ea8254719fdfec5e26574711b1838fc37863c63671460a351570fd359c088d891e7bb0ff89023c2f7c1582393b57dd517b92c2
   languageName: node
   linkType: hard
 
@@ -2960,6 +3148,15 @@ __metadata:
   version: 2.1.2
   resolution: "safer-buffer@npm:2.1.2"
   checksum: cab8f25ae6f1434abee8d80023d7e72b598cf1327164ddab31003c51215526801e40b66c5e65d658a0af1e9d6478cadcb4c745f4bd6751f97d8644786c0978b0
+  languageName: node
+  linkType: hard
+
+"scheduler@npm:^0.21.0":
+  version: 0.21.0
+  resolution: "scheduler@npm:0.21.0"
+  dependencies:
+    loose-envify: ^1.1.0
+  checksum: 4f8285076041ed2c81acdd1faa987f1655fdbd30554bc667c1ea64743fc74fb3a04ca7d27454b3d678735df5a230137a3b84756061b43dc5796e80701b66d124
   languageName: node
   linkType: hard
 
