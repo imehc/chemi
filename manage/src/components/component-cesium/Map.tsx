@@ -89,6 +89,7 @@ const CesiumMap: React.FC = () => {
         url: 'appmaptile?style=6&x={x}&y={y}&z={z}',
         maximumLevel: 17,
       }),
+      selectionIndicator:false,// 关闭点击绿色框
     }),
     []
   );
@@ -129,7 +130,7 @@ const CesiumMap: React.FC = () => {
     return viewer;
   }, []);
   // 加载点位
-  const addMarker = useCallback((viewer: Viewer) => {
+  const addMarker = useCallback((viewer: Viewer): void => {
     // 清除上一次加载的点位
     clearEntityLayers(viewer);
     // 循环加载点位
@@ -171,7 +172,7 @@ const CesiumMap: React.FC = () => {
     });
   }, []);
   // 添加实体模型
-  const addEntityModel = useCallback((viewer: Viewer) => {
+  const addEntityModel = useCallback((viewer: Viewer): void => {
     const blueBox = viewer.entities.add({
       name: 'Blue Box',
       position: Cartesian3.fromDegrees(106.31348, 29.71617, 100.0),
@@ -188,11 +189,11 @@ const CesiumMap: React.FC = () => {
     viewer.zoomTo(blueBox);
   }, []);
   // 清除上一次加载的点位
-  const clearEntityLayers = useCallback((viewer: Viewer) => {
+  const clearEntityLayers = useCallback((viewer: Viewer): void => {
     viewer.entities.removeAll();
   }, []);
   // 监听地图点击事件
-  const mapClickListener = useCallback((viewer: Viewer) => {
+  const mapClickListener = useCallback((viewer: Viewer): void => {
     const handler = new ScreenSpaceEventHandler(viewer.scene.canvas);
     // 点击事件
     handler.setInputAction((click: ScreenSpaceEventHandler.PositionedEvent) => {
@@ -255,7 +256,7 @@ const CesiumMap: React.FC = () => {
   }, []);
   // 动态实体弹窗
   const showDynamiclayer = useCallback(
-    (viewer: Viewer, data: PopupDataProps, callback: VoidFunction) => {
+    (viewer: Viewer, data: PopupDataProps, callback: VoidFunction): void => {
       /* 弹窗的dom操作--默认必须*/
       data.element.style.opacity = '0'; // 使用hide()或者display是不行的 因为cesium是用pre定时重绘的div导致 left top display 会一直重绘
       const { current: line } = lineRef;
@@ -286,7 +287,7 @@ const CesiumMap: React.FC = () => {
       position: Cartesian3,
       arr: [number, number],
       flag?: boolean
-    ) => {
+    ): void => {
       const scratch = new Cartesian2(); // cesium二维笛卡尔 笛卡尔二维坐标系就是我们熟知的而二维坐标系；三维也如此
       const scene = viewer.scene;
       const camera = viewer.camera;
@@ -296,9 +297,17 @@ const CesiumMap: React.FC = () => {
           scratch
         ); // cartesianToCanvasCoordinates 笛卡尔坐标（3维度）到画布坐标
         if (defined(canvasPosition)) {
-          element.style.left = canvasPosition.x + arr[0] + 'px';
-          element.style.top = canvasPosition.y + arr[1] + 'px';
-          // const  px_position=SceneTransforms.wgs84ToDrawingBufferCoordinates(scene,cartesian)
+          // element.style.left = canvasPosition.x + arr[0] + 'px';
+          // element.style.top = canvasPosition.y + arr[1] + 'px';
+          // // const  px_position=SceneTransforms.wgs84ToDrawingBufferCoordinates(scene,cartesian)
+          // element.style.left 中的 534/2 中 534是css样式里设置的弹框宽度，
+          // element.style.left 中的 15 中 30是点位图标宽度的一半
+          // element.style.left 中的 后面的3 就是对着页面微调之后加的增量，保证点位弹框刚好在点位的正上方
+          // element.style.top 中的 30 是点位图标的高度， 图标是30*30的
+          // element.style.top 中的 22 是因为点位上方还有label(点位名称)，弹框不能遮住label，微调出来的结果
+          element.style.left = (canvasPosition.x + arr[0] - 534/2 - 15 + 5) + 'px';
+          element.style.top = (canvasPosition.y + arr[1] - 30 - 22) + 'px';
+
           // 此处进行判断
           if (flag) {
             const e = position;
@@ -320,14 +329,14 @@ const CesiumMap: React.FC = () => {
   );
   // 移除动态弹窗，为了方便，这里的移除是真的移除，因此，到时是需要重新创建弹窗的dom
   const removeDynamicLayer = useCallback(
-    (element: PopupDataProps['element']) => {
+    (element: PopupDataProps['element']): void => {
       element.style.opacity = '0';
     },
     []
   );
   // 点位定位到地图中心
   const localtionToCenten = useCallback(
-    (viewer: Viewer, lon: number, lat: number) => {
+    (viewer: Viewer, lon: number, lat: number): void => {
       const pointLocation = new BoundingSphere(
         Cartesian3.fromDegrees(lon * 1, lat * 1, 100),
         15000
@@ -340,6 +349,7 @@ const CesiumMap: React.FC = () => {
   return (
     <React.Fragment>
       <div ref={ref} className="w-screen h-screen m-0 p-0 overflow-hidden" />
+      {/* 地图弹款 */}
       <DynamicLayer ref={layerRef}>
         <Line ref={lineRef}></Line>
         <Main ref={mainRef}>
@@ -348,6 +358,7 @@ const CesiumMap: React.FC = () => {
             pointId={popData?.pointId}
             title={popData?.title}
           />
+          <TooltipArrow></TooltipArrow>
         </Main>
       </DynamicLayer>
     </React.Fragment>
@@ -393,4 +404,16 @@ const Main = styled.div`
   user-select: text;
   pointer-events: auto;
   background-color: rgba(3, 22, 37, 0.85);
+`;
+
+const TooltipArrow = styled.div`
+  position: absolute;
+  left: 45%;
+  bottom: -21px;
+  width: 0;
+  height: 0;
+  border-top: 12px solid rgba(3, 22, 37, 0.85);
+  border-right: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-left: 12px solid transparent;
 `;
