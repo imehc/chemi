@@ -18,11 +18,22 @@ export default defineConfig({
   ],
   server: {
     host: '0.0.0.0',
-    proxy:{
+    proxy: {
       '/apis': {
         target: 'https://v1.hitokoto.cn',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/apis/, '') // 不可以省略rewrite
+      },
+      // 高德地图跨域
+      '^/appmaptile': {
+        target: 'https://webst02.is.autonavi.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/appmaptile/, '/appmaptile')
+      },
+      '^/empty': {
+        target: 'https://webst02.is.autonavi.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/empty/, '/empty')
       }
     }
   },
