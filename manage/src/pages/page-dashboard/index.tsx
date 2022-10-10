@@ -1,7 +1,12 @@
 import React from 'react';
-import { LanguageDemo } from '~/components';
+import { DarkDemo, LanguageDemo } from '~/components';
 
 export const PageDashboard: React.FC = () => {
-  return <LanguageDemo />;
+  return (
+    <React.Fragment>
+      <LanguageDemo />
+      <DarkDemo />
+    </React.Fragment>
+  );
 };
 export default PageDashboard;
