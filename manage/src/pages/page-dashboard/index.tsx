@@ -2,16 +2,18 @@
  * @deprecated
  */
 
-import React, { useLayoutEffect } from 'react';
+import React, { useEffect, useLayoutEffect, useRef } from 'react';
 import { ToolTip, useShowlDialog } from '~/components';
 import { AutoInput } from '~/components/AutoComplete';
 import { SearchInput } from '~/components/AutoInput';
 import { BaiscSensorDataChart } from '~/components/BasicRechart';
 import { CustomButton } from '~/components/component-button';
 import { Table } from '~/components/component-table';
+import { IntersectionObserverDemo } from '~/components/IntersectionObserver';
 import { MapboxGL } from '~/components/mapbox/MapboxGL';
 import { PieChart } from '~/components/PieChart';
 import ReCharts from '~/components/ReCharts';
+import { useInfinite } from '~/hooks';
 
 export const PageDashboard: React.FC = () => {
   // const { setAccessToken, removeAccessToken } = useGlobalContext();
@@ -36,8 +38,10 @@ export const PageDashboard: React.FC = () => {
     // console.log('其它操作');
   }, []);
   // [...Array(4)].map((_, i) => console.log(i))
+
   return (
     <div className="bg-white overflow-hidde">
+      <IntersectionObserverDemo  />
       {/* <div className="w-24 h-60 m-10 p-2 bg-purple-50 flex flex-col justify-around items-center">
         <CustomButton
           theme="second"
@@ -154,9 +158,27 @@ export const PageDashboard: React.FC = () => {
                 color: '#bca2e6',
               }}
             >
-              <div onClick={()=>{console.log('编辑')}}>编辑</div>
-              <div onClick={()=>{console.log('删除')}}>删除</div>
-              <div onClick={()=>{console.log('刷新')}}>刷新</div>
+              <div
+                onClick={() => {
+                  console.log('编辑');
+                }}
+              >
+                编辑
+              </div>
+              <div
+                onClick={() => {
+                  console.log('删除');
+                }}
+              >
+                删除
+              </div>
+              <div
+                onClick={() => {
+                  console.log('刷新');
+                }}
+              >
+                刷新
+              </div>
             </div>
           }
           trigger="all"
@@ -246,6 +268,9 @@ export const PageDashboard: React.FC = () => {
         {/* <LineChart/> */}
         {/* <ReChartsByLineChart/> */}
         {/* <BiaXialLineChart /> */}
+      </div>
+      <div style={{ marginTop: '20px' }} id="footer">
+        我是底部
       </div>
     </div>
   );
