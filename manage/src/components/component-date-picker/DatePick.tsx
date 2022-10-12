@@ -1,14 +1,14 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import DatePicker, { ReactDatePickerProps } from 'react-datepicker';
 import zhCN from 'date-fns/locale/zh-CN';
 import clsx from 'clsx';
-import { getMonth } from 'date-fns';
-import "./index.css"
+import { format, getMonth } from 'date-fns';
+import './index.css';
 
 // docs https://reactdatepicker.com/#example-year-select-dropdown
 
 interface FunctionComponent<P = {}> extends React.FunctionComponent<P> {
-  (props: ReactDatePickerProps, context?: P): ReactElement<P> | null;
+  (props: ReactDatePickerProps, context?: P): React.ReactElement<P> | null;
 }
 // 解决DatePicker可能出现不能用作JSX组件的问题
 // https://github.com/facebook/react/issues/24304#issue-1196695161
@@ -25,6 +25,7 @@ interface DatePickerProps {
   endDate?: Date;
   maxDate?: Date;
   disabled?: boolean;
+  showTimeInput?: boolean;
 }
 
 export const DatePick: React.FC<DatePickerProps> = ({
@@ -38,6 +39,7 @@ export const DatePick: React.FC<DatePickerProps> = ({
   endDate,
   maxDate,
   disabled = false,
+  showTimeInput = false,
 }) => {
   return (
     <DateSelector
@@ -46,7 +48,7 @@ export const DatePick: React.FC<DatePickerProps> = ({
       selected={selected}
       placeholderText={placeholderText}
       onChange={(date: Date) => setDate && setDate(date)}
-      dateFormat="yyyy-MM-dd"
+      dateFormat={showTimeInput ? 'yyyy-MM-dd HH:mm' : 'yyyy-MM-dd'}
       maxDate={maxDate}
       selectsStart={selectsStart}
       selectsEnd={selectsEnd}
@@ -55,6 +57,14 @@ export const DatePick: React.FC<DatePickerProps> = ({
       nextMonthButtonLabel=">"
       previousMonthButtonLabel="<"
       popperClassName="react-datepicker-left"
+      // showTimeSelect
+      // timeFormat="HH:mm:ss"
+      // timeIntervals={60}
+      // timeCaption="时间："
+
+      showTimeInput={showTimeInput}
+      timeInputLabel="时间："
+      customTimeInput={<CustomTimeInput />}
       renderCustomHeader={({
         date,
         decreaseMonth,
@@ -105,6 +115,26 @@ export const DatePick: React.FC<DatePickerProps> = ({
           </div>
         </div>
       )}
+    />
+  );
+};
+
+interface CustomTimeInputProps {
+  date: Date;
+  value: string;
+  onChange: (e: string) => void;
+}
+
+const CustomTimeInput: React.FC = ({ ...props }): JSX.Element => {
+  const { date, value, onChange } = props as CustomTimeInputProps;
+  return (
+    <input
+      type="time"
+      value={value}
+      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+        onChange(e.target.value);
+      }}
+      // step="1"
     />
   );
 };

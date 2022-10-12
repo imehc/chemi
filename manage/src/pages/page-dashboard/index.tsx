@@ -138,6 +138,7 @@ export const PageDashboard: React.FC = () => {
             console.log('选择的日期范围：', date);
             setDate(date as DateRange);
           }}
+          showTimeInput
         />
         <button
           onClick={() => {
