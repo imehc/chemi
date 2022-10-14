@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
-const PageDashboard = lazy(() => import('~/pages/page-dashboard'));
+import { Route, Routes, useLocation } from 'react-router-dom';
+import PageBasic from '~/pages/page-father';
 
 const AuthRouter: React.FC = () => {
   const location = useLocation();
@@ -10,11 +10,9 @@ const AuthRouter: React.FC = () => {
   //   return <Navigate to={`/login?continue=${location.pathname}`} />;
   // }
   return (
-    <React.Fragment>
-      <Routes>
-        <Route path="/" element={<PageDashboard />} />
-      </Routes>
-    </React.Fragment>
+    <Routes>
+      <Route path="/" element={<PageBasic />} />
+    </Routes>
   );
 };
 

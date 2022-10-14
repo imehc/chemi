@@ -1,2 +1,2 @@
-export * from './page-basic';
+export * from './page-father';
 export * from './page-dashboard';

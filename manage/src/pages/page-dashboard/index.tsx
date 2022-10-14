@@ -1,17 +1,15 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useAccessToken, useGlobalContext } from '~/globalContext';
 import {
   Button,
   DatePicker,
   DateRange,
   DateRangePicker,
-  Pagination,
-  Progress,
   Slider,
   ToolTip,
   useShowlDialog,
 } from '~/components';
-import { usePosition, useStorage } from '~/hooks';
+import { usePosition } from '~/hooks';
 import { getUnixTime } from 'date-fns';
 
 export const PageDashboard: React.FC = () => {
