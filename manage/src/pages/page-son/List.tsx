@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '~/components';
 import { mockChildData1 } from '~/mock';
 import { useMockData } from '~/providers';
+import { useProfileStore } from '~/store';
 
 export const Edit: React.FC = () => {
   const navigate = useNavigate();
@@ -19,6 +20,8 @@ export const Edit: React.FC = () => {
   const { mock1, mock2, setMock2 } = useMockData();
   console.log(mock1, 'sonstorewithmock1...');
   console.log(mock2, 'sonstorewithmock2...');
+
+  const { setGlobalMock2 } = useProfileStore();
 
   if (isLoading || !data) {
     return <div>loading...</div>;
@@ -36,6 +39,7 @@ export const Edit: React.FC = () => {
           key={i}
           onClick={() => {
             setMock2(data);
+            setGlobalMock2(data);
             navigate(`../${d.sid}/child`);
           }}
         >
