@@ -5,9 +5,9 @@ import BaseRouter from '~/router/BaseRouter';
 import '~/tailwind.output.css';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <BrowserRouter>
       <BaseRouter />
     </BrowserRouter>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
