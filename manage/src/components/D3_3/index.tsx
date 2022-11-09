@@ -1,418 +1,562 @@
-import { type FC, useCallback, useEffect, useRef, useState } from 'react';
-import * as d3 from 'd3';
-import { useMemo } from 'react';
-import data, { MockData } from './data';
+import { useCallback, useEffect, useState } from "react";
+import { useMemo } from "react";
+import {
+  axisBottom,
+  axisLeft,
+  bisector,
+  extent,
+  group,
+  type InternMap,
+  line,
+  pointer,
+  scaleLinear,
+  scaleOrdinal,
+  scaleTime,
+  select,
+  selectAll,
+  axisRight,
+  type Axis,
+  type NumberValue,
+  easeLinear,
+} from "d3";
+import clsx from "clsx";
+import { format } from "date-fns";
+import {
+  fromEventPattern,
+  windowToggle,
+  switchMap,
+  tap,
+  last,
+  catchError,
+  EMPTY,
+  delay,
+} from "rxjs";
+import styled from "@emotion/styled";
+import 对比 from "./对比.svg";
+import { useLatest } from "~/hooks/useLatest";
 
-interface Props {
-  width?: number;
-  height?: number;
+type Key<T> = T extends Record<string, any>
+  ? Omit<T, "time" | "value">[keyof Omit<T, "time" | "value">]
+  : never;
+
+interface Props<T> {
+  data: T[];
+  getX: (d: T) => Date;
+  getY: (d: T) => number;
+  multiKey: (d: T) => string;
+  yLabel?: string;
+  yUnitLeftLabel?: string;
+  yUnitRightLabel?: string;
+  yRightAxis?: boolean;
+  themeConfig: {
+    color: string;
+    label: string;
+    key: Key<T>;
+  }[];
+  margin?: {
+    top?: number;
+    right?: number;
+    bottom?: number;
+    left?: number;
+  };
 }
 
-type SVGSelection = d3.Selection<SVGSVGElement, unknown, HTMLElement, any>;
-type SVGScaleTime = d3.ScaleTime<number, number, never>;
-type SVGScaleLinear = d3.ScaleLinear<number, number, never>;
-
-type DrawLinePathProps = {
-  // g: GSelection;
-  svg: SVGSelection;
-  xScale: SVGScaleTime;
-  yScale: SVGScaleLinear;
+// 以 Material UI 的 break point 作为标准
+// sm 为 600px, 一个图标占 6/12 位置即 300px 宽，留 20px 空间的空白，即 300 - 20 = 280px
+//  https://mui.com/material-ui/customization/breakpoints/#default-breakpoints
+const minWidth = 280;
+const minHeight = 200;
+const headerHeight = 45;
+const defaultMargin = { top: 10, right: 30, bottom: 30, left: 50 };
+const padding = {
+  x: 8,
+  y: 8,
 };
 
-const textColor = '#999999';
-const axisColor = '#d0d3cb';
-const pointColor = '#f5a209';
-const textPointColor = '#f54d33';
-const lineColor = ['#caf9c2', '#aee4ec', '#e9b6f0'];
-const padding = { top: 50, right: 30, bottom: 30, left: 30 };
-const lineChartId = 'line-chart';
-const tooltipId = 'line-chart-tip';
-const tooltipLine = 'line-chart-tip-line';
-const tooltipCircle = 'line-chart-tip-circle';
-const tooltipText = 'line-chart-tip-text';
+export const D3_3 = <T,>({
+  data,
+  getX,
+  getY,
+  multiKey,
+  yLabel,
+  yUnitLeftLabel,
+  yUnitRightLabel,
+  yRightAxis = false,
+  themeConfig,
+  margin,
+}: Props<T>) => {
+  const [width, setWidth] = useState<number>(0);
+  const [height, setHeight] = useState(minHeight);
 
-export const D3_3: FC<Props> = ({ width = 500, height = 200 }) => {
-  const chartRef = useRef<HTMLDivElement>(null);
-  const tooltipRef = useRef<HTMLDivElement>(null);
-
-  const { top, right, bottom, left } = useMemo(() => padding, []);
-  console.log(data);
-  const format = useMemo(() => d3.timeFormat('%H:%M'), []);
-  console.log(d3.timeFormat('%H:%M')(new Date()), 'format...');
-  // console.log(d3.timeFormat('%Y-%m-%d')(new Date(+time + 12 * 3600 * 1000)))
-  // ======================================================================
-  const [distance, setDistance] = useState<{ left: number; top: number }>({
-    left: 0,
-    top: 0,
-  });
-  const chartWidthAndHeight = useMemo(() => {
-    const w = width - left - right;
-    const h = height - top - bottom;
-    return { w, h };
-  }, [width, height, top, right, bottom, left]);
-
-  const sumstat = useMemo(() => d3.group(data, (d) => d.key), []);
-
-  // 匹配最近的Xaxis
-  const matchTheRecentDate = useCallback((mDate: Date): Date => {
-    const m = data.reduce((prev, cur) => {
-      const a = Math.abs(+prev - +mDate);
-      const b = Math.abs(+cur.time - +mDate);
-      return a <= b ? prev : +cur.time;
-    }, 0);
-    const match = data.find((d) => +d.time === m)!.time;
-    return match;
-  }, []);
-
-  // 匹配颜色
-  const handleColor = useCallback((i: 'x' | 'y' | 'z'): string => {
-    return i === 'x' ? lineColor[0] : i === 'y' ? lineColor[1] : lineColor[2];
-  }, []);
-
-  // 绘制图例和标题
-  const drawLegend = useCallback((svg: SVGSelection): void => {
-    const legend = svg
-      .selectAll('.legend')
-      .data(lineColor)
-      .enter()
-      .append('g')
-      .attr('class', 'legend')
-      .attr('transform', (_, i) => {
-        return `translate(${-i * 70 - 30},5)`;
-      });
-
-    legend
-      .append('circle')
-      .attr('cx', width - 40)
-      .attr('cy', 13)
-      .attr('r', 5)
-      // .attr('stroke', '#000')
-      // .attr('stroke-width', 2)
-      .style('fill', (d) => d);
-
-    legend
-      .append('text')
-      .attr('x', width - 30)
-      .attr('y', 15)
-      .attr('text-anchor', 'middle')
-      .attr('dominant-baseline', 'middle')
-      .style('text-anchor', 'start') //样式对齐
-      .attr('font-size', 14)
-      .text((d, i) => `分类${i}`);
-    // other
-    svg
-      .append('g')
-      .attr('transform', 'translate(20,5)')
-      .append('text')
-      .attr('x', 10)
-      .attr('y', 15)
-      .attr('text-anchor', 'middle')
-      .attr('dominant-baseline', 'middle')
-      .attr('font-size', 14)
-      .attr('font-weight', 'bolder')
-      .text('-');
-    const uint = svg.append('g').attr('transform', 'translate(12,22)');
-    uint
-      .append('text')
-      .attr('x', 10)
-      .attr('y', 15)
-      .attr('text-anchor', 'middle')
-      .attr('dominant-baseline', 'middle')
-      .attr('font-size', 12)
-      .attr('font-weight', '100')
-      .style('stroke', '#9A9FA5')
-      .text('ms/s');
-    uint
-      .append('text')
-      .attr('x', width - 42)
-      .attr('y', 15)
-      .attr('text-anchor', 'middle')
-      .attr('dominant-baseline', 'middle')
-      .attr('font-size', 12)
-      .attr('font-weight', '100')
-      .style('stroke', '#9A9FA5')
-      .text('hs/d');
-  }, []);
-
-  // 绘制比例尺
-  const drawAxis = useCallback((svg: SVGSelection): DrawLinePathProps => {
-    const t_max_min = d3.extent(data, (d) => d.time) as [Date, Date];
-    // 格式化时间
-    const formatTime = d3.timeFormat('%H:%M');
-    // 定义坐标轴的比例尺，gW为x轴的宽度
-    const xScale = d3
-      .scaleTime()
-      .range([left, chartWidthAndHeight.w + left])
-      .domain(t_max_min);
-    // .nice();
-    // 同理 gH为y轴的高度
-    const yScale = d3
-      .scaleLinear()
-      .range([chartWidthAndHeight.h + top, top])
-      .domain([0, d3.max(data, (d) => d.value)!]);
-    // 绘制网格
-    const yInner = d3
-      .axisLeft(yScale)
-      .scale(yScale)
-      .tickSize(chartWidthAndHeight.w)
-      .tickFormat(() => '')
-      .ticks(10);
-    const yInnerBar = svg
-      .append('g')
-      .attr('class', 'inner_line inner_line_y')
-      .attr('transform', `translate(${width - left},0)`)
-      .call(yInner);
-    yInnerBar
-      .selectAll('path')
-      .style('fill', 'none')
-      // .style('stroke', 'transparent')
-      .style('stroke', '#cac0d3')
-      .style('shape-rendering', 'crispEdges');
-    yInnerBar
-      .selectAll('line')
-      .style('fill', 'none')
-      .style('stroke', '#cac0d3')
-      .style('shape-rendering', 'crispEdges');
-    // 绘制纵坐标
-    // 实际绘制的宽高,注意svg层级关系
-    const yAxis = d3.axisLeft(yScale);
-    svg
-      .append('g')
-      .attr('transform', `translate(${left},${0})`)
-      .append('g')
-      .call(yAxis)
-      // 文字颜色
-      .attr('stroke', textColor);
-    // 绘制横坐标 定义好x轴d定义域，画出x轴axisBottom，底部
-    const xAxis = d3
-      .axisBottom(xScale)
-      .scale(xScale)
-      .tickFormat((d) => formatTime(d as Date));
-    svg
-      .append('g')
-      // .attr('transform', `translate(${left},${top})`)
-      // .append('g')
-      .attr('transform', `translate(0, ${chartWidthAndHeight.h + top})`)
-      .call(xAxis)
-      .attr('stroke', textColor);
-    // 修改轴的颜色
-    svg
-      .append('g')
-      .attr('transform', `translate(${left},${top})`)
-      .selectAll('path')
-      .attr('stroke', axisColor);
-    svg
-      .append('g')
-      .attr('transform', `translate(${left},${top})`)
-      .selectAll('g')
-      .selectAll('line')
-      .attr('stroke', axisColor);
-    // g.selectAll('g').selectAll('text').attr('stroke', axisColor);
-    return {
-      svg,
-      xScale,
-      yScale,
-    };
-  }, []);
-
-  // 绘制线段 及线段动画
-  const drawLinePath = useCallback(
-    ({ svg, xScale, yScale }: DrawLinePathProps): void => {
-      // group the data: I want to draw one line per group
-      const sumstat = d3.group(data, (d) => d.key);
-      // console.log(sumstat, 'sumstat...');
-
-      sumstat.forEach((d, i) => {
-        // 创建一个line的生成器 用d3.line,把所有点连起来
-        const line = d3
-          .line<MockData>()
-          .x((d) => xScale(d.time))
-          .y((d) => yScale(d.value));
-        // .curve(d3.curveCatmullRom);
-        const path = svg
-          .append('g')
-          .append('path')
-          .datum(d)
-          .attr('d', line)
-          .attr('stroke', handleColor(i))
-          // .attr('stroke', () => {
-          //   return 'hsl(' + Math.random() * 360 + ',100%,50%)';
-          // })
-          .attr('stroke-width', 2)
-          .attr('fill', 'none');
-
-        // 动画
-        path
-          .attr('stroke-dasharray', () => {
-            // 返回路径总长度
-            return path.node()?.getTotalLength() ?? 0;
-          })
-          .attr('stroke-dashoffset', () => path.node()?.getTotalLength() ?? 0)
-          .style('fill', 'none')
-          .style('stroke', handleColor(i))
-          // .attr('stroke', () => {
-          //   return 'hsl(' + Math.random() * 360 + ',100%,50%)';
-          // })
-          .transition()
-          .duration(1500)
-          .ease(d3.easeLinear)
-          .attr('stroke-dashoffset', 0);
-      });
-    },
-    []
+  const tooNarrow = useMemo(() => width < minWidth, [width]);
+  const tooShort = useMemo(
+    () => height + headerHeight + padding.y < minHeight,
+    [height]
   );
 
-  // 移动
-  const mousemove = useCallback(
-    (
-      event: React.MouseEvent<SVGSVGElement>,
-      svg: SVGSelection,
-      xScale: SVGScaleTime,
-      yScale: SVGScaleLinear
-    ) => {
-      const tooltip = d3.select(`.${tooltipId}`);
+  const { top, right, bottom, left } = useMemo(() => {
+    return { ...defaultMargin, ...margin };
+  }, [margin]);
 
-      const x = d3.pointer(event)[0];
-      const y = d3.pointer(event)[1];
-      if (x < padding.left || x > width - right) {
-        mouseout();
-        return;
-      }
-      if (y < padding.top || y > height - bottom) {
-        mouseout();
-        return;
-      }
-      const time = matchTheRecentDate(xScale.invert(d3.pointer(event)[0]));
+  const [container, setContainer] = useState<HTMLDivElement | null>();
+  const [svgContainer, setSvgContainer] = useState<HTMLDivElement | null>();
+  const [tipContainer, setTipContainer] = useState<HTMLDivElement | null>();
 
-      const computedPageX = (): number => {
-        const tooltipNode = tooltip.node() as HTMLDivElement;
-        const { width: w } = tooltipNode.getBoundingClientRect();
-        if (event.pageX + w + 20 > width - right) {
-          const pageX = event.pageX - w - 30;
-          return pageX;
+  const getXRef = useLatest(getX);
+  const getYRef = useLatest(getY);
+
+  const getStatKeys = useCallback((d: InternMap<string, T[]>): string[] => {
+    return Array.from(d.keys());
+  }, []);
+  const getStatValues = useCallback((d: InternMap<string, T[]>): T[][] => {
+    return Array.from(d.values());
+  }, []);
+  const sumstat = useMemo(() => {
+    const dGroup = group(data, multiKey);
+    getStatKeys(dGroup).forEach((d) => {
+      dGroup.get(d)?.forEach((evt) => {
+        if (getYRef.current(evt) == null) {
+          dGroup.delete(d);
         }
-        return event.pageX;
-      };
-      // line
-      d3.select(`.${tooltipLine}`).remove();
-      svg
-        .append('line')
-        .attr('class', tooltipLine)
-        .attr('stroke', '#ff4d00')
-        .attr('x1', xScale(time))
-        .attr('x2', xScale(time))
-        .attr('y1', top)
-        .attr('y2', height - bottom)
-        .style('pointer-events', 'none');
-
-      d3.selectAll(`.${tooltipCircle}`).remove();
-      sumstat.forEach((d, i) => {
-        svg
-          .append('circle')
-          .datum(d)
-          .attr('class', tooltipCircle)
-          .attr('cx', xScale(time))
-          .attr('cy', (data) => {
-            const r = data.find((d) => +d.time === +time)?.value ?? 0;
-            return yScale(r);
-          })
-          .style('fill', handleColor(i))
-          .attr('stroke', 'white')
-          .attr('stroke-width', 2)
-          .attr('r', 4)
-          .style('pointer-events', 'none');
       });
+    });
+    return dGroup;
+  }, [data, getStatKeys, getYRef, multiKey]);
 
-      tooltip
-        .style('opacity', 1)
-        .style('transition', '.3s')
-        .style('left', () => {
-          const left = computedPageX() + 20;
-          setDistance({ ...distance, left });
-          return left + 'px';
-        })
-        .style('top', () => {
-          const top = event.pageY - 20;
-          setDistance({ ...distance, top });
-          return top + 'px';
-        })
-        .html(d3.timeFormat('%Y-%m-%d')(time))
-        // .html(d3.timeFormat('%Y-%m-%d %H:%M:%S')(time))
-        .selectAll()
-        .data(data)
-        .enter()
-        .append('div')
-        .attr('class', tooltipText)
-        .html((d, i) => {
-          // console.log(i, 'i....');
-          // console.log(d.time, time);
-          // console.log(d,'d')
-          // console.log(+formatTime, +d.time, 'formatTime...');
-          if (+d.time === +time) {
-            // return `${lineColor[i]}:${d.value}`;
-            // console.log(d.value, '232323232');
-            return `:${d.value}`;
-          }
-          return ``;
-        });
-    },
-    []
-  );
-  // 移出
-  const mouseout = useCallback(() => {
-    d3.selectAll(`.${tooltipId}`).style('opacity', 0);
-    d3.selectAll(`.${tooltipCircle}`).remove();
-    d3.selectAll(`.${tooltipLine}`).remove();
-  }, []);
+  const themeConf = useMemo(() => {
+    return themeConfig.filter((t) =>
+      getStatKeys(sumstat).some((k) => k === t.key)
+    );
+  }, [getStatKeys, sumstat, themeConfig]);
+
+  const [{ tooltipDatum }, setTooltip] = useState<{
+    tooltipDatum: T[] | null;
+  }>({ tooltipDatum: null });
 
   useEffect(() => {
-    const { current: dom } = chartRef;
-    if (!dom) {
+    if (!svgContainer || !tipContainer || tooNarrow || tooShort) {
       return;
     }
-    dom.setAttribute('id', lineChartId);
-    dom.style.background = '#c7c7f2';
-    dom.style.position = 'relative';
-    // init selection
-    const selection = d3.select(`#${lineChartId}`);
+    const [minX, maxX] = extent(data.map(getXRef.current));
+    const [minY, maxY] = extent(
+      yRightAxis
+        ? getStatValues(sumstat)[0].map(getYRef.current)
+        : data.map(getYRef.current)
+    );
+    if (minX == null || maxX == null || minY == null || maxY == null) {
+      return;
+    }
 
-    d3.select(`.${tooltipId}`).remove();
-    d3.select(`#${lineChartId}`)
-      .append('div')
-      .attr('class', tooltipId)
-      .style('position', 'absolute')
-      .style('opacity', 0)
-      .style('left', 0)
-      .style('top', 0)
-      .style('pointer-events', 'none')
-      .style('border-radius', '0.5rem')
-      .style('background-color', '#9696f2');
+    const xRange = [left, width - right];
+    const xScale = scaleTime([minX, maxX], xRange).nice(6);
 
-    // 绘制svg
-    const svg = selection
-      .append('svg')
-      .attr('width', width)
-      .attr('height', height);
-    // 这里代码没用 只是为了显示外框
-    svg
-      .append('rect')
-      .attr('width', width)
-      .attr('height', height)
-      .attr('fill', '#fff')
-      .attr('rx', 14)
-      .attr('stroke', 'red');
+    const yRange = [height - bottom, top];
+    const yScale = scaleLinear([minY, maxY], yRange).nice(5);
 
-    // legend
-    drawLegend(svg);
-    // axis
-    const { xScale, yScale } = drawAxis(svg);
-    // linePath
-    drawLinePath({ svg, xScale, yScale });
+    const xDuration = maxX.valueOf() - minX.valueOf();
+    const threeYears = 1000 * 60 * 60 * 24 * 365 * 3;
+    const threeMonthes = 1000 * 60 * 60 * 24 * 30 * 3;
+    const threeDays = 1000 * 60 * 60 * 24 * 3;
+    const threeHours = 1000 * 60 * 60 * 3;
+    const xAxis = axisBottom<Date>(xScale)
+      .tickFormat((d) =>
+        xDuration > threeYears
+          ? format(d, "yyyy")
+          : xDuration > threeMonthes
+          ? format(d, "MM 月")
+          : xDuration > threeDays
+          ? format(d, "MM-dd")
+          : xDuration > threeHours
+          ? format(d, "HH:mm")
+          : format(d, "mm:ss")
+      )
+      .ticks(4)
+      .tickPadding(8);
+    const yAxis = axisLeft(yScale)
+      .tickFormat((d) => d.toString())
+      .ticks(4);
 
-    svg
-      .on('mousemove', (e) => mousemove(e, svg, xScale, yScale))
-      .on('mouseout', mouseout);
-  }, []);
+    const svg = select(svgContainer)
+      .append("svg")
+      .attr("viewBox", `0 0 ${width} ${height}`)
+      .style("width", width + "px")
+      .style("height", height + "px");
 
-  return <div ref={chartRef} />;
+    // 显示背景色
+    const tooltipTarget = svg
+      .append("rect")
+      .attr("width", width + "px")
+      .attr("height", height + "px")
+      .attr("fill", "transparent");
+
+    // 显示 Grid
+    const yGrid = svg
+      .append("g")
+      .attr("transform", `translate(${left}, 0)`)
+      .call(
+        axisLeft(yScale)
+          .tickFormat(() => "")
+          .tickSize(-(width - left - right))
+          .ticks(4)
+      );
+    yGrid.selectAll("path").attr("stroke", "#DCDEEA");
+    yGrid.selectAll("line").attr("stroke", "#DCDEEA");
+
+    // 显示 数据
+    const color = scaleOrdinal(getStatKeys(sumstat), [
+      ...themeConf.map((d) => d.color),
+    ]);
+    const path = svg
+      .append("g")
+      .selectAll("path")
+      .data(sumstat)
+      .join("path")
+      .attr("fill", "none")
+      .attr("stroke-width", 1)
+      .attr("stroke", (d) => color(d[0]))
+      .attr("d", (d) => {
+        return line<T>(
+          (d) => xScale(getXRef.current(d)),
+          (d) => yScale(getYRef.current(d))
+        )(
+          // 曲线 more: https://github.com/d3/d3-shape/blob/v3.1.0/README.md#curveCatmullRom
+          // .curve(curveCardinal)
+          d[1]
+        );
+      });
+
+    path
+      .attr("stroke-dasharray", () => {
+        // 返回路径总长度
+        return (path.node() as SVGPathElement)?.getTotalLength() ?? 0;
+      })
+      .attr("stroke-dashoffset", () => {
+        return (path.node() as SVGPathElement)?.getTotalLength() ?? 0;
+      })
+      .data(sumstat)
+      .style("fill", "none")
+      .style("stroke", (d) => color(d[0]))
+      .transition()
+      .duration(1500)
+      .ease(easeLinear)
+      .attr("stroke-dashoffset", 0);
+
+    // 显示 x 轴
+    const x = svg
+      .append("g")
+      .attr("transform", `translate(0, ${height - bottom})`);
+    const xAxisGroup = x.call(xAxis);
+    xAxisGroup.selectAll("path").attr("stroke", "#DCDEEA");
+    xAxisGroup.selectAll("line").attr("stroke", "#DCDEEA");
+    xAxisGroup
+      .selectAll("text")
+      .attr("fill", "#9A9FA5")
+      .attr("font-size", "14px");
+
+    // 显示 y 轴
+    const drawYAxis = (l: number, axis: Axis<NumberValue>) => {
+      const y = svg.append("g").attr("transform", `translate(${l}, 0)`);
+      const yAxisGroup = y.call(axis);
+      yAxisGroup.selectAll("path").attr("stroke", "#DCDEEA");
+      yAxisGroup.selectAll("line").attr("stroke", "#DCDEEA");
+      yAxisGroup
+        .selectAll("text")
+        .attr("fill", "#9A9FA5")
+        .attr("font-size", "14px");
+    };
+    drawYAxis(left, yAxis);
+    // 显示右边y轴
+    if (yRightAxis) {
+      const [minY, maxY] = extent(
+        getStatValues(sumstat)[1].map(getYRef.current)
+      );
+      if (minY == null || maxY == null) {
+        return;
+      }
+      const yRange = [height - bottom, top];
+      const yScale = scaleLinear([minY, maxY], yRange).nice(5);
+      const yAxis = axisRight(yScale)
+        .tickFormat((d) => d.toString())
+        .ticks(4);
+      drawYAxis(width - right, yAxis);
+    }
+
+    // 因为 tooltip 元素会出现在鼠标当前位置导致触发 mouseleave，务必设置 tooltip 元素的 point-event 样式为 none
+    const mouseenter$ = fromEventPattern<MouseEvent>((addHandler) => {
+      tooltipTarget.on("mouseenter", addHandler);
+    });
+    const mousemove$ = fromEventPattern<MouseEvent>(
+      (addHandler) => {
+        tooltipTarget.on("mousemove", addHandler);
+      },
+      undefined,
+      (evt) => evt
+    );
+    const mouseout$ = fromEventPattern<MouseEvent>((addHandler) => {
+      tooltipTarget.on("mouseleave", addHandler);
+    });
+
+    const bisectDate = bisector<T, ReturnType<typeof getX>>((d, t) => {
+      const r = getXRef.current(d);
+      return r.valueOf() - t.valueOf();
+    }).left;
+
+    const tooltipLine = svg.append("g").attr("class", "tooltip");
+
+    const removeTooltip = () => {
+      selectAll(".tooltip>.line-chart-tip").remove();
+      selectAll(".tooltip>circle").remove();
+      select(tipContainer).style("opacity", 0);
+    };
+
+    const tooltipTask = mousemove$
+      .pipe(
+        windowToggle(mouseenter$, () => mouseout$),
+        switchMap((move$) => {
+          return move$.pipe(
+            tap((evt) => {
+              const [offsetX, offsetY] = pointer(evt);
+              if (offsetY < top || offsetY > height - bottom) {
+                removeTooltip();
+                return;
+              }
+              const index = bisectDate(data, xScale.invert(offsetX));
+              const datum = data[index];
+              if (!datum) {
+                return;
+              }
+              removeTooltip();
+              tooltipLine
+                .append("line")
+                .style("pointer-events", "none")
+                .attr("class", "line-chart-tip")
+                .attr("stroke", themeConf[0].color)
+                .attr("stroke-dasharray", "3 2")
+                .attr("x1", xScale(getXRef.current(datum)))
+                .attr("x2", xScale(getXRef.current(datum)))
+                .attr("y1", top)
+                .attr("y2", height - bottom);
+
+              tooltipLine
+                .selectAll("circle")
+                .attr("class", "line-chart-tip-circle")
+                .data(sumstat)
+                .join("circle")
+                .style("pointer-events", "none")
+                .attr("stroke", "white")
+                .attr("stroke-width", 2)
+                .attr("r", 4)
+                .attr("cx", xScale(getXRef.current(datum)))
+                .style("fill", (d) => color(d[0]))
+                .attr("cy", (d) => {
+                  const result = d[1].find((d) => {
+                    return +getXRef.current(d) === +getXRef.current(datum);
+                  });
+                  if (!result) {
+                    return 0;
+                  }
+                  return yScale(getYRef.current(result));
+                });
+              let datumX = xScale(+getXRef.current(datum) - 20);
+              const datumY = yScale(getYRef.current(datum) + 20);
+              const { clientWidth } = tipContainer;
+              if (datumX + clientWidth + 20 > width - right) {
+                datumX = datumX - clientWidth - 20;
+              }
+
+              const filterValues = getStatValues(sumstat).map(
+                (s) =>
+                  s.filter((d) => {
+                    return +getXRef.current(d) === +getXRef.current(datum);
+                  })[0]
+              );
+              select(tipContainer).style("opacity", 1);
+              setTooltip({
+                tooltipDatum: filterValues,
+              });
+
+              select(tipContainer)
+                .style("opacity", 1)
+                .style("top", datumY + "px")
+                .style("left", datumX + 10 + "px");
+            }),
+            last(),
+            catchError((err) => {
+              console.error(err);
+              return EMPTY;
+            }),
+            delay(300),
+            tap(() => {
+              removeTooltip();
+            })
+          );
+        })
+      )
+      .subscribe({
+        error: (err) => {
+          console.error(err);
+        },
+      });
+
+    return () => {
+      tooltipTask.unsubscribe();
+      svg.remove();
+    };
+  }, [
+    sumstat,
+    svgContainer,
+    tipContainer,
+    data,
+    getXRef,
+    getYRef,
+    width,
+    height,
+    tooNarrow,
+    tooShort,
+    yRightAxis,
+    getStatValues,
+    left,
+    right,
+    bottom,
+    top,
+    getStatKeys,
+    themeConf,
+  ]);
+  useEffect(() => {
+    if (!container) {
+      return;
+    }
+
+    const handler = () => {
+      setWidth(container.clientWidth);
+      setHeight(
+        Math.max(minHeight, container.clientHeight) -
+          headerHeight -
+          padding.y * 2
+      );
+    };
+    handler();
+    window.addEventListener("resize", handler);
+
+    return () => {
+      window.removeEventListener("resize", handler);
+    };
+  }, [container]);
+
+  return (
+    <div
+      className="w-full h-full bg-[#F4F6FB] rounded-lg relative"
+      ref={setContainer}
+      style={{
+        minHeight: minHeight + "px",
+        padding: padding + "px",
+      }}
+    >
+      {tooNarrow && (
+        <span className="absolute inset-x-0 top-1/2 -translate-y-1/2 px-4 text-center">
+          窗口过窄
+        </span>
+      )}
+      {!tooNarrow && data.length === 0 && (
+        <span className="absolute inset-x-0 top-1/2 -translate-y-1/2 px-4 text-center">
+          暂无数据
+        </span>
+      )}
+      <div
+        className={clsx(
+          "flex flex-col justify-around pt-2",
+          tooNarrow && "invisible"
+        )}
+        style={{ height: headerHeight }}
+      >
+        <div className="flex justify-start items-center px-4">
+          <div className="font-bold text-sm text-[#040F1F] whitespace-nowrap">
+            {yLabel ?? "-"}
+          </div>
+          <ul className="flex-1 ml-5 flex justify-between items-center">
+            <li className="flex justify-start flex-row-reverse items-center h-full ml-4 flex-1 overflow-x-scroll whitespace-nowrap">
+              {themeConf
+                .filter((_, i) => i < getStatKeys(sumstat).length)
+                .map((d, i) => (
+                  <p
+                    key={`${d.label}-${i}`}
+                    className="text-[12px] text-[#9A9FA5] mr-7 first:mr-0 relative"
+                  >
+                    <span
+                      className="absolute top-1/2 left-[-12px] w-[10px] h-[10px] rounded-[50%] translate-y-[-50%]"
+                      style={{ backgroundColor: d.color }}
+                    ></span>
+                    <span className="ml-1">{d.label}</span>
+                  </p>
+                ))}
+            </li>
+            <div className="flex justify-end items-center">
+              <div
+                className="border-[#e3e5f0] border-[1px] border-solid text-[#787C82] text-[12px] flex justify-center items-center rounded-[6px] px-[4px] ml-5 cursor-pointer"
+                onClick={(e) => {}}
+              >
+                <img src={对比} alt="" />
+                <span className="whitespace-nowrap">对比</span>
+              </div>
+            </div>
+          </ul>
+        </div>
+        <ul className="flex justify-between items-center px-4">
+          <li className="text-[12px] text-[#9A9FA5]">
+            {yUnitLeftLabel ?? "-"}
+          </li>
+          {true && (
+            <li className="text-[12px] text-[#9A9FA5]">
+              {yUnitRightLabel ?? ""}
+            </li>
+          )}
+        </ul>
+      </div>
+      <div
+        ref={setSvgContainer}
+        style={{
+          height: `calc(100% - ${headerHeight}px)`,
+        }}
+        className={clsx("flex flex-1", tooNarrow && "invisible")}
+      >
+        <TooltipContainer
+          ref={setTipContainer}
+          className="absolute left-0 top-0 opacity-0 transition-all pointer-events-none p-2 rounded-lg"
+        >
+          {tooltipDatum && (
+            <div className="text-xs text-[#040F1F] pointer-events-none">
+              {format(getXRef.current(tooltipDatum[0]), "yyyy-MM-dd HH:mm")}
+            </div>
+          )}
+          {tooltipDatum?.map((d, i) => {
+            let color: string | undefined;
+            try {
+              color = themeConf[i].color;
+            } catch (error) {
+              color = "white";
+              console.error(error);
+            }
+            return (
+              <div
+                key={`${getYRef.current(d)}-${i}`}
+                className="pointer-events-none text-sm text-[#040F1F] font-semibold ml-5 first:ml-0 relative"
+              >
+                <span
+                  className="absolute top-1/2 left-[-12px] w-[10px] h-[10px] rounded-[50%] translate-y-[-50%]"
+                  style={{ backgroundColor: color }}
+                ></span>
+                ：<span className="ml-2">{getYRef.current(d)}</span>
+              </div>
+            );
+          })}
+        </TooltipContainer>
+      </div>
+    </div>
+  );
 };
+
+const TooltipContainer = styled.div`
+  background: rgba(255, 255, 255, 0.7);
+  -webkit-backdrop-filter: blur(1px);
+  backdrop-filter: blur(1px);
+`;
