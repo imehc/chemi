@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
-import { useMemo } from "react";
+import { useCallback, useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import {
   axisBottom,
   axisLeft,
@@ -18,9 +18,10 @@ import {
   type Axis,
   type NumberValue,
   easeLinear,
-} from "d3";
-import clsx from "clsx";
-import { format } from "date-fns";
+  curveLinear,
+} from 'd3';
+import clsx from 'clsx';
+import { format } from 'date-fns';
 import {
   fromEventPattern,
   windowToggle,
@@ -30,29 +31,31 @@ import {
   catchError,
   EMPTY,
   delay,
-} from "rxjs";
-import styled from "@emotion/styled";
-import 对比 from "./对比.svg";
-import { useLatest } from "~/hooks/useLatest";
+} from 'rxjs';
+import styled from '@emotion/styled';
+import 对比 from './对比.svg';
+import { useLatest } from '~/hooks/useLatest';
 
-type Key<T> = T extends Record<string, any>
-  ? Omit<T, "time" | "value">[keyof Omit<T, "time" | "value">]
-  : never;
+type Key<T> = T extends { [key: string]: any }
+  ? Pick<T, 'key'>[keyof Pick<T, 'key'>]
+  : T;
+
+type Line<T> = {
+  color: string;
+  key: Key<T>;
+  label?: string;
+  getter: (d: T) => number;
+};
 
 interface Props<T> {
-  data: T[];
+  data?: T[];
   getX: (d: T) => Date;
-  getY: (d: T) => number;
-  multiKey: (d: T) => string;
+  multiKey?: (d: T) => string;
   yLabel?: string;
   yUnitLeftLabel?: string;
   yUnitRightLabel?: string;
-  yRightAxis?: boolean;
-  themeConfig: {
-    color: string;
-    label: string;
-    key: Key<T>;
-  }[];
+  hasRightAxis?: boolean;
+  lines: Line<T>[];
   margin?: {
     top?: number;
     right?: number;
@@ -66,7 +69,7 @@ interface Props<T> {
 //  https://mui.com/material-ui/customization/breakpoints/#default-breakpoints
 const minWidth = 280;
 const minHeight = 200;
-const headerHeight = 45;
+const headerHeight = 40;
 const defaultMargin = { top: 10, right: 30, bottom: 30, left: 50 };
 const padding = {
   x: 8,
@@ -74,15 +77,14 @@ const padding = {
 };
 
 export const D3_3 = <T,>({
-  data,
+  data = [],
   getX,
-  getY,
   multiKey,
   yLabel,
   yUnitLeftLabel,
   yUnitRightLabel,
-  yRightAxis = false,
-  themeConfig,
+  hasRightAxis = false,
+  lines,
   margin,
 }: Props<T>) => {
   const [width, setWidth] = useState<number>(0);
@@ -90,7 +92,7 @@ export const D3_3 = <T,>({
 
   const tooNarrow = useMemo(() => width < minWidth, [width]);
   const tooShort = useMemo(
-    () => height + headerHeight + padding.y < minHeight,
+    () => height + headerHeight + padding.y * 2 < minHeight,
     [height]
   );
 
@@ -102,8 +104,10 @@ export const D3_3 = <T,>({
   const [svgContainer, setSvgContainer] = useState<HTMLDivElement | null>();
   const [tipContainer, setTipContainer] = useState<HTMLDivElement | null>();
 
+  const getMultiKeyRef = useLatest(multiKey);
+  const lineConfigsRef = useLatest(lines);
   const getXRef = useLatest(getX);
-  const getYRef = useLatest(getY);
+  const getYRef = useLatest(lineConfigsRef.current[0].getter);
 
   const getStatKeys = useCallback((d: InternMap<string, T[]>): string[] => {
     return Array.from(d.keys());
@@ -112,7 +116,10 @@ export const D3_3 = <T,>({
     return Array.from(d.values());
   }, []);
   const sumstat = useMemo(() => {
-    const dGroup = group(data, multiKey);
+    if (!getMultiKeyRef.current) {
+      return;
+    }
+    const dGroup = group(data, getMultiKeyRef.current);
     getStatKeys(dGroup).forEach((d) => {
       dGroup.get(d)?.forEach((evt) => {
         if (getYRef.current(evt) == null) {
@@ -121,26 +128,53 @@ export const D3_3 = <T,>({
       });
     });
     return dGroup;
-  }, [data, getStatKeys, getYRef, multiKey]);
+  }, [data, getStatKeys, getYRef, getMultiKeyRef]);
+
+  const sumstatKeys = useMemo(() => {
+    if (!sumstat) {
+      return lineConfigsRef.current.map((l) => l.key as string);
+    }
+    return getStatKeys(sumstat);
+  }, [sumstat, getStatKeys]);
 
   const themeConf = useMemo(() => {
-    return themeConfig.filter((t) =>
-      getStatKeys(sumstat).some((k) => k === t.key)
-    );
-  }, [getStatKeys, sumstat, themeConfig]);
+    return lines.filter((t) => sumstatKeys.some((k) => k === t.key));
+  }, [sumstatKeys, lines]);
 
   const [{ tooltipDatum }, setTooltip] = useState<{
     tooltipDatum: T[] | null;
   }>({ tooltipDatum: null });
 
+  const matchTooltipDatum = useCallback((datum: T): T[] => {
+    if (getMultiKeyRef.current) {
+      return getStatValues(sumstat!).map(
+        (s) =>
+          s.filter((d) => {
+            return +getXRef.current(d) === +getXRef.current(datum);
+          })[0]
+      );
+    }
+    return data.filter((d) => {
+      return +getXRef.current(d) === +getXRef.current(datum);
+    });
+  }, []);
+
   useEffect(() => {
-    if (!svgContainer || !tipContainer || tooNarrow || tooShort) {
+    if (
+      !svgContainer ||
+      !tipContainer ||
+      !sumstatKeys.length ||
+      tooNarrow ||
+      tooShort
+    ) {
       return;
     }
     const [minX, maxX] = extent(data.map(getXRef.current));
     const [minY, maxY] = extent(
-      yRightAxis
-        ? getStatValues(sumstat)[0].map(getYRef.current)
+      getMultiKeyRef.current
+        ? hasRightAxis
+          ? getStatValues(sumstat!)[0].map(getYRef.current)
+          : data.map(getYRef.current)
         : data.map(getYRef.current)
     );
     if (minX == null || maxX == null || minY == null || maxY == null) {
@@ -161,139 +195,171 @@ export const D3_3 = <T,>({
     const xAxis = axisBottom<Date>(xScale)
       .tickFormat((d) =>
         xDuration > threeYears
-          ? format(d, "yyyy")
+          ? format(d, 'yyyy')
           : xDuration > threeMonthes
-          ? format(d, "MM 月")
+          ? format(d, 'MM 月')
           : xDuration > threeDays
-          ? format(d, "MM-dd")
+          ? format(d, 'MM-dd')
           : xDuration > threeHours
-          ? format(d, "HH:mm")
-          : format(d, "mm:ss")
+          ? format(d, 'HH:mm')
+          : format(d, 'mm:ss')
       )
-      .ticks(4)
+      .ticks(5)
       .tickPadding(8);
     const yAxis = axisLeft(yScale)
       .tickFormat((d) => d.toString())
       .ticks(4);
 
     const svg = select(svgContainer)
-      .append("svg")
-      .attr("viewBox", `0 0 ${width} ${height}`)
-      .style("width", width + "px")
-      .style("height", height + "px");
+      .append('svg')
+      .attr('viewBox', `0 0 ${width} ${height}`)
+      .style('width', width + 'px')
+      .style('height', height + 'px');
 
     // 显示背景色
     const tooltipTarget = svg
-      .append("rect")
-      .attr("width", width + "px")
-      .attr("height", height + "px")
-      .attr("fill", "transparent");
+      .append('rect')
+      .attr('width', width + 'px')
+      .attr('height', height + 'px')
+      .attr('fill', 'transparent');
 
     // 显示 Grid
     const yGrid = svg
-      .append("g")
-      .attr("transform", `translate(${left}, 0)`)
+      .append('g')
+      .attr('transform', `translate(${left}, 0)`)
       .call(
         axisLeft(yScale)
-          .tickFormat(() => "")
+          .tickFormat(() => '')
           .tickSize(-(width - left - right))
           .ticks(4)
       );
-    yGrid.selectAll("path").attr("stroke", "#DCDEEA");
-    yGrid.selectAll("line").attr("stroke", "#DCDEEA");
+    yGrid.selectAll('path').attr('stroke', '#DCDEEA');
+    yGrid.selectAll('line').attr('stroke', '#DCDEEA');
 
     // 显示 数据
-    const color = scaleOrdinal(getStatKeys(sumstat), [
-      ...themeConf.map((d) => d.color),
-    ]);
-    const path = svg
-      .append("g")
-      .selectAll("path")
-      .data(sumstat)
-      .join("path")
-      .attr("fill", "none")
-      .attr("stroke-width", 1)
-      .attr("stroke", (d) => color(d[0]))
-      .attr("d", (d) => {
-        return line<T>(
-          (d) => xScale(getXRef.current(d)),
-          (d) => yScale(getYRef.current(d))
-        )(
-          // 曲线 more: https://github.com/d3/d3-shape/blob/v3.1.0/README.md#curveCatmullRom
-          // .curve(curveCardinal)
-          d[1]
-        );
-      });
+    const color = scaleOrdinal(sumstatKeys, [...themeConf.map((d) => d.color)]);
 
-    path
-      .attr("stroke-dasharray", () => {
-        // 返回路径总长度
-        return (path.node() as SVGPathElement)?.getTotalLength() ?? 0;
-      })
-      .attr("stroke-dashoffset", () => {
-        return (path.node() as SVGPathElement)?.getTotalLength() ?? 0;
-      })
-      .data(sumstat)
-      .style("fill", "none")
-      .style("stroke", (d) => color(d[0]))
-      .transition()
-      .duration(1500)
-      .ease(easeLinear)
-      .attr("stroke-dashoffset", 0);
+    if (getMultiKeyRef.current) {
+      const path = svg
+        .append('g')
+        .selectAll('path.line-chart-path')
+        .data(sumstat!)
+        .join('path')
+        .attr('class', 'line-chart-path')
+        .attr('fill', 'none')
+        .attr('stroke-width', 1)
+        .attr('stroke', (d) => color(d[0]))
+        .attr('d', (d) => {
+          return line<T>(
+            (d) => xScale(getXRef.current(d)),
+            (d) => yScale(getYRef.current(d))
+          ).curve(curveLinear)(d[1]);
+        });
+      path
+        .attr('stroke-dasharray', () => {
+          // 返回路径总长度
+          return (path.node() as SVGPathElement)?.getTotalLength() ?? 0;
+        })
+        .attr('stroke-dashoffset', () => {
+          return (path.node() as SVGPathElement)?.getTotalLength() ?? 0;
+        })
+        .data(sumstat!)
+        .style('fill', 'none')
+        .style('stroke', (d) => color(d[0]))
+        .transition()
+        .duration(1500)
+        .ease(easeLinear)
+        .attr('stroke-dashoffset', 0);
+    } else {
+      const path = svg
+        .append('g')
+        .selectAll('path.line-chart-path')
+        .data(lineConfigsRef.current)
+        .join('path')
+        .attr('class', 'line-chart-path')
+        .attr('fill', 'none')
+        .attr('stroke-width', 1)
+        .attr('stroke', (d) => color(d.color))
+        .attr('d', (cfg) => {
+          return line<T>(
+            (d) => xScale(getXRef.current(d)),
+            (d) => yScale(cfg.getter(d))
+          )(data);
+        });
+      path
+        .attr('stroke-dasharray', () => {
+          // 返回路径总长度
+          return (path.node() as SVGPathElement)?.getTotalLength() ?? 0;
+        })
+        .attr('stroke-dashoffset', () => {
+          return (path.node() as SVGPathElement)?.getTotalLength() ?? 0;
+        })
+        .data(lineConfigsRef.current)
+        .style('fill', 'none')
+        .style('stroke', (d) => color(d.color))
+        .transition()
+        .duration(1500)
+        .ease(easeLinear)
+        .attr('stroke-dashoffset', 0);
+    }
 
     // 显示 x 轴
     const x = svg
-      .append("g")
-      .attr("transform", `translate(0, ${height - bottom})`);
+      .append('g')
+      .attr('transform', `translate(0, ${height - bottom})`);
     const xAxisGroup = x.call(xAxis);
-    xAxisGroup.selectAll("path").attr("stroke", "#DCDEEA");
-    xAxisGroup.selectAll("line").attr("stroke", "#DCDEEA");
+    xAxisGroup.selectAll('path').attr('stroke', '#DCDEEA');
+    xAxisGroup.selectAll('line').attr('stroke', 'transparent');
     xAxisGroup
-      .selectAll("text")
-      .attr("fill", "#9A9FA5")
-      .attr("font-size", "14px");
+      .selectAll('text')
+      .attr('fill', '#9A9FA5')
+      .attr('font-size', '14px');
 
     // 显示 y 轴
     const drawYAxis = (l: number, axis: Axis<NumberValue>) => {
-      const y = svg.append("g").attr("transform", `translate(${l}, 0)`);
+      const y = svg.append('g').attr('transform', `translate(${l}, 0)`);
       const yAxisGroup = y.call(axis);
-      yAxisGroup.selectAll("path").attr("stroke", "#DCDEEA");
-      yAxisGroup.selectAll("line").attr("stroke", "#DCDEEA");
+      yAxisGroup.selectAll('path').attr('stroke', '#DCDEEA');
+      yAxisGroup.selectAll('line').attr('stroke', 'transparent');
       yAxisGroup
-        .selectAll("text")
-        .attr("fill", "#9A9FA5")
-        .attr("font-size", "14px");
+        .selectAll('text')
+        .attr('fill', '#9A9FA5')
+        .attr('font-size', '14px');
     };
     drawYAxis(left, yAxis);
     // 显示右边y轴
-    if (yRightAxis) {
-      const [minY, maxY] = extent(
-        getStatValues(sumstat)[1].map(getYRef.current)
-      );
-      if (minY == null || maxY == null) {
-        return;
+    if (getMultiKeyRef.current && hasRightAxis) {
+      try {
+        const [minY, maxY] = extent(
+          getStatValues(sumstat!)[1].map(getYRef.current)
+        );
+        if (minY == null || maxY == null) {
+          return;
+        }
+        const yRange = [height - bottom, top];
+        const yScale = scaleLinear([minY, maxY], yRange).nice(5);
+        const yAxis = axisRight(yScale)
+          .tickFormat((d) => d.toString())
+          .ticks(4);
+        drawYAxis(width - right, yAxis);
+      } catch (error) {
+        console.log(error);
       }
-      const yRange = [height - bottom, top];
-      const yScale = scaleLinear([minY, maxY], yRange).nice(5);
-      const yAxis = axisRight(yScale)
-        .tickFormat((d) => d.toString())
-        .ticks(4);
-      drawYAxis(width - right, yAxis);
     }
 
     // 因为 tooltip 元素会出现在鼠标当前位置导致触发 mouseleave，务必设置 tooltip 元素的 point-event 样式为 none
     const mouseenter$ = fromEventPattern<MouseEvent>((addHandler) => {
-      tooltipTarget.on("mouseenter", addHandler);
+      tooltipTarget.on('mouseenter', addHandler);
     });
     const mousemove$ = fromEventPattern<MouseEvent>(
       (addHandler) => {
-        tooltipTarget.on("mousemove", addHandler);
+        tooltipTarget.on('mousemove', addHandler);
       },
       undefined,
       (evt) => evt
     );
     const mouseout$ = fromEventPattern<MouseEvent>((addHandler) => {
-      tooltipTarget.on("mouseleave", addHandler);
+      tooltipTarget.on('mouseleave', addHandler);
     });
 
     const bisectDate = bisector<T, ReturnType<typeof getX>>((d, t) => {
@@ -301,12 +367,12 @@ export const D3_3 = <T,>({
       return r.valueOf() - t.valueOf();
     }).left;
 
-    const tooltipLine = svg.append("g").attr("class", "tooltip");
+    const tooltipLine = svg.append('g').attr('class', 'tooltip');
 
     const removeTooltip = () => {
-      selectAll(".tooltip>.line-chart-tip").remove();
-      selectAll(".tooltip>circle").remove();
-      select(tipContainer).style("opacity", 0);
+      selectAll('.tooltip>.line-chart-tip').remove();
+      selectAll('.tooltip>circle').remove();
+      select(tipContainer).style('opacity', 0);
     };
 
     const tooltipTask = mousemove$
@@ -327,58 +393,78 @@ export const D3_3 = <T,>({
               }
               removeTooltip();
               tooltipLine
-                .append("line")
-                .style("pointer-events", "none")
-                .attr("class", "line-chart-tip")
-                .attr("stroke", themeConf[0].color)
-                .attr("stroke-dasharray", "3 2")
-                .attr("x1", xScale(getXRef.current(datum)))
-                .attr("x2", xScale(getXRef.current(datum)))
-                .attr("y1", top)
-                .attr("y2", height - bottom);
-
-              tooltipLine
-                .selectAll("circle")
-                .attr("class", "line-chart-tip-circle")
-                .data(sumstat)
-                .join("circle")
-                .style("pointer-events", "none")
-                .attr("stroke", "white")
-                .attr("stroke-width", 2)
-                .attr("r", 4)
-                .attr("cx", xScale(getXRef.current(datum)))
-                .style("fill", (d) => color(d[0]))
-                .attr("cy", (d) => {
-                  const result = d[1].find((d) => {
-                    return +getXRef.current(d) === +getXRef.current(datum);
+                .append('line')
+                .style('pointer-events', 'none')
+                .attr('class', 'line-chart-tip')
+                .attr('stroke', themeConf[0].color)
+                .attr('stroke-dasharray', '3 2')
+                .attr('x1', xScale(getXRef.current(datum)))
+                .attr('x2', xScale(getXRef.current(datum)))
+                .attr('y1', top)
+                .attr('y2', height - bottom);
+              if (getMultiKeyRef.current) {
+                tooltipLine
+                  .selectAll('circle')
+                  .attr('class', 'line-chart-tip-circle')
+                  .data(sumstat!)
+                  .join('circle')
+                  .style('pointer-events', 'none')
+                  .attr('stroke', 'white')
+                  .attr('stroke-width', 2)
+                  .attr('r', 4)
+                  .attr('cx', xScale(getXRef.current(datum)))
+                  .style('fill', (d) => color(d[0]))
+                  .attr('cy', (d) => {
+                    const result = d[1].find((d) => {
+                      return +getXRef.current(d) === +getXRef.current(datum);
+                    });
+                    if (!result) {
+                      return 0;
+                    }
+                    return yScale(getYRef.current(result));
                   });
-                  if (!result) {
-                    return 0;
-                  }
-                  return yScale(getYRef.current(result));
-                });
-              let datumX = xScale(+getXRef.current(datum) - 20);
-              const datumY = yScale(getYRef.current(datum) + 20);
-              const { clientWidth } = tipContainer;
-              if (datumX + clientWidth + 20 > width - right) {
+              } else {
+                tooltipLine
+                  .selectAll('circle')
+                  .attr('class', 'line-chart-tip-circle')
+                  .data(lineConfigsRef.current)
+                  .join('circle')
+                  .style('pointer-events', 'none')
+                  .attr('stroke', 'white')
+                  .attr('stroke-width', 2)
+                  .attr('r', 4)
+                  .attr('cx', xScale(getXRef.current(datum)))
+                  .style('fill', (d) => color(d.color))
+                  .attr('cy', (cfg) => {
+                    const result = data.find((d) => {
+                      return +getXRef.current(d) === +getXRef.current(datum);
+                    });
+                    if (!result) {
+                      return 0;
+                    }
+                    return yScale(cfg.getter(result));
+                  });
+              }
+              let datumX = xScale(+getXRef.current(datum));
+              const { clientWidth, clientHeight } = tipContainer;
+              if (datumX + clientWidth + 10 > width - right) {
                 datumX = datumX - clientWidth - 20;
               }
 
-              const filterValues = getStatValues(sumstat).map(
-                (s) =>
-                  s.filter((d) => {
-                    return +getXRef.current(d) === +getXRef.current(datum);
-                  })[0]
-              );
-              select(tipContainer).style("opacity", 1);
+              const matchDatum = matchTooltipDatum(datum);
+
+              select(tipContainer).style('opacity', 1);
               setTooltip({
-                tooltipDatum: filterValues,
+                tooltipDatum: matchDatum,
               });
 
               select(tipContainer)
-                .style("opacity", 1)
-                .style("top", datumY + "px")
-                .style("left", datumX + 10 + "px");
+                .transition()
+                .duration(0)
+                .ease(easeLinear)
+                .style('opacity', 1)
+                .style('top', clientHeight / 2 - 20 + 'px')
+                .style('left', datumX + 'px');
             }),
             last(),
             catchError((err) => {
@@ -403,24 +489,24 @@ export const D3_3 = <T,>({
       svg.remove();
     };
   }, [
-    sumstat,
-    svgContainer,
-    tipContainer,
+    bottom,
     data,
+    getStatValues,
     getXRef,
     getYRef,
-    width,
     height,
-    tooNarrow,
-    tooShort,
-    yRightAxis,
-    getStatValues,
     left,
     right,
-    bottom,
-    top,
-    getStatKeys,
+    sumstat,
+    sumstatKeys,
+    svgContainer,
     themeConf,
+    tipContainer,
+    tooNarrow,
+    tooShort,
+    top,
+    width,
+    hasRightAxis,
   ]);
   useEffect(() => {
     if (!container) {
@@ -436,10 +522,10 @@ export const D3_3 = <T,>({
       );
     };
     handler();
-    window.addEventListener("resize", handler);
+    window.addEventListener('resize', handler);
 
     return () => {
-      window.removeEventListener("resize", handler);
+      window.removeEventListener('resize', handler);
     };
   }, [container]);
 
@@ -448,8 +534,8 @@ export const D3_3 = <T,>({
       className="w-full h-full bg-[#F4F6FB] rounded-lg relative"
       ref={setContainer}
       style={{
-        minHeight: minHeight + "px",
-        padding: padding + "px",
+        minHeight: minHeight + 'px',
+        padding: `${padding.y}px ${padding.x}px `,
       }}
     >
       {tooNarrow && (
@@ -457,29 +543,29 @@ export const D3_3 = <T,>({
           窗口过窄
         </span>
       )}
-      {!tooNarrow && data.length === 0 && (
+      {!tooNarrow && sumstatKeys.length === 0 && (
         <span className="absolute inset-x-0 top-1/2 -translate-y-1/2 px-4 text-center">
           暂无数据
         </span>
       )}
       <div
         className={clsx(
-          "flex flex-col justify-around pt-2",
-          tooNarrow && "invisible"
+          'flex flex-col justify-around relative',
+          tooNarrow && 'invisible'
         )}
         style={{ height: headerHeight }}
       >
         <div className="flex justify-start items-center px-4">
           <div className="font-bold text-sm text-[#040F1F] whitespace-nowrap">
-            {yLabel ?? "-"}
+            {yLabel ?? '-'}
           </div>
           <ul className="flex-1 ml-5 flex justify-between items-center">
             <li className="flex justify-start flex-row-reverse items-center h-full ml-4 flex-1 overflow-x-scroll whitespace-nowrap">
               {themeConf
-                .filter((_, i) => i < getStatKeys(sumstat).length)
+                .filter((_, i) => i < sumstatKeys.length)
                 .map((d, i) => (
                   <p
-                    key={`${d.label}-${i}`}
+                    key={`${d?.label ?? d.key}-${i}`}
                     className="text-[12px] text-[#9A9FA5] mr-7 first:mr-0 relative"
                   >
                     <span
@@ -503,11 +589,11 @@ export const D3_3 = <T,>({
         </div>
         <ul className="flex justify-between items-center px-4">
           <li className="text-[12px] text-[#9A9FA5]">
-            {yUnitLeftLabel ?? "-"}
+            {yUnitLeftLabel ?? '-'}
           </li>
           {true && (
             <li className="text-[12px] text-[#9A9FA5]">
-              {yUnitRightLabel ?? ""}
+              {yUnitRightLabel ?? ''}
             </li>
           )}
         </ul>
@@ -517,7 +603,7 @@ export const D3_3 = <T,>({
         style={{
           height: `calc(100% - ${headerHeight}px)`,
         }}
-        className={clsx("flex flex-1", tooNarrow && "invisible")}
+        className={clsx('flex flex-1 relative', tooNarrow && 'invisible')}
       >
         <TooltipContainer
           ref={setTipContainer}
@@ -525,30 +611,44 @@ export const D3_3 = <T,>({
         >
           {tooltipDatum && (
             <div className="text-xs text-[#040F1F] pointer-events-none">
-              {format(getXRef.current(tooltipDatum[0]), "yyyy-MM-dd HH:mm")}
+              {format(getXRef.current(tooltipDatum[0]), 'yyyy-MM-dd HH:mm')}
             </div>
           )}
-          {tooltipDatum?.map((d, i) => {
-            let color: string | undefined;
-            try {
-              color = themeConf[i].color;
-            } catch (error) {
-              color = "white";
-              console.error(error);
-            }
-            return (
-              <div
-                key={`${getYRef.current(d)}-${i}`}
-                className="pointer-events-none text-sm text-[#040F1F] font-semibold ml-5 first:ml-0 relative"
-              >
-                <span
-                  className="absolute top-1/2 left-[-12px] w-[10px] h-[10px] rounded-[50%] translate-y-[-50%]"
-                  style={{ backgroundColor: color }}
-                ></span>
-                ：<span className="ml-2">{getYRef.current(d)}</span>
-              </div>
-            );
-          })}
+          {getMultiKeyRef.current
+            ? tooltipDatum?.map((d, i) => {
+                let color: string | undefined;
+                try {
+                  color = themeConf[i].color;
+                } catch (error) {
+                  color = 'white';
+                  console.error(error);
+                }
+                return (
+                  <TooltipContent
+                    key={`${getYRef.current(d)}-${i}`}
+                    color={color}
+                    value={getYRef.current(d)}
+                  />
+                );
+              })
+            : lineConfigsRef.current.map((d, i) => {
+                let color: string | undefined;
+                try {
+                  color = lineConfigsRef.current[i].color;
+                } catch (error) {
+                  color = 'white';
+                  console.error(error);
+                }
+                const value = tooltipDatum?.[0] && d.getter(tooltipDatum?.[0]);
+                console.log(value);
+                return (
+                  <TooltipContent
+                    key={`${d.key as string}-${i}`}
+                    color={color}
+                    value={value}
+                  />
+                );
+              })}
         </TooltipContainer>
       </div>
     </div>
@@ -560,3 +660,18 @@ const TooltipContainer = styled.div`
   -webkit-backdrop-filter: blur(1px);
   backdrop-filter: blur(1px);
 `;
+
+const TooltipContent: React.FC<{ color: string; value?: string | number }> = ({
+  color,
+  value,
+}) => {
+  return (
+    <div className="pointer-events-none text-sm text-[#040F1F] font-semibold ml-5 first:ml-0 relative">
+      <span
+        className="absolute top-1/2 left-[-12px] w-[10px] h-[10px] rounded-[50%] translate-y-[-50%]"
+        style={{ backgroundColor: color }}
+      ></span>
+      ：<span className="ml-2">{value ?? '-'}</span>
+    </div>
+  );
+};
