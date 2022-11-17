@@ -40,7 +40,7 @@ const random4 = (length: number, range?: number) => {
       time: new Date(`2022-11-$10 0${i}:00:00`),
       value: Number((Math.random() * 180 + 1).toFixed(0)),
       value2: Number((Math.random() * 200 + 1).toFixed(0)),
-      value3: Number((Math.random() * 150 + 1).toFixed(0)),
+      value3: Number((Math.random()).toFixed(0)),
       value4: Number((Math.random() * 100 + 1).toFixed(0)),
     }
   })
@@ -95,6 +95,22 @@ const legendData = [
   }
 ]
 
+type Thresholds = {
+  time: Date;
+  value?: number
+}
+const mockThresholds: Thresholds[] = [
+  {
+    time: new Date("2022-11-17 13:32"),
+    value: 70
+  },
+  {
+    time: new Date("2022-11-17 14:32"),
+    // value: 150
+  }
+]
+
 export {
-  legendData
+  legendData,
+  mockThresholds
 }

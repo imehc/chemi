@@ -47,7 +47,7 @@ type Line<T> = {
   getter: (d: T) => number;
 };
 
-interface Props<T> {
+interface Props<T, R = any> {
   data?: T[];
   getX: (d: T) => Date;
   multiKey?: (d: T) => string;
@@ -56,6 +56,8 @@ interface Props<T> {
   yUnitRightLabel?: string;
   hasRightAxis?: boolean;
   lines: Line<T>[];
+  thresholds?: R[];
+  thresholdKey?: (t: R) => number | undefined;
   margin?: {
     top?: number;
     right?: number;
@@ -76,7 +78,7 @@ const padding = {
   y: 8,
 };
 
-export const D3_3 = <T,>({
+export const D3_3 = <T, R>({
   data = [],
   getX,
   multiKey,
@@ -85,8 +87,10 @@ export const D3_3 = <T,>({
   yUnitRightLabel,
   hasRightAxis = false,
   lines,
+  thresholds,
+  thresholdKey,
   margin,
-}: Props<T>) => {
+}: Props<T, R>) => {
   const [width, setWidth] = useState<number>(0);
   const [height, setHeight] = useState(minHeight);
 
@@ -108,6 +112,7 @@ export const D3_3 = <T,>({
   const lineConfigsRef = useLatest(lines);
   const getXRef = useLatest(getX);
   const getYRef = useLatest(lineConfigsRef.current[0].getter);
+  const getThresholdKeyRef = useLatest(thresholdKey);
 
   const getStatKeys = useCallback((d: InternMap<string, T[]>): string[] => {
     return Array.from(d.keys());
@@ -135,7 +140,7 @@ export const D3_3 = <T,>({
       return lineConfigsRef.current.map((l) => l.key as string);
     }
     return getStatKeys(sumstat);
-  }, [sumstat, getStatKeys]);
+  }, [sumstat, getStatKeys, lineConfigsRef]);
 
   const themeConf = useMemo(() => {
     return lines.filter((t) => sumstatKeys.some((k) => k === t.key));
@@ -145,19 +150,22 @@ export const D3_3 = <T,>({
     tooltipDatum: T[] | null;
   }>({ tooltipDatum: null });
 
-  const matchTooltipDatum = useCallback((datum: T): T[] => {
-    if (getMultiKeyRef.current) {
-      return getStatValues(sumstat!).map(
-        (s) =>
-          s.filter((d) => {
-            return +getXRef.current(d) === +getXRef.current(datum);
-          })[0]
-      );
-    }
-    return data.filter((d) => {
-      return +getXRef.current(d) === +getXRef.current(datum);
-    });
-  }, []);
+  const matchTooltipDatum = useCallback(
+    (datum: T): T[] => {
+      if (getMultiKeyRef.current) {
+        return getStatValues(sumstat!).map(
+          (s) =>
+            s.filter((d) => {
+              return +getXRef.current(d) === +getXRef.current(datum);
+            })[0]
+        );
+      }
+      return data.filter((d) => {
+        return +getXRef.current(d) === +getXRef.current(datum);
+      });
+    },
+    [data, getMultiKeyRef, getStatValues, getXRef, sumstat]
+  );
 
   useEffect(() => {
     if (
@@ -236,9 +244,66 @@ export const D3_3 = <T,>({
     yGrid.selectAll('path').attr('stroke', '#DCDEEA');
     yGrid.selectAll('line').attr('stroke', '#DCDEEA');
 
+    // 显示 x 轴
+    const x = svg
+      .append('g')
+      .attr('transform', `translate(0, ${height - bottom})`);
+    const xAxisGroup = x.call(xAxis);
+    xAxisGroup.selectAll('path').attr('stroke', '#DCDEEA');
+    xAxisGroup.selectAll('line').attr('stroke', 'transparent');
+    xAxisGroup
+      .selectAll('text')
+      .attr('fill', '#9A9FA5')
+      .attr('font-size', '14px');
+
+    // 显示阈值线
+    if ((thresholds?.length ?? []) > 0 && getThresholdKeyRef.current) {
+      const threshold = svg.append('g').attr('class', 'line-chart-threshold');
+      threshold
+        .selectAll('line.line-chart-threshold-line')
+        .data(thresholds!)
+        .join('line')
+        .style('pointer-events', 'none')
+        .attr('class', 'line-chart-threshold-line')
+        .attr('stroke', (d) => {
+          const n = getThresholdKeyRef.current!(d);
+          if (n !== undefined) {
+            return '#F95B5B';
+          }
+          return 'transparent';
+        })
+        .attr('stroke-dasharray', '3 2')
+        .attr('x1', left)
+        .attr('x2', width - right)
+        .attr('y1', (d) => {
+          return yScale(getThresholdKeyRef.current!(d) ?? 0);
+        })
+        .attr('y2', (d) => {
+          return yScale(getThresholdKeyRef.current!(d) ?? 0);
+        });
+
+      threshold
+        .selectAll('text.line-chart-threshold-text')
+        .data(thresholds!)
+        .join('text')
+        .text('预警阈值')
+        .attr('fill', (d) => {
+          const n = getThresholdKeyRef.current!(d);
+          if (n !== undefined) {
+            return '#F95B5B';
+          }
+          return 'transparent';
+        })
+        .attr('font-size', '12px')
+        .attr('transform', (d) => {
+          return `translate(${width - right - left}, ${yScale(
+            (getThresholdKeyRef.current!(d) ?? 0) + 5
+          )})`;
+        });
+    }
+
     // 显示 数据
     const color = scaleOrdinal(sumstatKeys, [...themeConf.map((d) => d.color)]);
-
     if (getMultiKeyRef.current) {
       const path = svg
         .append('g')
@@ -303,18 +368,6 @@ export const D3_3 = <T,>({
         .attr('stroke-dashoffset', 0);
     }
 
-    // 显示 x 轴
-    const x = svg
-      .append('g')
-      .attr('transform', `translate(0, ${height - bottom})`);
-    const xAxisGroup = x.call(xAxis);
-    xAxisGroup.selectAll('path').attr('stroke', '#DCDEEA');
-    xAxisGroup.selectAll('line').attr('stroke', 'transparent');
-    xAxisGroup
-      .selectAll('text')
-      .attr('fill', '#9A9FA5')
-      .attr('font-size', '14px');
-
     // 显示 y 轴
     const drawYAxis = (l: number, axis: Axis<NumberValue>) => {
       const y = svg.append('g').attr('transform', `translate(${l}, 0)`);
@@ -343,7 +396,7 @@ export const D3_3 = <T,>({
           .ticks(4);
         drawYAxis(width - right, yAxis);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
 
@@ -507,6 +560,11 @@ export const D3_3 = <T,>({
     top,
     width,
     hasRightAxis,
+    getMultiKeyRef,
+    lineConfigsRef,
+    matchTooltipDatum,
+    thresholds,
+    getThresholdKeyRef,
   ]);
   useEffect(() => {
     if (!container) {
@@ -640,7 +698,6 @@ export const D3_3 = <T,>({
                   console.error(error);
                 }
                 const value = tooltipDatum?.[0] && d.getter(tooltipDatum?.[0]);
-                console.log(value);
                 return (
                   <TooltipContent
                     key={`${d.key as string}-${i}`}

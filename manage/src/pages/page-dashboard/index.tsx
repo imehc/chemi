@@ -1,11 +1,18 @@
 import React from 'react';
 import { D3_3 } from '~/components/D3_3';
 import { LineChart } from '~/components/D3_3_Modify';
-import { Data, data, data2, data3, ObjectData } from '~/components/D3_3_Modify/data';
+import {
+  Data,
+  data,
+  data2,
+  data3,
+  ObjectData,
+  mockThresholds,
+} from '~/components/D3_3_Modify/data';
 // import { LineChart2 } from '~/components/D3_New';
 
 export const PageDashboard: React.FC = () => {
-  // console.log(data3, 'data33...');
+  console.log(data3, 'data33...');
   return (
     <div className="bg-purple-0 flex">
       {/* <D1 /> */}
@@ -15,11 +22,13 @@ export const PageDashboard: React.FC = () => {
         <RectProgressBar />
       </div> */}
       {/* <D3 /> */}
-      <div className="h-[210px] w-[400px] ml-11 mt-11">
+      <div className="h-[210px] w-[500px] ml-11 mt-11">
         <D3_3
           data={data3}
           getX={(d) => d.time}
           // multiKey={(d) => d.key}
+          thresholds={mockThresholds}
+          thresholdKey={(t) => t.value}
           lines={[
             {
               color: '#f59797',
@@ -30,19 +39,19 @@ export const PageDashboard: React.FC = () => {
             // {
             //   color: '#da63e7',
             //   label: '分类二',
-            //   key: 'x',
+            //   key: 'l',
             //   getter: (d) => d.value2,
             // },
-            // {
-            //   color: '#8cdaed',
-            //   label: '分类三',
-            //   key: 'y',
-            //   getter: (d) => d.value3,
-            // },
+            {
+              color: '#8cdaed',
+              label: '分类三',
+              key: 'y',
+              getter: (d) => d.value3,
+            },
             // {
             //   color: '#948ced',
             //   label: '分类四',
-            //   key: 'y',
+            //   key: 'z',
             //   getter: (d) => d.value4,
             // },
           ]}
@@ -50,9 +59,11 @@ export const PageDashboard: React.FC = () => {
           yUnitLeftLabel="ms/s"
           yUnitRightLabel="hs/h"
           // hasRightAxis
-          margin={{
-            // right: 50,
-          }}
+          margin={
+            {
+              // right: 50,
+            }
+          }
         />
       </div>
       <div className="w-[500px]">
