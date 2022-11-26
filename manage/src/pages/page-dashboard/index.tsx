@@ -1,59 +1,63 @@
 import React from 'react';
-import { D3_3 } from '~/components/D3_3';
-import { LineChart } from '~/components/D3_3_Modify';
-import {
-  Data,
-  data,
-  data2,
-  data3,
-  ObjectData,
-  mockThresholds,
-} from '~/components/D3_3_Modify/data';
-// import { LineChart2 } from '~/components/D3_New';
+import { LineChart, PieChart } from '~/components';
+import { data3 } from '~/mock/line_chart';
+import { pieData } from '~/mock/pie_chart';
 
 export const PageDashboard: React.FC = () => {
-  console.log(data3, 'data33...');
   return (
-    <div className="bg-purple-0 flex">
-      {/* <D1 /> */}
-      {/* <D2 /> */}
-      {/* <ArcProgressBar/> */}
-      {/* <div className="bg-orange-50 p-3 max-w-xs">
-        <RectProgressBar />
-      </div> */}
-      {/* <D3 /> */}
+    <div className="bg-purple-100 overflow-hidden">
       <div className="h-[210px] w-[500px] ml-11 mt-11">
-        <D3_3
+        <PieChart
+          data={pieData}
+          getKey={(d) => d.name}
+          getValue={(d) => d.value}
+        />
+      </div>
+      {/* <div className="h-[210px] w-[500px] ml-11 mt-11">
+        <LineChart
           data={data3}
           getX={(d) => d.time}
           // multiKey={(d) => d.key}
-          thresholds={mockThresholds}
-          thresholdKey={(t) => t.value}
+          // thresholds={mockThresholds}
+          // thresholdKey={(t) => t.value}
+          areaChart
           lines={[
-            {
-              color: '#f59797',
-              label: '分类一',
-              key: 'x',
-              getter: (d) => d.value,
-            },
             // {
-            //   color: '#da63e7',
-            //   label: '分类二',
-            //   key: 'l',
-            //   getter: (d) => d.value2,
+            //   color: '#f59797',
+            //   label: '分类一',
+            //   key: 'x',
+            //   getter: (d) => d.value,
             // },
+            // {
+            //   color: '#b0f597',
+            //   label: '分类二',
+            //   key: 'y',
+            //   getter: (d) => d.value,
+            // },
+            // {
+            //   color: '#dff597',
+            //   label: '分类三',
+            //   key: 'z',
+            //   getter: (d) => d.value,
+            // },
+            {
+              color: '#da63e7',
+              label: '分类二',
+              key: 'l',
+              getter: (d) => d.value2,
+            },
             {
               color: '#8cdaed',
               label: '分类三',
               key: 'y',
               getter: (d) => d.value3,
             },
-            // {
-            //   color: '#948ced',
-            //   label: '分类四',
-            //   key: 'z',
-            //   getter: (d) => d.value4,
-            // },
+            {
+              color: '#948ced',
+              label: '分类四',
+              key: 'z',
+              getter: (d) => d.value4,
+            },
           ]}
           yLabel="应力"
           yUnitLeftLabel="ms/s"
@@ -65,40 +69,8 @@ export const PageDashboard: React.FC = () => {
             }
           }
         />
-      </div>
-      <div className="w-[500px]">
-        {/* <LineChart
-          data={data2}
-          // data={data2}
-          // getX={[data.x[0].time, data.x[data.x.length - 1].time]}
-          getX={(d) => d.time}
-          // getZ={({x}) => }
-          // getZ={({x}) =>x.value }
-          getY={(d) => d.value}
-          yLabel="二二"
-          yUnitLabel="一二"
-          multiKey={(d) => d.key}
-        /> */}
-        {/* <LineChart2<ObjectData, Data>
-          data={data}
-          getX={[data.x[0].time, data.x[data.x.length - 1].time]}
-          lines={[
-            {
-              key: 'key1',
-              getter: (d) => (_k = d.x)=> k => k.value
-            },
-            {
-              key: 'key2',
-              getter: (d) => (_k = d.x)=> k => k.value
-            },
-            {
-              key: 'key3',
-              getter: (d) => (_k = d.x)=> k => k.value
-            },
-          ]}
-        /> */}
-        {/* <LineChart3 data={[]} getX={(d) => new Date()} getY={() => 1} /> */}
-      </div>
+      </div> */}
+      <div className="w-[500px]"></div>
     </div>
   );
 };

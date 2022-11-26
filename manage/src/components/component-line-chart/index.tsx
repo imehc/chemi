@@ -19,6 +19,7 @@ import {
   type NumberValue,
   easeLinear,
   curveLinear,
+  area,
 } from 'd3';
 import clsx from 'clsx';
 import { format } from 'date-fns';
@@ -58,6 +59,7 @@ interface Props<T, R = any> {
   lines: Line<T>[];
   thresholds?: R[];
   thresholdKey?: (t: R) => number | undefined;
+  areaChart?: boolean;
   margin?: {
     top?: number;
     right?: number;
@@ -78,7 +80,7 @@ const padding = {
   y: 8,
 };
 
-export const D3_3 = <T, R>({
+export const LineChart = <T, R>({
   data = [],
   getX,
   multiKey,
@@ -89,6 +91,8 @@ export const D3_3 = <T, R>({
   lines,
   thresholds,
   thresholdKey,
+  /**仅multiKey为空有效 */
+  areaChart = false,
   margin,
 }: Props<T, R>) => {
   const [width, setWidth] = useState<number>(0);
@@ -108,10 +112,22 @@ export const D3_3 = <T, R>({
   const [svgContainer, setSvgContainer] = useState<HTMLDivElement | null>();
   const [tipContainer, setTipContainer] = useState<HTMLDivElement | null>();
 
+  const maxIdx = useMemo(() => {
+    let idx = 0;
+    data.forEach((d) => {
+      for (let i = 0; i < lines.length; i++) {
+        if (lines[idx].getter(d) < lines[i].getter(d)) {
+          idx = i;
+        }
+      }
+    });
+    return idx;
+  }, [data, lines]);
+
   const getMultiKeyRef = useLatest(multiKey);
   const lineConfigsRef = useLatest(lines);
   const getXRef = useLatest(getX);
-  const getYRef = useLatest(lineConfigsRef.current[0].getter);
+  const getYRef = useLatest(lineConfigsRef.current[maxIdx].getter);
   const getThresholdKeyRef = useLatest(thresholdKey);
 
   const getStatKeys = useCallback((d: InternMap<string, T[]>): string[] => {
@@ -185,6 +201,7 @@ export const D3_3 = <T, R>({
           : data.map(getYRef.current)
         : data.map(getYRef.current)
     );
+
     if (minX == null || maxX == null || minY == null || maxY == null) {
       return;
     }
@@ -336,36 +353,48 @@ export const D3_3 = <T, R>({
         .ease(easeLinear)
         .attr('stroke-dashoffset', 0);
     } else {
-      const path = svg
+      const pathLines = svg
         .append('g')
         .selectAll('path.line-chart-path')
-        .data(lineConfigsRef.current)
+        .data(lineConfigsRef.current);
+      pathLines
         .join('path')
+        .merge(pathLines)
+        .classed('line', true)
         .attr('class', 'line-chart-path')
+        .style('pointer-events', 'none')
         .attr('fill', 'none')
         .attr('stroke-width', 1)
         .attr('stroke', (d) => color(d.color))
+        .transition()
         .attr('d', (cfg) => {
           return line<T>(
             (d) => xScale(getXRef.current(d)),
             (d) => yScale(cfg.getter(d))
           )(data);
         });
-      path
-        .attr('stroke-dasharray', () => {
-          // 返回路径总长度
-          return (path.node() as SVGPathElement)?.getTotalLength() ?? 0;
-        })
-        .attr('stroke-dashoffset', () => {
-          return (path.node() as SVGPathElement)?.getTotalLength() ?? 0;
-        })
-        .data(lineConfigsRef.current)
-        .style('fill', 'none')
-        .style('stroke', (d) => color(d.color))
-        .transition()
-        .duration(1500)
-        .ease(easeLinear)
-        .attr('stroke-dashoffset', 0);
+      if (areaChart) {
+        const pathAreas = svg
+          .append('g')
+          .selectAll('path.area-chart-path')
+          .data(lineConfigsRef.current);
+        pathAreas
+          .join('path')
+          .merge(pathAreas)
+          .classed('area', true)
+          .attr('class', 'area-chart-path')
+          .style('pointer-events', 'none')
+          .style('fill', (d) => color(d.color))
+          .style('fill-opacity', '.2')
+          .transition()
+          .attr('d', (cfg) => {
+            return area<T>(
+              (d) => xScale(getXRef.current(d)),
+              () => height - bottom,
+              (d) => yScale(cfg.getter(d))
+            )(data);
+          });
+      }
     }
 
     // 显示 y 轴
@@ -618,7 +647,7 @@ export const D3_3 = <T, R>({
             {yLabel ?? '-'}
           </div>
           <ul className="flex-1 ml-5 flex justify-between items-center">
-            <li className="flex justify-start flex-row-reverse items-center h-full ml-4 flex-1 overflow-x-scroll whitespace-nowrap">
+            <li className="flex justify-start flex-row-reverse items-center h-full ml-4 flex-1 whitespace-nowrap">
               {themeConf
                 .filter((_, i) => i < sumstatKeys.length)
                 .map((d, i) => (
