@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
+import { DatePicker } from '~/components';
 import DB from '~/database/indexed_db';
 
 import { useAccessToken, useGlobalContext } from '~/globalContext';
@@ -28,33 +29,18 @@ export const PageDashboard: React.FC = () => {
     initDb();
   }, []);
 
+  const d = new Date('2022-10-03');
   return (
     <React.Fragment>
-      <button
-        className="px-[5px] border-[1px] rounded-[5px] border-solid border-gray-300 text-[#202324]"
-        onClick={() => {
-          setAccessToken('new token');
-        }}
-      >
-        更新token
-      </button>
-      <button
-        className="px-[5px] border-[1px] rounded-[5px] border-solid border-gray-300 text-[#202324]"
-        onClick={() => {
-          removeAccessToken();
-        }}
-      >
-        删除token
-      </button>
-      <button
-        className="px-[5px] border-[1px] rounded-[5px] border-solid border-gray-300 text-[#202324] mb-5"
-        onClick={() => {
-          console.log(accessToken, 'globalAccessToken');
-        }}
-      >
-        查看token
-      </button>
       <hr />
+      <div className="w-60 ml-5 mt-5">
+        <DatePicker
+          defaultValue={d}
+          onChange={(evt) => console.log(evt, 'evt')}
+          // type="minute"
+          // maxDate={new Date("2022-11")}
+        />
+      </div>
     </React.Fragment>
   );
 };

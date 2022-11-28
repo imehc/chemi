@@ -17,7 +17,7 @@ interface DatePickerProps {
   placeholderText?: string;
   maxDate?: Date;
   disabled?: boolean;
-  showTimeInput?: boolean;
+  type?: 'year' | 'month' | 'day' | 'minute';
 }
 
 export const DatePicker: React.FC<DatePickerProps> = ({
@@ -29,7 +29,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   placeholderText = '请选择日期',
   maxDate,
   disabled = false,
-  showTimeInput = false,
+  type = 'day',
 }) => {
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
@@ -108,7 +108,9 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         setDate={handleStartDate}
         maxDate={maxDate}
         placeholderText={!range ? placeholderText : '起始日期'}
-        showTimeInput={showTimeInput}
+        showTimeInput={type === 'minute'}
+        showMonthYearPicker={type === 'month'}
+        showYearPicker={type === 'year'}
       />
       {range && (
         <React.Fragment>
@@ -125,7 +127,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
             setDate={handleEndDate}
             maxDate={maxDate}
             placeholderText={'结束日期'}
-            showTimeInput={showTimeInput}
+            showTimeInput={type === 'minute'}
           />
         </React.Fragment>
       )}

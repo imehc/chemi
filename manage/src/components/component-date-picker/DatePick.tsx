@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import DatePicker, { ReactDatePickerProps } from 'react-datepicker';
 import zhCN from 'date-fns/locale/zh-CN';
 import clsx from 'clsx';
-import { format, getMonth } from 'date-fns';
+import { getMonth, getYear } from 'date-fns';
 import './index.css';
 
 // docs https://reactdatepicker.com/#example-year-select-dropdown
@@ -26,6 +26,8 @@ interface DatePickerProps {
   maxDate?: Date;
   disabled?: boolean;
   showTimeInput?: boolean;
+  showMonthYearPicker?: boolean;
+  showYearPicker?: boolean;
 }
 
 export const DatePick: React.FC<DatePickerProps> = ({
@@ -40,7 +42,27 @@ export const DatePick: React.FC<DatePickerProps> = ({
   maxDate,
   disabled = false,
   showTimeInput = false,
+  showMonthYearPicker = false,
+  showYearPicker = false,
 }) => {
+  const dateFormat = useMemo(() => {
+    if (showYearPicker) {
+      return 'yyyy';
+    }
+    if (showMonthYearPicker) {
+      return 'yyyy-MM';
+    }
+    if (showTimeInput) {
+      return 'yyyy-MM-dd HH:mm';
+    }
+    return 'yyyy-MM-dd';
+  }, [showTimeInput, showMonthYearPicker]);
+
+  const handleYearRange = useCallback((date: Date): string => {
+    const r = parseInt((getYear(date) / 12).toString());
+    return `${r * 12 + 1} - ${r * 12 + 12}`;
+  }, []);
+
   return (
     <DateSelector
       disabled={disabled}
@@ -48,7 +70,7 @@ export const DatePick: React.FC<DatePickerProps> = ({
       selected={selected}
       placeholderText={placeholderText}
       onChange={(date: Date) => setDate && setDate(date)}
-      dateFormat={showTimeInput ? 'yyyy-MM-dd HH:mm' : 'yyyy-MM-dd'}
+      dateFormat={dateFormat}
       maxDate={maxDate}
       selectsStart={selectsStart}
       selectsEnd={selectsEnd}
@@ -57,11 +79,8 @@ export const DatePick: React.FC<DatePickerProps> = ({
       nextMonthButtonLabel=">"
       previousMonthButtonLabel="<"
       popperClassName="react-datepicker-left"
-      // showTimeSelect
-      // timeFormat="HH:mm:ss"
-      // timeIntervals={60}
-      // timeCaption="时间："
-
+      showMonthYearPicker={showMonthYearPicker}
+      showYearPicker={showYearPicker}
       showTimeInput={showTimeInput}
       timeInputLabel="时间："
       customTimeInput={<CustomTimeInput />}
@@ -70,51 +89,85 @@ export const DatePick: React.FC<DatePickerProps> = ({
         decreaseMonth,
         increaseMonth,
         changeMonth,
+        decreaseYear,
+        increaseYear,
         prevMonthButtonDisabled,
         nextMonthButtonDisabled,
-      }) => (
-        <div className="flex items-center justify-between px-2 py-2">
-          <div className="w-20 h-7 border-[1px] border-solid border-gray-300 rounded-lg px-2 flex justify-center items-center">
-            <select
-              value={months[getMonth(date)]}
-              onChange={({ target: { value } }) =>
-                changeMonth(months.indexOf(value))
-              }
-              className="outline-none bg-transparent border-none w-full text-[#040F1F] text-sm cursor-pointer"
-            >
-              {months.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="space-x-2 flex justify-start items-center">
+        prevYearButtonDisabled,
+        nextYearButtonDisabled,
+      }) =>
+        showMonthYearPicker || showYearPicker ? (
+          <div className="w-full flex items-center justify-between px-2 py-2">
             <button
-              onClick={decreaseMonth}
-              disabled={prevMonthButtonDisabled}
+              onClick={decreaseYear}
+              disabled={prevYearButtonDisabled}
               type="button"
               className={clsx(
                 'w-7 h-7 inline-flex p-1 text-sm font-medium text-[#9A9FA5] border border-gray-300 rounded-[50%] shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-offset-0 focus:ring-0 relative hover:bg-gradient-to-r hover:from-[#6FCDFF] hover:to-[#2AB0F8] hover:text-white hover:border-none after:absolute after:rotate-[-45deg] after:left-[8px] after:top-[35%] after:w-[10px] after:h-[2px] after:rounded-[4px] after:bg-[#c7cbd1] after:hover:bg-white before:absolute before:rotate-45 before:left-[8px] before:top-[58%] before:w-[10px] before:h-[2px] before:rounded-[4px] before:bg-[#c7cbd1] before:hover:bg-white',
                 {
-                  'cursor-not-allowed opacity-50': prevMonthButtonDisabled,
+                  'cursor-not-allowed opacity-50': prevYearButtonDisabled,
                 }
               )}
             />
+            <div className="w-20 h-7 px-2 flex justify-center items-center whitespace-nowrap">
+              {showMonthYearPicker ? getYear(date) : handleYearRange(date)}
+            </div>
             <button
-              onClick={increaseMonth}
-              disabled={nextMonthButtonDisabled}
+              onClick={increaseYear}
+              disabled={nextYearButtonDisabled}
               type="button"
               className={clsx(
                 'w-7 h-7 inline-flex p-1 text-sm font-medium text-[#9A9FA5] border border-gray-300 rounded-[50%] shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-offset-0 focus:ring-0 relative hover:bg-gradient-to-r hover:from-[#6FCDFF] hover:to-[#2AB0F8] hover:text-white hover:border-none after:absolute after:rotate-[45deg] after:left-[9px] after:top-[35%] after:w-[10px] after:h-[2px] after:rounded-[4px] after:bg-[#c7cbd1] after:hover:bg-white before:absolute before:rotate-[-45deg] before:left-[9px] before:top-[58%] before:w-[10px] before:h-[2px] before:rounded-[4px] before:bg-[#c7cbd1] before:hover:bg-white',
                 {
-                  'cursor-not-allowed opacity-50': nextMonthButtonDisabled,
+                  'cursor-not-allowed opacity-50 hover:border-gray-300 hover:text-[#9A9FA5] hover:bg-transparent': nextYearButtonDisabled,
                 }
               )}
             />
           </div>
-        </div>
-      )}
+        ) : (
+          <div className="flex items-center justify-between px-2 py-2">
+            <div className="w-20 h-7 border-[1px] border-solid border-gray-300 rounded-lg px-2 flex justify-center items-center">
+              <select
+                value={months[getMonth(date)]}
+                onChange={({ target: { value } }) =>
+                  changeMonth(months.indexOf(value))
+                }
+                className="outline-none bg-transparent border-none w-full text-[#040F1F] text-sm cursor-pointer"
+              >
+                {months.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="space-x-2 flex justify-start items-center">
+              <button
+                onClick={decreaseMonth}
+                disabled={prevMonthButtonDisabled}
+                type="button"
+                className={clsx(
+                  'w-7 h-7 inline-flex p-1 text-sm font-medium text-[#9A9FA5] border border-gray-300 rounded-[50%] shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-offset-0 focus:ring-0 relative hover:bg-gradient-to-r hover:from-[#6FCDFF] hover:to-[#2AB0F8] hover:text-white hover:border-none after:absolute after:rotate-[-45deg] after:left-[8px] after:top-[35%] after:w-[10px] after:h-[2px] after:rounded-[4px] after:bg-[#c7cbd1] after:hover:bg-white before:absolute before:rotate-45 before:left-[8px] before:top-[58%] before:w-[10px] before:h-[2px] before:rounded-[4px] before:bg-[#c7cbd1] before:hover:bg-white ml-5',
+                  {
+                    'cursor-not-allowed opacity-50': prevMonthButtonDisabled,
+                  }
+                )}
+              />
+              <button
+                onClick={increaseMonth}
+                disabled={nextMonthButtonDisabled}
+                type="button"
+                className={clsx(
+                  'w-7 h-7 inline-flex p-1 text-sm font-medium text-[#9A9FA5] border border-gray-300 rounded-[50%] shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-offset-0 focus:ring-0 relative hover:bg-gradient-to-r hover:from-[#6FCDFF] hover:to-[#2AB0F8] hover:text-white hover:border-none after:absolute after:rotate-[45deg] after:left-[9px] after:top-[35%] after:w-[10px] after:h-[2px] after:rounded-[4px] after:bg-[#c7cbd1] after:hover:bg-white before:absolute before:rotate-[-45deg] before:left-[9px] before:top-[58%] before:w-[10px] before:h-[2px] before:rounded-[4px] before:bg-[#c7cbd1] before:hover:bg-white',
+                  {
+                    'cursor-not-allowed opacity-50': nextMonthButtonDisabled,
+                  }
+                )}
+              />
+            </div>
+          </div>
+        )
+      }
     />
   );
 };
