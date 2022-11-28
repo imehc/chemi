@@ -11,6 +11,7 @@ export const PageDashboard: React.FC = () => {
           data={pieData}
           getKey={(d) => d.name}
           getValue={(d) => d.value}
+          onChange={(d) => console.log(d, 'd...')}
         />
       </div>
       {/* <div className="h-[210px] w-[500px] ml-11 mt-11">

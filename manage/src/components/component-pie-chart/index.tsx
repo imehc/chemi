@@ -17,6 +17,7 @@ interface Props<T> {
   outerRadius?: number;
   getKey: (d: T) => string;
   getValue: (d: T) => number;
+  onChange: (d: T) => void;
 }
 
 const minWidth = 280;
@@ -30,6 +31,7 @@ export const PieChart = <T,>({
   outerRadius = 80,
   getKey,
   getValue,
+  onChange,
 }: Props<T>) => {
   const [width, setWidth] = useState<number>(0);
   const [height, setHeight] = useState(minHeight);
@@ -44,6 +46,7 @@ export const PieChart = <T,>({
 
   const getKeyRef = useLatest(getKey);
   const getValueRef = useLatest(getValue);
+  const onChangeRef = useLatest(onChange);
 
   const formatData = useMemo(() => {
     if (data.length > 5) {
@@ -187,6 +190,7 @@ export const PieChart = <T,>({
           .attr('transform', 'scale(1.05)');
         drawText(v.data);
         setCurData(v.data);
+        onChangeRef.current(v.data)
       })
       .on('mouseout', (evt) => {
         // select(evt.currentTarget)
@@ -265,7 +269,7 @@ export const PieChart = <T,>({
             >
               <ul className="flex justify-start items-center">
                 <li
-                  className="w-3 h-3 rounded-[50%] mr-2"
+                  className="w-3 h-3 rounded-[50%] mr-2 shrink-0"
                   style={{ backgroundColor: colors[i] }}
                 />
                 <li className="text-sm text-[#787C82]">
