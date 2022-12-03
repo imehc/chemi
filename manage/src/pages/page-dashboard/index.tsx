@@ -1,5 +1,7 @@
 import React from 'react';
-import { LineChart, PieChart } from '~/components';
+import { BarChart, LineChart, PieChart, RadarChart } from '~/components';
+import { ardarData } from '~/mock/ardar_chart';
+import { barData } from '~/mock/bar_chart';
 import { data3 } from '~/mock/line_chart';
 import { pieData } from '~/mock/pie_chart';
 
@@ -7,13 +9,24 @@ export const PageDashboard: React.FC = () => {
   return (
     <div className="bg-purple-100 overflow-hidden">
       <div className="h-[210px] w-[500px] ml-11 mt-11">
+        <BarChart
+          data={barData}
+          getX={(d) => d.day}
+          getCategary={(d) => d.severity}
+          getValue={(d) => d.count}
+        />
+      </div>
+      {/* <div className="h-[210px] w-[500px] ml-11 mt-11">
+        <RadarChart data={ardarData} />
+      </div> */}
+      {/* <div className="h-[210px] w-[500px] ml-11 mt-11">
         <PieChart
           data={pieData}
           getKey={(d) => d.name}
           getValue={(d) => d.value}
           onChange={(d) => console.log(d, 'd...')}
         />
-      </div>
+      </div> */}
       {/* <div className="h-[210px] w-[500px] ml-11 mt-11">
         <LineChart
           data={data3}
