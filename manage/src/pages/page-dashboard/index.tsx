@@ -1,21 +1,28 @@
 import React from 'react';
 import { BarChart, LineChart, PieChart, RadarChart } from '~/components';
-import { ardarData } from '~/mock/ardar_chart';
+import { ardarData } from '~/mock/radar_chart';
 import { barData } from '~/mock/bar_chart';
 import { data3 } from '~/mock/line_chart';
 import { pieData } from '~/mock/pie_chart';
 
 export const PageDashboard: React.FC = () => {
   return (
-    <div className="bg-purple-100 overflow-hidden">
-      <div className="h-[210px] w-[500px] ml-11 mt-11">
+    <div className="overflow-hidden">
+      <div className="h-[200px] w-[300px] ml-11 mt-11">
+        <RadarChart
+          data={ardarData}
+          getKey={(d) => d.brand}
+          getValue={(d) => d.online_rate}
+        />
+      </div>
+      {/* <div className="h-[210px] w-[500px] ml-11 mt-11">
         <BarChart
           data={barData}
           getX={(d) => d.day}
           getCategary={(d) => d.severity}
           getValue={(d) => d.count}
         />
-      </div>
+      </div> */}
       {/* <div className="h-[210px] w-[500px] ml-11 mt-11">
         <RadarChart data={ardarData} />
       </div> */}

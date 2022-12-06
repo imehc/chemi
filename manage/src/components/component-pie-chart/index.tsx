@@ -9,7 +9,7 @@ import {
   selectAll,
 } from 'd3';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useLatest } from '~/hooks/useLatest';
+import { useLatest } from '~/hooks';
 
 interface Props<T> {
   data: T[];

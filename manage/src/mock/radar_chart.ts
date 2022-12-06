@@ -1,4 +1,4 @@
-const ardarData = [
+const ardarDatao = [
   [
     //iPhone
     { name: "Battery Life", value: 0.22 },
@@ -33,6 +33,46 @@ const ardarData = [
     { name: "To Be A Smartphone", value: 0.3 }
   ]
 ];
+
+type Ardar = {
+  brand: string
+  online_rate: number
+}
+
+const ardarData: Ardar[] = [
+  {
+    brand: "品牌1",
+    online_rate: 0.8444444444444444
+  },
+  {
+    brand: "品牌2",
+    online_rate: 0.25
+  },
+  {
+    brand: "品牌3",
+    online_rate: 1
+  },
+  {
+    brand: "品牌4",
+    online_rate: 1
+  },
+  {
+    brand: "品牌5",
+    online_rate: 1
+  },
+  {
+    brand: "品牌6",
+    online_rate: 1
+  },
+  {
+    brand: "品牌7",
+    online_rate: 1
+  },
+  {
+    brand: "品牌8",
+    online_rate: 2
+  }
+]
 
 export {
   ardarData

@@ -35,7 +35,7 @@ import {
 } from 'rxjs';
 import styled from '@emotion/styled';
 import 对比 from './对比.svg';
-import { useLatest } from '~/hooks/useLatest';
+import { useLatest } from '~/hooks';
 
 type Key<T> = T extends { [key: string]: any }
   ? Pick<T, 'key'>[keyof Pick<T, 'key'>]

@@ -12,7 +12,7 @@ import {
 } from 'd3';
 import { format, getUnixTime } from 'date-fns';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useLatest } from '~/hooks/useLatest';
+import { useLatest } from '~/hooks';
 
 interface Props<T> {
   data: T[];
