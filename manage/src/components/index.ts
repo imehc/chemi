@@ -1,4 +1,7 @@
+export * from "./component-area-chart"
 export * from "./component-bar-chart"
 export * from "./component-line-chart"
 export * from "./component-radar-chart"
+export * from "./component-radar-modify-chart"
+export * from "./componetn-responsive-container"
 export * from "./component-pie-chart"

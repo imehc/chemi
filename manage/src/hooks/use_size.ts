@@ -16,7 +16,7 @@ export type BasicTarget<T extends TargetType = Element> =
   | TargetValue<T>
   | MutableRefObject<TargetValue<T>>;
 
-type Size = { width: number; height: number };
+export type Size = { width: number; height: number };
 
 export const useSize = (target: BasicTarget): Size | undefined => {
   const [state, setState] = useState<Size | undefined>();

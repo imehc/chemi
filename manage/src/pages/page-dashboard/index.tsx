@@ -1,5 +1,13 @@
 import React from 'react';
-import { BarChart, LineChart, PieChart, RadarChart } from '~/components';
+import {
+  AreaChart,
+  BarChart,
+  LineChart,
+  PieChart,
+  RadarChart,
+  RadarModifyChart,
+  ResponsiveContainer,
+} from '~/components';
 import { ardarData } from '~/mock/radar_chart';
 import { barData } from '~/mock/bar_chart';
 import { data3 } from '~/mock/line_chart';
@@ -9,11 +17,21 @@ export const PageDashboard: React.FC = () => {
   return (
     <div className="overflow-hidden">
       <div className="h-[200px] w-[300px] ml-11 mt-11">
-        <RadarChart
+        <ResponsiveContainer>
+          <AreaChart data={data3} getX={(d) => d.time} getY={(d) => d.value2} />
+        </ResponsiveContainer>
+      </div>
+      <div className="h-[200px] w-[300px] ml-11 mt-11">
+        {/* <RadarChart
           data={ardarData}
           getKey={(d) => d.brand}
           getValue={(d) => d.online_rate}
-        />
+        /> */}
+        {/* <RadarModifyChart
+          data={ardarData}
+          getKey={(d) => d.brand}
+          getValue={(d) => d.online_rate}
+        /> */}
       </div>
       {/* <div className="h-[210px] w-[500px] ml-11 mt-11">
         <BarChart

@@ -3,11 +3,14 @@ import {
   lineRadial,
   max,
   range,
+  scaleBand,
   scaleLinear,
+  scaleOrdinal,
+  schemeCategory10,
   select,
 } from 'd3';
-import { useEffect, useMemo, useState } from 'react';
-import { useLatest } from '~/hooks';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { type Size, useLatest, useSize } from '~/hooks';
 
 interface Props<T> {
   data: T[];
@@ -24,20 +27,22 @@ type RadarBasicConf = {
   circleSetp: number;
 };
 
-/**
- * 
- * @deprecated 
- */
-export const RadarChart = <T,>({
+export const RadarModifyChart = <T,>({
   data,
   getKey,
   getValue,
 }: Props<T>): JSX.Element => {
-  const [container, setContainer] = useState<HTMLDivElement | null>();
-  const [{ width, height }, setRadarSize] = useState<{
-    width: number;
-    height: number;
-  }>({ width: 0, height: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
+  const size = useSize(containerRef);
+  const { width, height } = useMemo<Size>(() => {
+    if (size) {
+      return size;
+    }
+    return {
+      height: 0,
+      width: 0,
+    };
+  }, [size]);
 
   const getKeyRef = useLatest(getKey);
   const getValueRef = useLatest(getValue);
@@ -51,10 +56,19 @@ export const RadarChart = <T,>({
   }, [data]);
 
   useEffect(() => {
+    const container = containerRef.current;
     if (!container) {
       return;
     }
 
+    // 定义x轴
+    const x = scaleBand()
+      .range([0, 2 * Math.PI])
+      .align(0);
+      const y = scaleLinear().range([0, outerRadius]).domain([0, outerRadius]);
+      const z = scaleOrdinal(schemeCategory10); // 通用线条的颜色
+
+      
     const angles = range(0, 2 * Math.PI, (2 * Math.PI) / pointNum);
     const scale = scaleLinear()
       .domain([0, max([...data.map(getValueRef.current)]) ?? 1])
@@ -198,7 +212,7 @@ export const RadarChart = <T,>({
       .attr('stroke-width', 2)
       .attr('fill', 'rgba(0, 224, 103,.2)');
   }, [
-    container,
+    containerRef,
     width,
     height,
     pointNum,
@@ -209,22 +223,5 @@ export const RadarChart = <T,>({
     getKeyRef,
   ]);
 
-  useEffect(() => {
-    if (!container) {
-      return;
-    }
-    const handler = () => {
-      setRadarSize({
-        width: container.clientWidth,
-        height: container.clientHeight,
-      });
-    };
-    handler();
-    window.addEventListener('resize', handler);
-    return () => {
-      window.removeEventListener('resize', handler);
-    };
-  }, [container]);
-
-  return <div ref={setContainer} className="w-full h-full" />;
+  return <div ref={containerRef} className="w-full h-full" />;
 };

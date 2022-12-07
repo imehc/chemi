@@ -64,14 +64,14 @@ const ardarData: Ardar[] = [
     brand: "品牌6",
     online_rate: 1
   },
-  {
-    brand: "品牌7",
-    online_rate: 1
-  },
-  {
-    brand: "品牌8",
-    online_rate: 2
-  }
+  // {
+  //   brand: "品牌7",
+  //   online_rate: 1
+  // },
+  // {
+  //   brand: "品牌8",
+  //   online_rate: 2
+  // }
 ]
 
 export {
