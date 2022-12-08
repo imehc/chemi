@@ -8,7 +8,7 @@ import {
   RadarModifyChart,
   ResponsiveContainer,
 } from '~/components';
-import { ardarData } from '~/mock/radar_chart';
+import { Ardar, ardarData } from '~/mock/radar_chart';
 import { barData } from '~/mock/bar_chart';
 import { data3 } from '~/mock/line_chart';
 import { pieData } from '~/mock/pie_chart';
@@ -16,22 +16,25 @@ import { pieData } from '~/mock/pie_chart';
 export const PageDashboard: React.FC = () => {
   return (
     <div className="overflow-hidden">
-      <div className="h-[200px] w-[300px] ml-11 mt-11">
+      {/* <div className="h-[200px] w-[300px] ml-11 mt-11">
         <ResponsiveContainer>
           <AreaChart data={data3} getX={(d) => d.time} getY={(d) => d.value2} />
         </ResponsiveContainer>
-      </div>
-      <div className="h-[200px] w-[300px] ml-11 mt-11">
-        {/* <RadarChart
+      </div> */}
+      <div className="h-[200px] w-[300px] ml-11 mt-11 bg-[#81e] ">
+        <ResponsiveContainer>
+          {/* <RadarChart
           data={ardarData}
           getKey={(d) => d.brand}
           getValue={(d) => d.online_rate}
         /> */}
-        {/* <RadarModifyChart
-          data={ardarData}
-          getKey={(d) => d.brand}
-          getValue={(d) => d.online_rate}
-        /> */}
+          <RadarModifyChart
+            data={undefined as unknown as Ardar[]}
+            // data={ardarData}
+            getKey={(d) => d.brand}
+            getValue={(d) => d.online_rate}
+          />
+        </ResponsiveContainer>
       </div>
       {/* <div className="h-[210px] w-[500px] ml-11 mt-11">
         <BarChart
