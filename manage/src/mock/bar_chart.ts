@@ -7,7 +7,7 @@ export type BarData = {
 const barData: BarData[] = [
   {
     severity: 3,
-    count: 12599,
+    count: 100,
     day: new Date("2022-11-23T00:00:00Z")
   },
   {
@@ -17,7 +17,7 @@ const barData: BarData[] = [
   },
   {
     severity: 3,
-    count: 23373,
+    count: 1000,
     day: new Date("2022-11-24T00:00:00Z")
   },
   {

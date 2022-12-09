@@ -11,8 +11,15 @@ import {
   max,
 } from 'd3';
 import { format, getUnixTime } from 'date-fns';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useLatest } from '~/hooks';
+import React, {
+  type FC,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { type Size, useLatest, useSize } from '~/hooks';
 
 interface Props<T> {
   data: T[];
@@ -50,10 +57,23 @@ export const BarChart = <T,>({
   getCategary,
   margin,
 }: Props<T>): JSX.Element => {
-  const [svgContainer, setSvgContainer] = useState<HTMLDivElement | null>();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const svgContainerRef = useRef<SVGSVGElement>(null);
+  const tipContainerRef = useRef<HTMLDivElement>(null);
 
-  const [width, setWidth] = useState<number>(0);
-  const [height, setHeight] = useState(minHeight);
+  const size = useSize(containerRef);
+  const { width, height } = useMemo<Size>(() => {
+    if (size) {
+      return {
+        width: size.width,
+        height: Math.max(minHeight, size.height) - headerHeight - padding.y * 2,
+      };
+    }
+    return {
+      width: 0,
+      height: 0,
+    };
+  }, [size]);
 
   const tooNarrow = useMemo(() => width < minWidth, [width]);
   const tooShort = useMemo(
@@ -67,8 +87,8 @@ export const BarChart = <T,>({
 
   const [tooltip, setTooltip] = useState<{
     tooltipDatum: T | null;
-    clientX: number;
-    clientY: number;
+    offsetX: number;
+    offsetY: number;
   }>();
   const curColor = useMemo(() => {
     const tooltipDatum = tooltip?.tooltipDatum;
@@ -119,8 +139,23 @@ export const BarChart = <T,>({
       .map((d) => getXRef.current(d));
   }, [getXRef, statValues]);
 
+  const handnleTipLeftDistance = useCallback((): number | undefined => {
+    const tipContainer = tipContainerRef.current;
+    if (!tipContainer) {
+      return tooltip?.offsetX;
+    }
+    const { clientWidth } = tipContainer;
+    const osx = tooltip?.offsetX;
+    if (osx && clientWidth + osx > width - right) {
+      return osx - clientWidth;
+    }
+    return tooltip?.offsetX;
+  }, [right, tooltip?.offsetX, width]);
+
   useEffect(() => {
-    if (!svgContainer || tooNarrow || tooShort || !data.length) {
+    const container = containerRef.current;
+    const svgContainer = svgContainerRef.current;
+    if (!container || !svgContainer || tooNarrow || tooShort || !data.length) {
       return;
     }
     const [minX, maxX] = extent(data.map(getXRef.current));
@@ -165,23 +200,22 @@ export const BarChart = <T,>({
 
     const sBandW = xScale.bandwidth();
     const colW = sBandW / categoryLen;
-
     const svg = select(svgContainer)
-      .append('svg')
       .attr('viewBox', `0 0 ${width} ${height}`)
       .style('width', width + 'px')
       .style('height', height + 'px')
       .attr('transform', `translate(0, ${headerHeight + top})`);
 
+    const g = svg.append('g');
+
     // 显示背景色
-    svg
-      .append('rect')
+    g.append('rect')
       .attr('width', width + 'px')
       .attr('height', height + 'px')
       .attr('fill', 'transparent');
 
     // 显示 Grid
-    const yGrid = svg
+    const yGrid = g
       .append('g')
       .attr('transform', `translate(${nLeft}, 0)`)
       .call(
@@ -190,9 +224,9 @@ export const BarChart = <T,>({
           .tickSize(-(width - nLeft - right))
           .ticks(4)
       );
-    yGrid.selectAll('path').attr('stroke', '#D8D8D8');
-    yGrid.selectAll('line').attr('stroke', '#D8D8D8');
-    const xGrid = svg
+    yGrid.selectAll('path').attr('stroke', '#f4f6fc');
+    yGrid.selectAll('line').attr('stroke', '#f4f6fc');
+    const xGrid = g
       .append('g')
       .attr('transform', `translate(0,${top})`)
       .call(
@@ -201,32 +235,11 @@ export const BarChart = <T,>({
           .tickSize(-(height - top - bottom))
           .ticks(4)
       );
-    xGrid.selectAll('path').attr('stroke', '#D8D8D8');
-    xGrid.selectAll('line').attr('stroke', '#D8D8D8');
-
-    // 显示 x 轴
-    const x = svg
-      .append('g')
-      .attr('transform', `translate(0, ${height - bottom})`);
-    const xAxisGroup = x.call(xAxis);
-    xAxisGroup.selectAll('path').attr('stroke', '#DCDEEA');
-    xAxisGroup.selectAll('line').attr('stroke', 'transparent');
-    xAxisGroup
-      .selectAll('text')
-      .attr('fill', '#9A9FA5')
-      .attr('font-size', '14px');
-    // 显示 y 轴
-    const y = svg.append('g').attr('transform', `translate(${nLeft}, 0)`);
-    const yAxisGroup = y.call(yAxis);
-    yAxisGroup.selectAll('path').attr('stroke', '#DCDEEA');
-    yAxisGroup.selectAll('line').attr('stroke', 'transparent');
-    yAxisGroup
-      .selectAll('text')
-      .attr('fill', '#9A9FA5')
-      .attr('font-size', '14px');
+    xGrid.selectAll('path').attr('stroke', '##f4f6fc');
+    xGrid.selectAll('line').attr('stroke', '##f4f6fc');
 
     // 绘制
-    const series = svg
+    const series = g
       .append('g')
       .selectAll('g.bar-chart')
       .data(statValues)
@@ -265,7 +278,7 @@ export const BarChart = <T,>({
           //   conf.s_color,
           //   conf.e_color
           // )(normalize(getValueRef.current(cur)));
-          return conf.s_color;
+          return `url(#${conf.level})`;
           // return `url(#linearGrad)`
         }
         // return colors[i % colors.length].s_color;
@@ -275,8 +288,13 @@ export const BarChart = <T,>({
       .selectAll('g.bar-chart')
       .data((d) => d)
       .join('rect')
-      .classed('item', true);
+      .classed('bar-chart-rect', true);
     rects
+      .attr('width', colW - 2)
+      .attr('height', (d) => {
+        const height = yScale(0) - yScale(getValueRef.current(d));
+        return height < 2 ? 2 + colW / 2 : height + colW / 2;
+      })
       .attr('x', (d) => {
         const x = xScale(getXRef.current(d));
         if (x) {
@@ -284,36 +302,26 @@ export const BarChart = <T,>({
         }
         return '';
       })
-      .attr('width', colW)
-      .attr('y', (d) => yScale(getValueRef.current(d)))
-      .attr('height', (d) => {
-        return yScale(0) - yScale(getValueRef.current(d));
-      });
-
-    // const tip = select(svgContainer)
-    //   .append('div')
-    //   .attr('id', 'tip')
-    //   .attr('width', '100px')
-    //   .style('background-color', 'rgba(0,0,0,.3)')
-    //   .style('position','absolute')
-    //   .style('color','white')
-    //   .style('text-align','center')
-    //   .style('margin','5px')
-    //   .style('box-sizing','border-box')
+      .attr('y', (d) => {
+        const height = yScale(0) - yScale(getValueRef.current(d));
+        const y = yScale(getValueRef.current(d));
+        return height < 2 ? y - 2 : y;
+      })
+      .attr('rx', colW / 2)
+      .attr('rx', colW / 2);
 
     // tooltip
-    rects.on('mouseover', ({ offsetX, offsetY }, d) => {
-      setTooltip({ tooltipDatum: d, clientX: offsetX, clientY: offsetY });
-      // tip.style('display', 'block')
-      //   .style('left', clientX + 'px')
-      //   .style('top', clientY + 'px')
-      //   .html(`
-      //         <div>${getValueRef.current(d)}</div>
-      //     `)
-    });
+    // rects.on('mouseover', ({ offsetX, offsetY }, d) => {
+    //   setTooltip({ tooltipDatum: d, offsetX, offsetY });
+    //   // tip.style('display', 'block')
+    //   //   .style('left', clientX + 'px')
+    //   //   .style('top', clientY + 'px')
+    //   //   .html(`
+    //   //         <div>${getValueRef.current(d)}</div>
+    //   //     `)
+    // });
     rects.on('mousemove', ({ offsetX, offsetY }, d) => {
-      setTooltip({ tooltipDatum: d, clientX: offsetX, clientY: offsetY });
-
+      setTooltip({ tooltipDatum: d, offsetX, offsetY });
       // tip.style('left', clientX + 'px')
       //   .style('top', clientY + 'px')
     });
@@ -323,69 +331,75 @@ export const BarChart = <T,>({
       // tip.style('display', 'none')
     });
 
+    g.append('rect')
+      .attr('width', width - left - right - colW)
+      .attr('height', colW / 2)
+      .attr('x', left + colW)
+      .attr('y', yScale(0))
+      .attr('fill', '#ffffff');
+
+    // 显示 x 轴
+    const x = g
+      .append('g')
+      .attr('transform', `translate(0, ${height - bottom})`);
+    const xAxisGroup = x.call(xAxis);
+    xAxisGroup.selectAll('path').attr('stroke', '#f4f6fc');
+    xAxisGroup.selectAll('line').attr('stroke', 'transparent');
+    xAxisGroup
+      .selectAll('text')
+      .attr('fill', '#9A9FA5')
+      .attr('font-size', '14px');
+    // 显示 y 轴
+    const y = g.append('g').attr('transform', `translate(${nLeft}, 0)`);
+    const yAxisGroup = y.call(yAxis);
+    yAxisGroup.selectAll('path').attr('stroke', '#f4f6fc');
+    yAxisGroup.selectAll('line').attr('stroke', 'transparent');
+    yAxisGroup
+      .selectAll('text')
+      .attr('fill', '#9A9FA5')
+      .attr('font-size', '14px');
+
     return () => {
-      svg.remove();
+      g.remove();
     };
   }, [
-    svgContainer,
+    bottom,
+    categoryLen,
     data,
+    getCategaryRef,
+    getTextWidth,
     getValueRef,
     getXRef,
-    left,
-    width,
-    right,
     height,
-    bottom,
-    top,
+    left,
+    right,
+    statValues,
     tooNarrow,
     tooShort,
-    getTextWidth,
+    top,
+    width,
     xDomain,
-    categoryLen,
-    statValues,
-    getCategaryRef,
   ]);
 
-  useEffect(() => {
-    if (!svgContainer) {
-      return;
-    }
-    const handler = () => {
-      setWidth(svgContainer.clientWidth);
-      setHeight(
-        Math.max(minHeight, svgContainer.clientHeight) -
-          headerHeight -
-          padding.y * 2
-      );
-    };
-    handler();
-    window.addEventListener('resize', handler);
-
-    return () => {
-      window.removeEventListener('resize', handler);
-    };
-  }, [svgContainer]);
-
   return (
-    <div
-      ref={setSvgContainer}
-      className="w-full h-full bg-white rounded relative"
-    >
+    <div ref={containerRef} className="w-full h-full bg-white rounded relative">
       {tooNarrow && (
         <span className="absolute inset-x-0 top-1/2 -translate-y-1/2 px-4 text-center">
           窗口过窄
         </span>
       )}
       {!tooNarrow && data.length === 0 && (
-        <span className="absolute inset-x-0 top-1/2 -translate-y-1/2 px-4 text-center">
-          暂无数据
-        </span>
+        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 px-4 text-center">
+          <div className="bg-[#f4f6fb] text-[#b7b6bb] w-[5.625rem] h-[2.125rem] rounded-[2.125rem] text-xs top-0 right-0 bottom-0 left-0 m-auto flex justify-center items-center">
+            无数据
+          </div>
+        </div>
       )}
       <div
-        className="w-full absolute left-0 top-0 z-20 flex justify-start items-center px-4 box-border"
+        className="w-full absolute left-0 top-0 z-20 flex justify-start items-center pr-2 box-border"
         style={{ height: headerHeight }}
       >
-        <div className="font-bold text-sm text-[#040F1F] whitespace-nowrap">
+        <div className="text-[#040f1f] font-medium text-[18px] whitespace-nowrap">
           告警统计
         </div>
         <ul className="flex-1 ml-5 flex justify-between items-center">
@@ -397,7 +411,9 @@ export const BarChart = <T,>({
               >
                 <span
                   className="absolute top-1/2 left-[-12px] w-[10px] h-[10px] rounded-[50%] translate-y-[-50%]"
-                  style={{ backgroundColor: d.s_color }}
+                  style={{
+                    background: `linear-gradient(to bottom right , ${d.s_color}, ${d.e_color})`,
+                  }}
                 ></span>
                 <span className="ml-1">{d.label}</span>
               </p>
@@ -405,11 +421,23 @@ export const BarChart = <T,>({
           </li>
         </ul>
       </div>
+      <svg ref={svgContainerRef}>
+        {colors.map((d) => (
+          <FillGradientColor
+            key={d.level}
+            id={d.level.toString()}
+            sColor={d.s_color}
+            eColor={d.e_color}
+          />
+        ))}
+      </svg>
       <TooltipContainer
+        ref={tipContainerRef}
         className="absolute transition-all pointer-events-none p-2 rounded-lg z-10"
+        id="bar_tip"
         style={{
-          left: tooltip?.clientX + 'px',
-          top: tooltip?.clientY + 'px',
+          left: handnleTipLeftDistance() + 'px',
+          top: tooltip?.offsetY + 'px',
           display: !!tooltip ? 'block' : 'none',
         }}
       >
@@ -439,6 +467,23 @@ const TooltipContainer = styled.div`
   -webkit-backdrop-filter: blur(1px);
   backdrop-filter: blur(1px);
 `;
+
+type FillGradientProps = {
+  id: string;
+  sColor: string;
+  eColor: string;
+};
+
+const FillGradientColor: FC<FillGradientProps> = ({ id, sColor, eColor }) => {
+  return (
+    <defs>
+      <linearGradient id={id} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="5%" stopColor={sColor} stopOpacity={0.8} />
+        <stop offset="95%" stopColor={eColor} stopOpacity={1} />
+      </linearGradient>
+    </defs>
+  );
+};
 
 const TooltipContent: React.FC<{ color: string; value?: string | number }> = ({
   color,
