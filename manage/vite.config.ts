@@ -2,11 +2,12 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import { resolve } from 'path';
 import eslintPlugin from 'vite-plugin-eslint';
+import unocss from 'unocss/vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   // https://github.com/vitejs/awesome-vite#plugins
-  plugins: [react(), eslintPlugin()],
+  plugins: [react(), eslintPlugin(), unocss()],
   server: {
     host: '0.0.0.0',
     proxy: {
