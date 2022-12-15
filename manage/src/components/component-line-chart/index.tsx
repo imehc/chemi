@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useId, useState } from 'react';
 import { useMemo } from 'react';
 import {
   axisBottom,
@@ -22,7 +22,7 @@ import {
   area,
 } from 'd3';
 import clsx from 'clsx';
-import { format } from 'date-fns';
+import { format, getUnixTime } from 'date-fns';
 import {
   fromEventPattern,
   windowToggle,
@@ -81,7 +81,7 @@ const padding = {
 };
 
 export const LineChart = <T, R>({
-  data = [],
+  data: originData = [],
   getX,
   multiKey,
   yLabel,
@@ -95,6 +95,7 @@ export const LineChart = <T, R>({
   areaChart = false,
   margin,
 }: Props<T, R>) => {
+  const uniqueId = useId();
   const [width, setWidth] = useState<number>(0);
   const [height, setHeight] = useState(minHeight);
 
@@ -114,7 +115,7 @@ export const LineChart = <T, R>({
 
   const maxIdx = useMemo(() => {
     let idx = 0;
-    data.forEach((d) => {
+    originData.forEach((d) => {
       for (let i = 0; i < lines.length; i++) {
         if (lines[idx].getter(d) < lines[i].getter(d)) {
           idx = i;
@@ -122,13 +123,22 @@ export const LineChart = <T, R>({
       }
     });
     return idx;
-  }, [data, lines]);
+  }, [originData, lines]);
 
   const getMultiKeyRef = useLatest(multiKey);
   const lineConfigsRef = useLatest(lines);
   const getXRef = useLatest(getX);
   const getYRef = useLatest(lineConfigsRef.current[maxIdx].getter);
   const getThresholdKeyRef = useLatest(thresholdKey);
+
+  const data = useMemo(
+    () =>
+      originData.sort(
+        (a, b) =>
+          getUnixTime(getXRef.current(a)) - getUnixTime(getXRef.current(b))
+      ),
+    [getXRef, originData]
+  );
 
   const getStatKeys = useCallback((d: InternMap<string, T[]>): string[] => {
     return Array.from(d.keys());
@@ -501,7 +511,7 @@ export const LineChart = <T, R>({
                       return +getXRef.current(d) === +getXRef.current(datum);
                     });
                     if (!result) {
-                      return 0;
+                      return -top;
                     }
                     return yScale(getYRef.current(result));
                   });
@@ -522,7 +532,7 @@ export const LineChart = <T, R>({
                       return +getXRef.current(d) === +getXRef.current(datum);
                     });
                     if (!result) {
-                      return 0;
+                      return -top;
                     }
                     return yScale(cfg.getter(result));
                   });
@@ -704,17 +714,26 @@ export const LineChart = <T, R>({
           {getMultiKeyRef.current
             ? tooltipDatum?.map((d, i) => {
                 let color: string | undefined;
+                let value: number | undefined;
+                // TODO: 处理可能会出错的错误
                 try {
-                  color = themeConf[i].color;
+                  color =
+                    themeConf.find(
+                      (item) => getMultiKeyRef.current!(d) === item.key
+                    )?.color ?? 'white';
+                  value = getYRef.current(d);
                 } catch (error) {
                   color = 'white';
-                  console.error(error);
+                  console.warn(error);
+                }
+                if (!value) {
+                  return null;
                 }
                 return (
                   <TooltipContent
-                    key={`${getYRef.current(d)}-${i}`}
+                    key={`${uniqueId}-${i}`}
                     color={color}
-                    value={getYRef.current(d)}
+                    value={value}
                   />
                 );
               })

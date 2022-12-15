@@ -54,7 +54,7 @@ const addKey = (data: Data[], key: Pick<MockData, 'key'>['key']): MockData[] => 
 }
 
 const x = addKey(random(24), 'x')
-const y = addKey(random3(24), 'y')
+const y = addKey(random3(20), 'y')
 const z = addKey(random(24), 'z')
 const data3 = [...random4(24)]
 
