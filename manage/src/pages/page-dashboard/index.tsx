@@ -1,11 +1,10 @@
 import React, { type FC } from 'react';
+import { Basic } from '~/components';
 
 export const PageDashboard: FC = () => {
   return (
     <React.Fragment>
-      <div className="h-50 w-full flex items-center justify-center">
-        <div className="i-mingcute:cellphone-line"></div>
-      </div>
+      <Basic />
     </React.Fragment>
   );
 };
