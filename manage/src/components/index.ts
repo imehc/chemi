@@ -7,4 +7,5 @@ export * from './component-pagination';
 export * from './component-progress';
 export * from './component-search-input';
 export * from './component-slider';
+export * from './component-switch';
 export * from './component-tooltip';

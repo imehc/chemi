@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import { DatePicker } from '~/components';
+import { DatePicker, Switch } from '~/components';
 import DB from '~/database/indexed_db';
 
 import { useAccessToken, useGlobalContext } from '~/globalContext';
@@ -26,7 +26,7 @@ export const PageDashboard: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    initDb();
+    // initDb();
   }, []);
 
   const d = new Date('2022-10-03');
@@ -39,6 +39,15 @@ export const PageDashboard: React.FC = () => {
           onChange={(evt) => console.log(evt, 'evt')}
           // type="minute"
           // maxDate={new Date("2022-11")}
+        />
+      </div>
+      <div className="w-30 h-30 bg-purple-200">
+        <Switch
+          className="ml-10 mt-3"
+          activeBackGround="pink"
+          backGround="orange"
+          onChange={(d) => console.log(d, 'd...')}
+          value={true}
         />
       </div>
     </React.Fragment>
