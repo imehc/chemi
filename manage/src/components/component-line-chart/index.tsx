@@ -20,6 +20,7 @@ import {
   easeLinear,
   curveLinear,
   area,
+  type ScaleLinear,
 } from 'd3';
 import clsx from 'clsx';
 import { format, getUnixTime } from 'date-fns';
@@ -222,6 +223,22 @@ export const LineChart = <T, R>({
     const yRange = [height - bottom, top];
     const yScale = scaleLinear([minY, maxY], yRange).nice(5);
 
+    const getRYScale = (): ScaleLinear<number, number, never> | undefined => {
+      try {
+        const [minYR, maxYR] = extent(
+          getStatValues(sumstat!)[1].map(getYRef.current)
+        );
+        console.log(minYR, maxYR, "minYR, maxYR///");
+        if (minYR === undefined || !maxYR === undefined) {
+          return undefined;
+        }
+        return scaleLinear([minYR > 0 ? 0 : minYR, maxYR], yRange).nice(5);
+      } catch (error) {
+        console.error(error);
+        return undefined;
+      }
+    };
+
     const xDuration = maxX.valueOf() - minX.valueOf();
     const threeYears = 1000 * 60 * 60 * 24 * 365 * 3;
     const threeMonthes = 1000 * 60 * 60 * 24 * 30 * 3;
@@ -332,6 +349,7 @@ export const LineChart = <T, R>({
     // 显示 数据
     const color = scaleOrdinal(sumstatKeys, [...themeConf.map((d) => d.color)]);
     if (getMultiKeyRef.current) {
+      const yRScale = getRYScale();
       const path = svg
         .append('g')
         .selectAll('path.line-chart-path')
@@ -341,11 +359,22 @@ export const LineChart = <T, R>({
         .attr('fill', 'none')
         .attr('stroke-width', 1)
         .attr('stroke', (d) => color(d[0]))
-        .attr('d', (d) => {
-          return line<T>(
-            (d) => xScale(getXRef.current(d)),
-            (d) => yScale(getYRef.current(d))
-          ).curve(curveLinear)(d[1]);
+        .attr('d', (d,i) => {
+          if (hasRightAxis && i === 1) {
+            if (yRScale) {
+              return line<T>(
+                (d) => xScale(getXRef.current(d)),
+                (d) => yRScale(getYRef.current(d))
+              ).curve(curveLinear)(d[1]);
+            } else {
+              return "";
+            }
+          } else {
+            return line<T>(
+              (d) => xScale(getXRef.current(d)),
+              (d) => yScale(getYRef.current(d))
+            ).curve(curveLinear)(d[1]);
+          }
         });
       path
         .attr('stroke-dasharray', () => {
@@ -422,18 +451,13 @@ export const LineChart = <T, R>({
     // 显示右边y轴
     if (getMultiKeyRef.current && hasRightAxis) {
       try {
-        const [minY, maxY] = extent(
-          getStatValues(sumstat!)[1].map(getYRef.current)
-        );
-        if (minY == null || maxY == null) {
-          return;
+        const yScale = getRYScale();
+        if (yScale) {
+          const yAxis = axisRight(yScale)
+            .tickFormat((d) => d.toString())
+            .ticks(4);
+          drawYAxis(width - right, yAxis);
         }
-        const yRange = [height - bottom, top];
-        const yScale = scaleLinear([minY, maxY], yRange).nice(5);
-        const yAxis = axisRight(yScale)
-          .tickFormat((d) => d.toString())
-          .ticks(4);
-        drawYAxis(width - right, yAxis);
       } catch (error) {
         console.error(error);
       }
@@ -495,6 +519,7 @@ export const LineChart = <T, R>({
                 .attr('y1', top)
                 .attr('y2', height - bottom);
               if (getMultiKeyRef.current) {
+                const yRScale = getRYScale();
                 tooltipLine
                   .selectAll('circle')
                   .attr('class', 'line-chart-tip-circle')
@@ -506,12 +531,18 @@ export const LineChart = <T, R>({
                   .attr('r', 4)
                   .attr('cx', xScale(getXRef.current(datum)))
                   .style('fill', (d) => color(d[0]))
-                  .attr('cy', (d) => {
+                  .attr("cy", (d, i) => {
                     const result = d[1].find((d) => {
                       return +getXRef.current(d) === +getXRef.current(datum);
                     });
                     if (!result) {
-                      return -top;
+                      return null;
+                    }
+                    if (hasRightAxis && i === 1) {
+                      if (yRScale) {
+                        return yRScale(getYRef.current(result));
+                      }
+                      return null;
                     }
                     return yScale(getYRef.current(result));
                   });

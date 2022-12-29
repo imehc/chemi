@@ -30,7 +30,7 @@ const random3 = (length: number) => {
   return [...new Array(length)].map((_, i) => {
     return {
       time: new Date(`2022-11-28 0${i}:00:00`),
-      value: Number((Math.random() * 100 + 1).toFixed(0))
+      value: Number((Math.random() * 100  -99).toFixed(0))
     }
   })
 }
@@ -54,7 +54,7 @@ const addKey = (data: Data[], key: Pick<MockData, 'key'>['key']): MockData[] => 
 }
 
 const x = addKey(random(24), 'x')
-const y = addKey(random3(20), 'y')
+const y = addKey(random3(24), 'y')
 const z = addKey(random(24), 'z')
 const data3 = [...random4(24)]
 

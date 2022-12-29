@@ -77,12 +77,12 @@ export const PageDashboard: React.FC = () => {
               key: 'y',
               getter: (d) => d.value,
             },
-            {
-              color: '#ca5cee',
-              label: 'z',
-              key: 'z',
-              getter: (d) => d.value,
-            },
+            // {
+            //   color: '#ca5cee',
+            //   label: 'z',
+            //   key: 'z',
+            //   getter: (d) => d.value,
+            // },
             // {
             //   color: '#da63e7',
             //   label: '分类二',
@@ -105,12 +105,8 @@ export const PageDashboard: React.FC = () => {
           yLabel="应力"
           yUnitLeftLabel="ms/s"
           yUnitRightLabel="hs/h"
-          // hasRightAxis
-          margin={
-            {
-              // right: 50,
-            }
-          }
+          hasRightAxis
+          margin={{ right: 50 }}
         />
       </div>
       <div className="w-[500px]"></div>
