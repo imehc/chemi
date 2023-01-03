@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import { DatePicker, ScrollWrap, Switch } from '~/components';
+import { DatePicker, ScrollWrap, Switch, Button, ToolTip } from '~/components';
 import DB from '~/database/indexed_db';
 
 import { useAccessToken, useGlobalContext } from '~/globalContext';
@@ -58,7 +58,7 @@ export const PageDashboard: React.FC = () => {
         />
       </div> */}
       <div className="m-12 w-40 h-32 bg-purple-200 flex justify-center items-center">
-        <ScrollWrap>
+        {/* <ScrollWrap>
           {[...new Array(15)].map((_, i) => (
             <div
               key={i}
@@ -71,7 +71,34 @@ export const PageDashboard: React.FC = () => {
               {i}
             </div>
           ))}
-        </ScrollWrap>
+        </ScrollWrap> */}
+        <ToolTip
+          trigger="click"
+
+          content={
+            <div className="p-5 bg-purple-100 absolute flex z-10 justify-center flex-col rounded-lg items-center left-[50%] translate-x-[-50%]">
+              <Button
+                style={{ marginBottom: '0.5rem' }}
+                onClick={() => {
+                  console.log('click: 1');
+                }}
+              >
+                按钮一
+              </Button>
+              <Button
+                onClick={() => {
+                  console.log('click: 2');
+                }}
+              >
+                按钮二
+              </Button>
+            </div>
+          }
+        >
+          <Button theme="primary" color="orange">
+            more
+          </Button>
+        </ToolTip>
       </div>
     </React.Fragment>
   );

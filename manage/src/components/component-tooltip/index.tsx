@@ -1,32 +1,33 @@
 import styled from '@emotion/styled';
 import {
   cloneElement,
-  ReactNode,
+  type ReactNode,
   useCallback,
   useEffect,
   useRef,
   useState,
+  useMemo,
 } from 'react';
 import { findDOMNode } from 'react-dom';
 import { EMPTY, fromEvent, switchMap, of } from 'rxjs';
-import type { TooltipProps, Direction } from './type';
+import type { TooltipContentProps, TooltipProps } from './type';
 
 export const ToolTip: React.FC<TooltipProps> = (props): JSX.Element => {
   const {
     children: child,
     diretion = 'bottom',
-    /**展示的组件 */
     content,
-    /**触发方式 */
-    trigger = 'hover',
-    color = '#f5f5f5',
-    radius,
-    /**是否需要箭头 */
-    arrow = false,
+    trigger = 'all',
+    color = 'transparent',
+    arrow = true,
+    className,
+    style,
     ...otherProps
   } = props;
   const [visible, setVisible] = useState<boolean>(false);
   const [visibleClick, setVisibleClick] = useState<Event>();
+  const [clickvisible, setClickVisible] = useState<boolean>(false);
+  const [num, setNum] = useState<number>(0);
 
   const tooltipRef = useRef(null);
   useEffect(() => {
@@ -34,51 +35,89 @@ export const ToolTip: React.FC<TooltipProps> = (props): JSX.Element => {
       .pipe(
         switchMap((e) => {
           if (!tooltipRef.current) return EMPTY;
+          if (num === 1 && visible) {
+            setVisible(false);
+            setClickVisible(false);
+            setNum(0);
+            return of(true);
+          }
           const isContains = findDOMNode(tooltipRef.current)?.contains(
             e.target as Node
           );
           if (!isContains && e.target !== visibleClick?.target) {
+            setClickVisible(false);
             setVisible(false);
             return of(true);
           }
+          setNum(1);
           return EMPTY;
         })
       )
-      .subscribe();
+      .subscribe((next) => {
+        if (visible) {
+          setVisible(false);
+        }
+      });
 
     return () => watchAllClick.unsubscribe();
-  }, [visible, visibleClick?.target]);
+  }, [num, visible, visibleClick?.target]);
 
-  const children =
-    trigger === 'click'
-      ? cloneElement(child, {
-          onClick: (e: Event) => {
-            setVisibleClick(e);
-            setVisible(true);
-          },
-        })
-      : cloneElement(child, {
-          onMouseEnter: () => setVisible(true),
-          onMouseLeave: () => setVisible(false),
-        });
+  const children = useMemo(
+    () =>
+      trigger === 'click'
+        ? cloneElement(child, {
+            onClick: (e: Event) => {
+              setVisibleClick(e);
+              setVisible(true);
+            },
+          })
+        : trigger === 'hover'
+        ? cloneElement(child, {
+            onMouseEnter: () => setVisible(true),
+            onMouseLeave: () => setVisible(false),
+          })
+        : cloneElement(child, {
+            onMouseEnter: () => setVisible(true),
+            onMouseLeave: () => {
+              if (clickvisible) {
+                return;
+              }
+              setClickVisible(false);
+              setVisible(false);
+            },
+            onClick: (e: Event) => {
+              if (!clickvisible) {
+                setClickVisible(true);
+              }
+              setVisibleClick(e);
+              setVisible(true);
+            },
+          }),
+    [child, clickvisible, trigger]
+  );
+
   const handleContent = useCallback((ctt: ReactNode) => {
     if (typeof ctt === 'number' || typeof ctt === 'string') {
       return <BaseTooltip>{ctt}</BaseTooltip>;
     }
     return ctt;
   }, []);
-
   return (
-    <TooltipBox>
+    <TooltipBox style={style}>
       {children}
       {visible && (
         <TooltipContent
+          className={`h-full ${className}`}
           {...otherProps}
           diretion={diretion}
           color={color}
-          radius={radius}
           onMouseEnter={() => trigger !== 'click' && setVisible(true)}
-          onMouseLeave={() => trigger !== 'click' && setVisible(false)}
+          onMouseLeave={() => {
+            if (trigger !== 'click' && !clickvisible) {
+              setClickVisible(false);
+              setVisible(false);
+            }
+          }}
           ref={tooltipRef}
         >
           {diretion === 'bottom' && arrow && <TriangleByTop color={color} />}
@@ -91,27 +130,30 @@ export const ToolTip: React.FC<TooltipProps> = (props): JSX.Element => {
 };
 
 const TooltipBox = styled.div`
+  width: 100%;
+  height: 100%;
   position: relative;
   display: inline-block;
   text-align: center;
   cursor: pointer;
 `;
-const TooltipContent = styled.div`
-  top: ${(props: {
-    diretion: Direction;
-    radius: number | string | undefined;
-  }) => {
+
+const TooltipContent = styled.div<TooltipContentProps>`
+  top: ${(props) => {
     if (props.diretion === 'bottom') {
-      return '130%';
+      if (props?.distance) {
+        return props.distance;
+      }
+      return '0';
     }
     return 'auto';
   }};
-  bottom: ${(props: {
-    diretion: Direction;
-    radius: number | string | undefined;
-  }) => {
+  bottom: ${(props) => {
     if (props.diretion === 'top') {
-      return '130%';
+      if (props.distance) {
+        return props.diretion;
+      }
+      return '100%';
     }
     return 'auto';
   }};
@@ -120,20 +162,14 @@ const TooltipContent = styled.div`
   position: absolute;
   min-width: 35px;
   min-height: 20px;
-  border-radius: ${(props: {
-    diretion: Direction;
-    radius: number | string | undefined;
-  }) => {
+  z-index: 10;
+  border-radius: ${(props) => {
     if (props.radius !== undefined) {
       return props.radius;
     }
     return 0;
   }};
-  background-color: ${(props: {
-    diretion: Direction;
-    color: string;
-    radius: number | string | undefined;
-  }) => {
+  background-color: ${(props) => {
     return props.color;
   }};
   box-shadow: 1px 1px 1px #f5f5f5;
