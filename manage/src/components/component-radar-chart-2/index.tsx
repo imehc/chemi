@@ -13,7 +13,7 @@ const [x, y] = [25, 25];
 const circleNum = 5;
 // 默认绘制的雷达图
 
-export const RadarModifyChart = <T,>({
+export const RadarChart2 = <T,>({
   data,
   getKey,
   getValue,

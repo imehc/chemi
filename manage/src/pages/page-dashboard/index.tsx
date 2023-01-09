@@ -2,10 +2,11 @@ import React from 'react';
 import {
   AreaChart,
   BarChart,
+  BarChart2,
   LineChart,
   PieChart,
   RadarChart,
-  RadarModifyChart,
+  RadarChart2,
   ResponsiveContainer,
 } from '~/components';
 import { Ardar, ardarData } from '~/mock/radar_chart';
@@ -56,7 +57,7 @@ export const PageDashboard: React.FC = () => {
           onChange={(d) => console.log(d, 'd...')}
         />
       </div> */}
-      <div className="h-[210px] w-[500px] ml-11 mt-11">
+      {/* <div className="h-[210px] w-[500px] ml-11 mt-11">
         <LineChart
           data={data2}
           getX={(d) => d.time}
@@ -108,8 +109,23 @@ export const PageDashboard: React.FC = () => {
           hasRightAxis
           margin={{ right: 50 }}
         />
+      </div> */}
+      {/* <div className="w-[500px] h-[210px] bg-purple-50">
+        <RadarChart2
+          data={ardarData}
+          getKey={(d) => d.brand}
+          getValue={(d) => d.online_rate}
+        />
+      </div> */}
+      {/* TODO: 获取不到container导致无法绘制 */}
+      <div className="w-[500px] h-[300px] bg-purple-50">
+        <BarChart2
+          data={barData}
+          getX={(d) => d.day}
+          getCategary={(d) => d.severity}
+          getValue={(d) => d.count}
+        />
       </div>
-      <div className="w-[500px]"></div>
     </div>
   );
 };
