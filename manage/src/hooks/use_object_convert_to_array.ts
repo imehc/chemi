@@ -75,7 +75,7 @@ const useObjectConvertToArray = <
       replaceKey: K
     ): IToArrayResult<O, K, T>[] => {
       // Object.prototype.toString.call(cData).slice(-8, -1)
-      if (cData instanceof Array) {
+      if (Array.isArray(cData)) {
         return cData.map((item) => {
           const oItem = { ...item, [key]: item[replaceKey] };
           delete oItem[replaceKey];
@@ -93,11 +93,7 @@ const useObjectConvertToArray = <
       for (const k in data) {
         if (Object.prototype.hasOwnProperty.call(data, k)) {
           if (data[k] !== null && data[k] !== undefined) {
-            const rArray = convertToArray(
-              data[k],
-              k,
-              replaceKey
-            );
+            const rArray = convertToArray(data[k], k, replaceKey);
             if (rArray.length) {
               r = [...r, ...rArray];
             }
@@ -116,47 +112,58 @@ const useObjectConvertToArray = <
       rArray: IToArrayResult<O, K, T>[],
       mergeKey: IReplaceKey<O>
     ): IToArrayResult<O, K, T>[] => {
+      if (!rArray.length) return [];
       // TODO: 合并相同项到一个项
       let mergeArray: IToArrayResult<O, K, T>[] = [];
-      for (let i = 0; i < rArray.length - 1; i++) {
-        for (let i2 = 1; i2 < rArray.length; i2++) {
-          if (Object.prototype.hasOwnProperty.call(rArray, i)) {
-            if (rArray[i] !== null && rArray[i] !== undefined) {
-              if ((rArray[i][mergeKey] as unknown) instanceof Date) {
-                const hasEqualItem =
-                  i2 > i && isEqual(rArray[i][mergeKey], rArray[i2][mergeKey]);
-                if (hasEqualItem) {
-                  mergeArray = [...mergeArray, { ...rArray[i], ...rArray[i2] }];
-                }
-              } else if (typeof rArray[i][mergeKey] === 'number') {
-                if (rArray[i][mergeKey] === rArray[i2][mergeKey]) {
-                  mergeArray = [...mergeArray, { ...rArray[i], ...rArray[i2] }];
-                }
-              }
+
+      for (const i in rArray) {
+        if (Object.prototype.hasOwnProperty.call(rArray, i)) {
+          const idx = mergeArray.findIndex((item) => {
+            if ((rArray[i][mergeKey] as unknown) instanceof Date) {
+              return isEqual(rArray[i][mergeKey], item[mergeKey]);
             }
+            if (typeof rArray[i][mergeKey] === 'number') {
+              return rArray[i][mergeKey] === item[mergeKey];
+            }
+            return -1;
+          });
+          if (idx === -1) {
+            mergeArray = [...mergeArray, rArray[i]];
           }
         }
       }
 
-      return [
-        ...rArray.filter((item) => {
-          return mergeArray.every((item2) => {
+      return mergeArray
+        .map((item) => {
+          const fArray = rArray.filter((item2) => {
             if ((item[mergeKey] as unknown) instanceof Date) {
-              return !isEqual(item[mergeKey], item2[mergeKey]);
+              return isEqual(item[mergeKey], item2[mergeKey]);
             }
             if (typeof item[mergeKey] === 'number') {
               return item[mergeKey] === item2[mergeKey];
             }
             return false;
           });
-        }),
-        ...mergeArray,
-      ].sort((a, b) => {
-        if ((a[mergeKey] as unknown) instanceof Date) {
-          return getUnixTime(a[mergeKey]) - getUnixTime(b[mergeKey]);
-        }
-        return a[mergeKey] - b[mergeKey];
-      });
+          if (fArray.length > 1) {
+            let fItem = {} as IToArrayResult<O, K, T>;
+            for (const i in fArray) {
+              if (Object.prototype.hasOwnProperty.call(fArray, i)) {
+                fItem = { ...fItem, ...fArray[i] };
+              }
+            }
+            if (!Object.getOwnPropertyNames(fItem).length) {
+              return item;
+            }
+            return fItem;
+          }
+          return item;
+        })
+        .sort((a, b) => {
+          if ((a[mergeKey] as unknown) instanceof Date) {
+            return getUnixTime(a[mergeKey]) - getUnixTime(b[mergeKey]);
+          }
+          return a[mergeKey] - b[mergeKey];
+        });
     },
     []
   );
