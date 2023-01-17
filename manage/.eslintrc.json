@@ -33,11 +33,11 @@
         "sourceType": "module"
       },
       "extends": [
-        "plugin:unocss/recommended",
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:react/recommended",
-        "plugin:prettier/recommended"
+        "plugin:prettier/recommended",
+        "plugin:unocss/recommended"
       ],
       "rules": {
         "react/react-in-jsx-scope": "off",
@@ -45,9 +45,12 @@
         "react/display-name": "off",
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",
-        "no-debugger":"off"
+        "unocss/classnames-order": "off",
+        "no-debugger": "off"
       },
-      "plugins": ["react-hooks"]  
+      "plugins": [
+        "react-hooks"
+      ]
     }
   ]
 }
