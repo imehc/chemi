@@ -12,20 +12,20 @@ interface BaseSliderProps extends HTMLAttributes<HTMLDivElement> {
   max?: number;
   onDragChange: (val: number[]) => void;
   marks?: Date[];
+  disabled?: boolean;
 }
 
-export const Slider: React.FC<BaseSliderProps> = (props) => {
+export const Slider: React.FC<BaseSliderProps> = ({
+  startIndex = 0,
+  endIndex = 50,
+  min = 0,
+  max = 100,
+  onDragChange,
+  marks,
+  disabled = false,
+  ...attr
+}) => {
   const id = useId();
-
-  const {
-    startIndex = 0,
-    endIndex = 50,
-    min = 0,
-    max = 100,
-    onDragChange,
-    marks,
-    ...attr
-  } = useMemo(() => props, [props]);
 
   /**
    * 按升序排序
@@ -36,27 +36,15 @@ export const Slider: React.FC<BaseSliderProps> = (props) => {
   );
 
   const formatDate = useCallback(
-    (date: Date, hasDefault: boolean): string => {
+    (date: Date): string => {
       const duration =
         marksSort![marksSort!.length - 1].valueOf() - marksSort![0].valueOf();
-      const threeYears = 1000 * 60 * 60 * 24 * 365 * 3;
-      const threeMonthes = 1000 * 60 * 60 * 24 * 30 * 3;
-      const threeDays = 1000 * 60 * 60 * 24 * 3;
-      const threeHours = 1000 * 60 * 60 * 3;
+      const threeDays = 1000 * 60 * 60 * 24;
       try {
-        if (duration > threeYears) {
-          return format(date, 'yyyy');
-        }
-        if (duration > threeMonthes) {
-          return format(date, 'MM 月');
-        }
-        if (duration > threeDays) {
-          return format(date, 'MM-dd');
-        }
-        if (duration > threeHours) {
+        if (duration < threeDays) {
           return format(date, 'HH:mm');
         }
-        return format(date, 'mm:ss');
+        return format(date, 'MM-dd');
       } catch (e) {
         console.error(e);
         return '';
@@ -70,7 +58,6 @@ export const Slider: React.FC<BaseSliderProps> = (props) => {
       if (!marksSort?.length) return;
       return {
         ...marksSort?.map((m, i) => {
-          const f = [startIndex, endIndex, 0, marksSort.length - 1].includes(i);
           const v =
             marksSort.length <= 20 ||
             (marksSort.length > 20 && marksSort.length <= 50 && i % 2 === 0) ||
@@ -86,7 +73,7 @@ export const Slider: React.FC<BaseSliderProps> = (props) => {
                   i === startIndex || i === endIndex ? 'bold' : 'normal',
               }}
             >
-              {v || i === marksSort.length - 1 ? formatDate(m, f) : ''}
+              {v || i === marksSort.length - 1 ? formatDate(m) : ''}
             </div>
           );
         }),
@@ -107,9 +94,13 @@ export const Slider: React.FC<BaseSliderProps> = (props) => {
   }, [endIndex, marksSort, startIndex]);
 
   return (
-    <SliderWrap className="w-full h-16 pl-2 pr-3 overflow-x-hidden mt-3 select-none">
+    <SliderWrap
+      className="w-full h-12 pl-2 pr-3 overflow-x-hidden mt-3 select-none"
+      style={{ filter: disabled ? 'grayscale(80%)' : 'grayscale(0)' }}
+    >
       <RCSlider
         {...attr}
+        disabled={disabled}
         range
         allowCross={false}
         defaultValue={[startIndex, endIndex]}
@@ -138,7 +129,8 @@ export const Slider: React.FC<BaseSliderProps> = (props) => {
         handleRender={(state, i) => (
           <Handle {...state.props}>
             {/* TODO: icon或者img  */}
-            <img src="" alt="" />
+            {/* <img src="" alt="" /> */}
+            <div className="w-12 h-12 bg-orange-100 rounded-xl" />
             <p
               className="absolute top-[50%] translate-y-[-50%] text-[12px] whitespace-nowrap"
               style={{
@@ -161,6 +153,9 @@ const SliderWrap = styled.div`
   & .rc-slider {
     height: 100%;
   }
+  & .rc-slider-disabled {
+    background-color: transparent;
+  }
   &
     .rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging {
     border-color: transparent;
@@ -182,10 +177,10 @@ const SliderWrap = styled.div`
   & .rc-slider-handle-1 .rc-slider-handle-2 {
     position: relative;
   }
-  & .rc-slider-mark-text:first-of-type {
+  /* & .rc-slider-mark-text:first-of-type {
     left: 0.8% !important;
   }
   & .rc-slider-mark-text:last-child {
     left: 99.2% !important;
-  }
+  } */
 `;
