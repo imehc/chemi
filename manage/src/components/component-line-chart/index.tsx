@@ -228,7 +228,6 @@ export const LineChart = <T, R>({
         const [minYR, maxYR] = extent(
           getStatValues(sumstat!)[1].map(getYRef.current)
         );
-        console.log(minYR, maxYR, "minYR, maxYR///");
         if (minYR === undefined || !maxYR === undefined) {
           return undefined;
         }

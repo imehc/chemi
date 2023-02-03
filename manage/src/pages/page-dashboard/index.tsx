@@ -1,9 +1,11 @@
 import React from 'react';
 import {
   AreaChart,
+  AreaChart2,
   BarChart,
   BarChart2,
   LineChart,
+  LineChart2,
   PieChart,
   RadarChart,
   RadarChart2,
@@ -11,8 +13,10 @@ import {
 } from '~/components';
 import { Ardar, ardarData } from '~/mock/radar_chart';
 import { barData } from '~/mock/bar_chart';
-import { data2, data3 } from '~/mock/line_chart';
+import { data, Data, data2, data3, MockData } from '~/mock/line_chart';
 import { pieData } from '~/mock/pie_chart';
+
+console.log(data3, '22');
 
 export const PageDashboard: React.FC = () => {
   // console.log(data2,'data2')
@@ -57,8 +61,8 @@ export const PageDashboard: React.FC = () => {
           onChange={(d) => console.log(d, 'd...')}
         />
       </div> */}
-      {/* <div className="h-[210px] w-[500px] ml-11 mt-11">
-        <LineChart
+      <div className="h-[210px] w-[500px] ml-11 mt-11">
+        {/* <LineChart
           data={data2}
           getX={(d) => d.time}
           multiKey={(d) => d.key}
@@ -108,8 +112,32 @@ export const PageDashboard: React.FC = () => {
           yUnitRightLabel="hs/h"
           hasRightAxis
           margin={{ right: 50 }}
+        /> */}
+        <AreaChart2
+          data={data3}
+          getX={(item) => item.time}
+          areas={[
+            {
+              color: '#da63e7',
+              label: '分类二',
+              key: 'l',
+              getter: (d) => d.value2,
+            },
+            {
+              color: '#8cdaed',
+              label: '分类三',
+              key: 'y',
+              getter: (d) => d.value3,
+            },
+            {
+              color: '#948ced',
+              label: '分类四',
+              key: 'z',
+              getter: (d) => d.value4,
+            },
+          ]}
         />
-      </div> */}
+      </div>
       {/* <div className="w-[500px] h-[210px] bg-purple-50">
         <RadarChart2
           data={ardarData}
@@ -118,14 +146,14 @@ export const PageDashboard: React.FC = () => {
         />
       </div> */}
       {/* TODO: 获取不到container导致无法绘制 */}
-      <div className="w-[500px] h-[300px] bg-purple-50">
+      {/* <div className="w-[500px] h-[300px] bg-purple-50">
         <BarChart2
           data={barData}
           getX={(d) => d.day}
           getCategary={(d) => d.severity}
           getValue={(d) => d.count}
         />
-      </div>
+      </div> */}
     </div>
   );
 };
