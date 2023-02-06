@@ -5,10 +5,10 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch yarn watch",
+      "name": "Launch pnpm dev",
       "request": "launch",
-      "runtimeArgs": ["watch"],
-      "runtimeExecutable": "yarn",
+      "runtimeArgs": ["dev"],
+      "runtimeExecutable": "pnpm",
       "skipFiles": ["<node_internals>/**"],
       "type": "node"
     },
@@ -16,7 +16,7 @@
       "type": "chrome",
       "request": "launch",
       "name": "Launch Chrome against localhost",
-      "url": "http://localhost:5173",
+      "url": "http://localhost:6012",
       "webRoot": "${workspaceFolder}"
     }
   ]

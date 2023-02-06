@@ -155,7 +155,34 @@ export function LineChart2<L = any, R = any, T = any>({
           // 初始化结构
           const svg = select(container)
             .append('svg')
-            .classed('whistle-line-chart', true);
+            .classed('whistle-line-chart', true)
+            // TODO: 没用，可以删除
+            .call((svg) => {
+              svg
+                .append('defs')
+                .append('filter')
+                .attr('id', 'tooltip-bg-blurry')
+                .attr('primitiveUnits', 'userSpaceOnUse')
+                .call((defs) => {
+                  defs
+                    .append('feGaussianBlur')
+                    .attr('stdDeviation', 10)
+                    .attr('in', 'SourceGraphic')
+                    .attr('result', 'blurSquares');
+                  defs
+                    .append('feComponentTransfer')
+                    .attr('in', 'blurSquares')
+                    .attr('result', 'opaqueBlur')
+                    .append('feFuncA')
+                    .attr('type', 'linear')
+                    .attr('intercept', 1);
+                  defs
+                    .append('feBlend')
+                    .attr('mode', 'normal')
+                    .attr('in', 'opaqueBlur')
+                    .attr('in2', 'SourceGraphic');
+                });
+            });
 
           // 创建 Grid group
           const yGridGroup = svg
@@ -232,6 +259,7 @@ export function LineChart2<L = any, R = any, T = any>({
             .classed('whistle-line-chart-tooltip', true)
             .style('pointer-events', 'none')
             .attr('pointer-events', 'none');
+          // .attr('filter', 'url(#tooltip-bg-blurry)');
 
           const tooltipBg = tooltipGroup.append('rect');
 
@@ -240,12 +268,14 @@ export function LineChart2<L = any, R = any, T = any>({
             .classed('line-chart-tip', true)
             .style('pointer-events', 'none')
             .attr('pointer-events', 'none')
-            .attr('stroke', '#4C4DE2')
+            .attr('stroke', lines[0].color ?? '#4C4DE2')
             .attr('stroke-dasharray', '3 2');
 
           const tooltipTimestamp = tooltipGroup
             .append('text')
-            .classed('whistle-line-chart-tooltip-timestamp', true);
+            .classed('whistle-line-chart-tooltip-timestamp', true)
+            .attr('font-size', 14)
+            .attr('fill', '#040F1F');
 
           let yAxisLWidth: number = 0;
           let yAxisRWidth: number = 0;
@@ -574,8 +604,8 @@ export function LineChart2<L = any, R = any, T = any>({
                         .style('pointer-events', 'none')
                         .attr('stroke', '#F95B5B')
                         .attr('stroke-dasharray', '3 2')
-                        .attr('x1', left)
-                        .attr('x2', width - right)
+                        .attr('x1', left + yAxisLWidth)
+                        .attr('x2', width - right - yAxisRWidth)
                         .attr('y1', (d) =>
                           leftYScale(getThresholdRef.current?.(d) ?? 0)
                         )
@@ -592,7 +622,8 @@ export function LineChart2<L = any, R = any, T = any>({
                         .attr('fill', '#F95B5B')
                         .attr('font-size', '12px')
                         .attr('transform', (d) => {
-                          const tx = width - right - left;
+                          const tx =
+                            width - right - left - yAxisLWidth - yAxisRWidth;
                           const ty = leftYScale(
                             (getThresholdRef.current?.(d) ?? 0) + 5
                           );
@@ -723,7 +754,11 @@ export function LineChart2<L = any, R = any, T = any>({
                             })
                             .call((g) => {
                               tooltipBg
-                                .attr('fill', 'white')
+                                .attr('fill', 'rgba(255, 255, 255,.9)')
+                                .attr(
+                                  'filter',
+                                  'drop-shadow(0 4px 3px rgba(0, 0, 0, 0.04)) drop-shadow(0 4px 3px rgba(0, 0, 0, 0.1))'
+                                )
                                 .attr('rx', 8)
                                 .attr('x', fitX + 10)
                                 .attr('y', mt)
@@ -759,7 +794,9 @@ export function LineChart2<L = any, R = any, T = any>({
                                       .classed('tooltip-text-left', true)
                                       .call((g) => {
                                         g.append('circle')
-                                          .attr('r', radius)
+                                          .attr('stroke', 'white')
+                                          .attr('stroke-width', 2)
+                                          .style('r', radius)
                                           .attr('fill', (line) => line.color)
                                           .attr('cx', fitX + 20 + radius)
                                           .attr(
@@ -821,6 +858,8 @@ export function LineChart2<L = any, R = any, T = any>({
                                       .classed('tooltip-text-right', true)
                                       .call((g) => {
                                         g.append('circle')
+                                          .attr('stroke', 'white')
+                                          .attr('stroke-width', 2)
                                           .attr('r', radius)
                                           .attr('fill', (line) => line.color)
                                           .attr('cx', fitX + 20 + radius)
@@ -977,7 +1016,7 @@ export function LineChart2<L = any, R = any, T = any>({
                 {[...lines, ...linesRightSide].map((d, i) => (
                   <div
                     key={`${d?.label ?? d.key}-${i}`}
-                    className="text-[12px] text-[#9A9FA5] mr-7 first:mr-0 relative flex justify-start items-center"
+                    className="text-sm text-[#9A9FA5] mr-7 first:mr-0 relative flex justify-start items-center"
                   >
                     {d.visible && (
                       <CustomSwitch
@@ -993,7 +1032,7 @@ export function LineChart2<L = any, R = any, T = any>({
                       />
                     )}
                     <div
-                      className="w-[10px] h-[10px] rounded-[50%] ml-1"
+                      className="w-3 h-3 rounded-[50%] ml-1"
                       style={{ backgroundColor: d.color }}
                     ></div>
                     <div className="ml-1">{d.label}</div>
@@ -1051,7 +1090,6 @@ const ScrollBarHidden = styled.div`
 
 const CardFrame = styled.div`
   height: 100%;
-  background-color: #fff;
   border: 1px solid #f6cbcb;
   border-radius: 14px;
   padding: 10px;
