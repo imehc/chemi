@@ -37,7 +37,8 @@
         "plugin:@typescript-eslint/recommended",
         "plugin:react/recommended",
         "plugin:prettier/recommended",
-        "plugin:unocss/recommended"
+        "plugin:unocss/recommended",
+        "plugin:storybook/recommended"
       ],
       "rules": {
         "react/react-in-jsx-scope": "off",
