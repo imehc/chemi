@@ -10,6 +10,7 @@ export default defineConfig({
   plugins: [react(), eslintPlugin(), unocss()],
   server: {
     host: '0.0.0.0',
+    port: 6012, // default port
     proxy: {
       '/apis': {
         target: 'https://v1.hitokoto.cn',
