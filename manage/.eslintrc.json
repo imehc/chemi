@@ -4,21 +4,7 @@
     "es2021": true,
     "node": true
   },
-  "settings": {
-    "react": {
-      "version": "detect"
-    }
-  },
   "overrides": [
-    {
-      "files": [
-        "*.js"
-      ],
-      "extends": [
-        "eslint:recommended",
-        "plugin:prettier/recommended"
-      ]
-    },
     {
       "files": [
         "*.ts",
@@ -26,30 +12,20 @@
       ],
       "parser": "@typescript-eslint/parser",
       "parserOptions": {
-        "ecmaFeatures": {
-          "jsx": true
-        },
         "ecmaVersion": "latest",
         "sourceType": "module"
       },
       "extends": [
-        "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:react/recommended",
         "plugin:prettier/recommended",
         "plugin:unocss/recommended"
       ],
       "rules": {
-        "react/react-in-jsx-scope": "off",
-        "react/prop-types": "off",
-        "react/display-name": "off",
-        "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",
-        "unocss/classnames-order": "off",
-        "no-debugger": "off"
+        "react/no-unknown-property": "off",
+        "unocss/classnames-order": "off"
       },
       "plugins": [
-        "react-hooks"
+        "react", "react-hooks", "@typescript-eslint"
       ]
     }
   ]

@@ -3,7 +3,12 @@ import React, { type FC } from 'react';
 export const PageDashboard: FC = () => {
   return (
     <React.Fragment>
-      <div className="inline-block text-[36px] i-twemoji-frog m-10 animate-bounce-alt animate-count-infinite animate-duration-1s" />
+      <div
+        className="animate-bounce-alt animate-duration-1s animate-count-infinite i-twemoji-frog"
+        m="10"
+        text="36px"
+        display="inline-block"
+      />
     </React.Fragment>
   );
 };
