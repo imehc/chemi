@@ -4,7 +4,6 @@ import {
   presetUno,
   presetIcons,
 } from 'unocss';
-import transformerDirective from '@unoCSS/transformer-directives';
 
 export default defineConfig({
   presets: [
@@ -12,7 +11,6 @@ export default defineConfig({
     presetAttributify(),
     presetIcons({ scale: 1.2, warn: true }),
   ],
-  transformers: [transformerDirective()],
   shortcuts: [
     ['wh-full', 'w-full h-full'],
     ['f-c-c', 'flex justify-center items-center'],
