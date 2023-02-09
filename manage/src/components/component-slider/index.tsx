@@ -62,7 +62,8 @@ export const Slider: React.FC<BaseSliderProps> = ({
             marksSort.length <= 20 ||
             (marksSort.length > 20 && marksSort.length <= 50 && i % 2 === 0) ||
             (marksSort.length > 50 && marksSort.length <= 100 && i % 5 === 0) ||
-            (marksSort.length > 100 && i % 10 === 0);
+            (marksSort.length > 100 && i % 10 === 0) ||
+            false;
           return (
             <div
               className="whitespace-nowrap m-2"
@@ -177,10 +178,10 @@ const SliderWrap = styled.div`
   & .rc-slider-handle-1 .rc-slider-handle-2 {
     position: relative;
   }
-  /* & .rc-slider-mark-text:first-of-type {
+  & .rc-slider-mark-text:first-of-type {
     left: 0.8% !important;
   }
   & .rc-slider-mark-text:last-child {
     left: 99.2% !important;
-  } */
+  }
 `;
