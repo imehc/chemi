@@ -2,8 +2,10 @@ export * from "./component-area-chart"
 export * from "./component-area-chart-2"
 export * from "./component-bar-chart"
 export * from "./component-bar-chart-2"
+export * from "./component-checkbox"
 export * from "./component-line-chart"
 export * from "./component-line-chart-2";
+export * from "./component-line-chart-3";
 export * from "./component-radar-chart"
 export * from "./component-radar-chart-2"
 export * from "./componetn-responsive-container"

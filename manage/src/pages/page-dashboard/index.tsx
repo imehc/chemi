@@ -6,6 +6,7 @@ import {
   BarChart2,
   LineChart,
   LineChart2,
+  LineChart3,
   PieChart,
   RadarChart,
   RadarChart2,
@@ -15,6 +16,8 @@ import { Ardar, ardarData } from '~/mock/radar_chart';
 import { barData } from '~/mock/bar_chart';
 import { data, Data, data2, data3, MockData } from '~/mock/line_chart';
 import { pieData } from '~/mock/pie_chart';
+import { lines } from '~/mock/line_chart3';
+import { subDays } from 'date-fns';
 
 console.log(data3, '22');
 
@@ -22,6 +25,12 @@ export const PageDashboard: React.FC = () => {
   // console.log(data2,'data2')
   return (
     <div className="overflow-hidden">
+      <div className="w-[1000px] h-[800px] p-10">
+        <LineChart3
+          lines={lines}
+          timeScale={[subDays(new Date(), 100), new Date()]}
+        />
+      </div>
       {/* <div className="h-[200px] w-[300px] ml-11 mt-11">
         <ResponsiveContainer>
           <AreaChart data={data3} getX={(d) => d.time} getY={(d) => d.value2} />
