@@ -1,65 +1,25 @@
 import React from 'react';
-import { Button, Button2, CheckBox } from '~/components';
-import reset from '~/components/component-button-2/reset.svg';
+import { useScalePage } from '~/hooks';
 
 export const PageDashboard: React.FC = () => {
+  useScalePage();
   return (
     <React.Fragment>
-      <Button>111</Button>
-      <Button2
-        startIcon={<img src={reset} alt="" className="w-5 h-5" />}
-        className="mb-2"
-        onClick={() => {
-          console.log('11111');
-        }}
-      >
-        重置搜索
-      </Button2>
-      <Button2 className="mb-2" theme="text">
-        重置搜索
-      </Button2>
-      <hr />
-      <Button2
-        className="m-10 w-64"
-        theme="primary"
-        startIcon={<img src={reset} alt="" className="w-5 h-5" />}
-      >
-        重置搜索
-      </Button2>
-      <hr />
-      <Button2 className="mb-2" theme="contained">
-        重置搜索
-      </Button2>
-      <hr />
-      <Button2 className="m-10" theme="primary" color="green">
-        重置搜索
-      </Button2>
-      <Button2 className="mb-2" theme="contained" color="green">
-        重置搜索
-      </Button2>
-      <Button2 className="mb-2" theme="contained" color="delete">
-        重置搜索
-      </Button2>
-      {/* <Button2 className="mb-2" theme="primary">
-        重置搜索
-      </Button2>
-      <Button2 className="mb-2" theme="text">
-        重置搜索
-      </Button2>
-      <Button2 className="mb-2" theme="contained">
-        重置搜索
-      </Button2>
-      <Button2 className="mb-2" theme="outlined">
-        重置搜索
-      </Button2> */}
-      <br />
-      {/* <Button2 size="small">重置搜索</Button2>
-      <Button2>重置搜索</Button2>
-      <Button2 size="large">重置搜索</Button2> */}
-      <br />
-      {/* <Button2 theme="contained" color="delete">
-        重置搜索
-      </Button2> */}
+      {/* gap-4每个之间的间距 */}
+      {/* <div className="h-64 grid grid-cols-4 gap-4">
+        <div className="bg-yellow-500">1</div>
+        <div className="bg-blue-500">3</div>
+        <div className="bg-green-500">5</div>
+        <div className="bg-pink-500">7</div>
+        <div className="bg-orange-500">9</div>
+      </div> */}
+      <div className='shadow'>111</div>
+      <div className="h-64 grid grid-cols-1 gap-0 bg-[#aaa] auto-cols-auto">
+        <div className="bg-yellow-500 h-10 text-sm">1</div>
+        <div className="bg-blue-500 h-10 text-sm">3</div>
+        <div className="bg-green-500 h-10 text-sm">5</div>
+        {/* <div className="bg-orange-500">9</div> */}
+      </div>
     </React.Fragment>
   );
 };
