@@ -18,6 +18,7 @@ import { data, Data, data2, data3, MockData } from '~/mock/line_chart';
 import { pieData } from '~/mock/pie_chart';
 import { lines } from '~/mock/line_chart3';
 import { subDays } from 'date-fns';
+import temp from '~/mock/line_chart3_temp';
 
 console.log(data3, '22');
 
@@ -27,8 +28,10 @@ export const PageDashboard: React.FC = () => {
     <div className="overflow-hidden">
       <div className="w-[1000px] h-[800px] p-10">
         <LineChart3
-          lines={lines}
-          timeScale={[subDays(new Date(), 100), new Date()]}
+          // lines={lines}
+          // timeScale={[subDays(new Date(), 100), new Date()]}
+          timeScale={[new Date("2022-12-01"),new Date("2022-12-31")]}
+          lines={temp as any}
         />
       </div>
       {/* <div className="h-[200px] w-[300px] ml-11 mt-11">
