@@ -17,6 +17,7 @@
     "clean": "rimraf node_modules"
   },
   "dependencies": {
+    "@react-spring/web": "^9.7.1",
     "@react-three/fiber": "^8.11.2",
     "clsx": "^1.2.1",
     "date-fns": "^2.29.3",
