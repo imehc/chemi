@@ -22,7 +22,7 @@
       "rules": {
         "react-hooks/exhaustive-deps": "warn",
         "react/no-unknown-property": "off",
-        "unocss/classnames-order": "off"
+        "unocss/classnames-order": "warn"
       },
       "plugins": [
         "react", "react-hooks", "@typescript-eslint"
