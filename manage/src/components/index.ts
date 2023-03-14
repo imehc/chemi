@@ -1,5 +1,6 @@
 export * from "./component-area-chart"
 export * from "./component-area-chart-2"
+export * from "./component-area-chart-3"
 export * from "./component-bar-chart"
 export * from "./component-bar-chart-2"
 export * from "./component-checkbox"

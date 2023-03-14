@@ -5,6 +5,7 @@ specifiers:
   '@emotion/styled': ^11.10.5
   '@types/d3': ^7.4.0
   '@types/node': ^18.11.18
+  '@types/ramda': ^0.28.23
   '@types/react': ^18.0.26
   '@types/react-dom': ^18.0.10
   '@vitejs/plugin-react': ^3.0.1
@@ -17,6 +18,7 @@ specifiers:
   npm-run-all: ^4.1.5
   postcss: ^8.4.21
   prettier: ^2.8.2
+  ramda: ^0.28.0
   react: ^18.2.0
   react-dom: ^18.2.0
   react-resize-detector: ^7.1.2
@@ -32,6 +34,7 @@ dependencies:
   clsx: registry.npmmirror.com/clsx/1.2.1
   d3: registry.npmmirror.com/d3/7.8.2
   date-fns: registry.npmmirror.com/date-fns/2.29.3
+  ramda: registry.npmmirror.com/ramda/0.28.0
   react: registry.npmmirror.com/react/18.2.0
   react-dom: registry.npmmirror.com/react-dom/18.2.0_react@18.2.0
   react-resize-detector: registry.npmmirror.com/react-resize-detector/7.1.2_biqbaboplfbrettd7655fr4n2y
@@ -41,6 +44,7 @@ dependencies:
 devDependencies:
   '@types/d3': registry.npmmirror.com/@types/d3/7.4.0
   '@types/node': registry.npmmirror.com/@types/node/18.11.19
+  '@types/ramda': registry.npmmirror.com/@types/ramda/0.28.23
   '@types/react': registry.npmmirror.com/@types/react/18.0.27
   '@types/react-dom': registry.npmmirror.com/@types/react-dom/18.0.10
   '@vitejs/plugin-react': registry.npmmirror.com/@vitejs/plugin-react/3.1.0_vite@4.1.1
@@ -1092,6 +1096,14 @@ packages:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/prop-types/-/prop-types-15.7.5.tgz}
     name: '@types/prop-types'
     version: 15.7.5
+
+  registry.npmmirror.com/@types/ramda/0.28.23:
+    resolution: {integrity: sha512-9TYWiwkew+mCMsL7jZ+kkzy6QXn8PL5/SKmBPmjgUlTpkokZWTBr+OhiIUDztpAEbslWyt24NNfEmZUBFmnXig==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/ramda/-/ramda-0.28.23.tgz}
+    name: '@types/ramda'
+    version: 0.28.23
+    dependencies:
+      ts-toolbelt: registry.npmmirror.com/ts-toolbelt/6.15.5
+    dev: true
 
   registry.npmmirror.com/@types/react-dom/18.0.10:
     resolution: {integrity: sha512-E42GW/JA4Qv15wQdqJq8DL4JhNpB3prJgjgapN3qJT9K2zO5IIAQh4VXvCEDupoqAwnz0cY4RlXeC/ajX5SFHg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/react-dom/-/react-dom-18.0.10.tgz}
@@ -2812,6 +2824,12 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
+  registry.npmmirror.com/ramda/0.28.0:
+    resolution: {integrity: sha512-9QnLuG/kPVgWvMQ4aODhsBUFKOUmnbUnsSXACv+NCQZcHbeb+v8Lodp8OVxtRULN1/xOyYLLaL6npE6dMq5QTA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/ramda/-/ramda-0.28.0.tgz}
+    name: ramda
+    version: 0.28.0
+    dev: false
+
   registry.npmmirror.com/react-dom/18.2.0_react@18.2.0:
     resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/react-dom/-/react-dom-18.2.0.tgz}
     id: registry.npmmirror.com/react-dom/18.2.0
@@ -3219,6 +3237,12 @@ packages:
     engines: {node: '>=8.0'}
     dependencies:
       is-number: registry.npmmirror.com/is-number/7.0.0
+    dev: true
+
+  registry.npmmirror.com/ts-toolbelt/6.15.5:
+    resolution: {integrity: sha512-FZIXf1ksVyLcfr7M317jbB67XFJhOO1YqdTcuGaq9q5jLUoTikukZ+98TPjKiP2jC5CgmYdWWYs0s2nLSU0/1A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/ts-toolbelt/-/ts-toolbelt-6.15.5.tgz}
+    name: ts-toolbelt
+    version: 6.15.5
     dev: true
 
   registry.npmmirror.com/tslib/2.5.0:

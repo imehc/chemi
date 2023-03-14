@@ -38,7 +38,7 @@ const random4 = (length: number, range?: number) => {
   return [...new Array(length)].map((_, i) => {
     return {
       time: new Date(`2022-11-$10 0${i}:00:00`),
-      // value: Number((Math.random() * -50 + 1).toFixed(0)),
+      value: Number((Math.random() * -50 + 1).toFixed(0)),
       value2: Number((Math.random() * 220 + 1).toFixed(0)),
       value3: Number((Math.random() * 50 + 1).toFixed(0)),
       value4: Number((Math.random() * 100 + 1).toFixed(0)),
