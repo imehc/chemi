@@ -1,4 +1,5 @@
 export * from './use_common_util';
+export * from './use_modal';
 export * from './use_optimize';
 export * from './use_object_convert_to_array';
 export * from './use_position';

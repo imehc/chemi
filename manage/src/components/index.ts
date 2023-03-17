@@ -16,3 +16,4 @@ export * from './component-slider';
 export * from './component-switch';
 export * from './component-table';
 export * from './component-tooltip';
+export * from './component-tooltip-v1';
