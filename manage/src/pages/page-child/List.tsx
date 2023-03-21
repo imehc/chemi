@@ -1,5 +1,4 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button } from '~/components';
 import { useMockData } from '~/providers';
 import { useProfileStore } from '~/store';
 
@@ -37,12 +36,7 @@ export const List: React.FC = () => {
         重置
       </button>
       <hr />
-      <Button
-        theme="primary"
-        onClick={() => navigate(`/father/${fatherId}/son`)}
-      >
-        返回
-      </Button>
+      <button onClick={() => navigate(`/father/${fatherId}/son`)}>返回</button>
       PageChildList...{sonId}
     </div>
   );

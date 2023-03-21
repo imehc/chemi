@@ -1,7 +1,6 @@
 import React from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button } from '~/components';
 import { mockChildData1 } from '~/mock';
 import { useMockData } from '~/providers';
 import { useProfileStore } from '~/store';
@@ -17,10 +16,6 @@ export const Edit: React.FC = () => {
     return res;
   });
 
-  const { mock1, mock2, setMock2 } = useMockData();
-  console.log(mock1, 'sonstorewithmock1...');
-  console.log(mock2, 'sonstorewithmock2...');
-
   const { setGlobalMock2 } = useProfileStore();
 
   if (isLoading || !data) {
@@ -30,15 +25,14 @@ export const Edit: React.FC = () => {
 
   return (
     <React.Fragment>
-      <Button theme="primary" onClick={() => navigate(`/father`)}>
+      <button onClick={() => navigate(`/father`)}>
         返回
-      </Button>
+      </button>
       <div>{data.name}</div>
       {data.data?.map((d, i) => (
         <div
           key={i}
           onClick={() => {
-            setMock2(data);
             setGlobalMock2(data);
             navigate(`../${d.sid}/child`);
           }}

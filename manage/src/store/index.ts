@@ -1,5 +1,5 @@
-import create from 'zustand'
-import { persist } from 'zustand/middleware'
+import { create } from 'zustand'
+import { persist, createJSONStorage } from 'zustand/middleware'
 import { Mock2 } from '~/mock';
 
 // https://github.com/pmndrs/zustand
@@ -24,7 +24,7 @@ const useProfileStore = create(
       setGlobalMock2: (globalMock2) => set(() => ({ globalMock2 }))
     }), {
     name: 'global-storage', // unique name
-    getStorage: () => sessionStorage, // (optional) by default, 'localStorage' is used
+    storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
   }
   )
 )

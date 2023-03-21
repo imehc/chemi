@@ -1,7 +1,6 @@
 import React, { lazy, useCallback, useMemo } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { GlobalContextProvider } from '~/globalContext';
-import { CustomDeleteDialogProvider } from '~/components';
 const PageDashboard = lazy(() => import('~/pages/page-dashboard'));
 import PageFather from '~/pages/page-father';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -29,17 +28,15 @@ const BaseRouter: React.FC = () => {
   );
   return (
     <QueryClientProvider client={queryClient}>
-      <CustomDeleteDialogProvider>
-        <GlobalContextProvider>
-          <GlobalProfileDemo />
-          <Routes>
-            <Route path="/" element={<PageDashboard />} />
-            {/* 注意这后面要加* */}
-            <Route path="father/*" element={<PageFather />} />
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-        </GlobalContextProvider>
-      </CustomDeleteDialogProvider>
+      <GlobalContextProvider>
+        <GlobalProfileDemo />
+        <Routes>
+          <Route path="/" element={<PageDashboard />} />
+          {/* 注意这后面要加* */}
+          <Route path="father/*" element={<PageFather />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </GlobalContextProvider>
     </QueryClientProvider>
   );
 };
@@ -49,7 +46,7 @@ const GlobalProfileDemo = () => {
   const { name, year, setName, setYear } = useProfileStore();
   return (
     <React.Fragment>
-      <h3 className="text-[#00ff4c] text-xl">profile_name：{name}</h3>
+      <h3 className="text-[#dda893] text-xl">profile_name：{name}</h3>
       <div className="text-[#00ff4c]">profile_year：{year}</div>
       <button
         className="px-[5px] border-[1px] rounded-[5px] border-solid border-gray-300 text-[#202324]"

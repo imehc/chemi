@@ -10,7 +10,8 @@ export default defineConfig({
   ],
   server: {
     host: '0.0.0.0',
-    proxy:{
+    port: 6012,
+    proxy: {
       '/apis': {
         target: 'https://v1.hitokoto.cn',
         changeOrigin: true,

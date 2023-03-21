@@ -1,14 +1,12 @@
 module.exports = {
-  mode: 'jit',
   content: [
-    'src/**/*.js',
-    'src/**/*.jsx',
-    'src/**/*.ts',
-    'src/**/*.tsx',
-    'public/**/*.html',
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'media', // or 'media' or 'class'
   theme: {
     extend: {},
   },
+  variants: {},
   plugins: [],
-};
+}

@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { createContext, useContext } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
-import create, { type StoreApi } from 'zustand';
-import createContext from 'zustand/context';
+import { type StoreApi, createStore, useStore } from 'zustand';
 import { Mock1, Mock2, mockFatherData1 } from '~/mock';
 import { useProfileStore } from '~/store';
 
-const { Provider, useStore } = createContext<StoreApi<CreateStoreProps>>();
+// const { Provider } = createContext<StoreApi<CreateStoreProps>>();
+const MockProviderContext = createContext<StoreApi<CreateStoreProps>>(
+  {} as any
+);
 
 export interface CreateStoreProps {
   mock1s: Mock1[] | undefined;
@@ -34,16 +36,26 @@ const MockProvider = ({
     return <div>loading...</div>;
   }
 
-  const createStore = () =>
-    create<CreateStoreProps>((set) => ({
+  const createBearStore = () =>
+    createStore<CreateStoreProps>((set) => ({
       mock1s: data,
       mock1: data.find((d) => d.fid === Number(fatherId)) ?? data[0],
-      mock2: globalMock2,// 有优先使用全局变量
+      mock2: globalMock2, // 有优先使用全局变量
       setMock1: (mock1) => set(() => ({ mock1 })),
       setMock2: (mock2) => set(() => ({ mock2 })),
     }));
 
-  return <Provider createStore={createStore}>{children}</Provider>;
+  return (
+    <MockProviderContext.Provider value={createBearStore()}>
+      {children}
+    </MockProviderContext.Provider>
+  );
 };
 
-export { MockProvider, useStore as useMockData };
+const useMockData = () => {
+  const store = useContext(MockProviderContext);
+  const contextValue = useStore(store);
+  return contextValue;
+};
+
+export { MockProvider, useMockData };
