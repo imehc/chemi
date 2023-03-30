@@ -1,6 +1,6 @@
-import React, { lazy } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
-const PageDashboard = lazy(() => import('~/pages/page-dashboard'));
+import React, { lazy } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
+const PageDashboard = lazy(() => import("~/pages/page-dashboard"));
 
 const AuthRouter: React.FC = () => {
   const location = useLocation();

@@ -1,7 +1,7 @@
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-import { PageBasic } from '~/pages';
-import AuthRouter from './AuthRouter';
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import { PageBasic } from "~/pages";
+import AuthRouter from "./AuthRouter";
 
 const BaseRouter: React.FC = () => {
   return (
