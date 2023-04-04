@@ -1,6 +1,8 @@
 import React, { type FC } from 'react';
 
 export const PageDashboard: FC = () => {
+  console.log('current env name: ', import.meta.env.VITE_NAME);
+
   return (
     <React.Fragment>
       <div
