@@ -1,16 +1,41 @@
-import React, { type FC } from 'react';
+import React, { useRef, type FC, useEffect } from 'react';
+import {
+  TileMapServiceImageryProvider,
+  Viewer,
+  ImageryLayer,
+  buildModuleUrl,
+} from 'cesium';
+import 'cesium/Build/CesiumUnminified/Widgets/widgets.css';
 
 export const PageDashboard: FC = () => {
-  console.log('current env name: ', import.meta.env.VITE_NAME);
+  const viewerDivRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const { current: container } = viewerDivRef;
+    if (!container) {
+      return;
+    }
+
+    const viewer = new Viewer(container, {
+      baseLayer: ImageryLayer.fromProviderAsync(
+        // 对于 CESIUM_BASE_URL 下的静态资源，推荐用 buildModuleUrl 获取
+        TileMapServiceImageryProvider.fromUrl(
+          buildModuleUrl('Assets/Textures/NaturalEarthII')
+          // {
+          //   fileExtension: 'jpg',
+          // }
+        ),
+        {}
+      ),
+    });
+
+    return () => {
+      viewer.destroy();
+    };
+  }, []);
 
   return (
     <React.Fragment>
-      <div
-        className="animate-bounce-alt animate-duration-1s animate-count-infinite i-twemoji-frog"
-        m="10"
-        text="36px"
-        display="inline-block"
-      />
+      <div ref={viewerDivRef} className="w-screen h-screen"></div>
     </React.Fragment>
   );
 };

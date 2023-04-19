@@ -8,3 +8,9 @@ declare module 'react' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface HTMLAttributes<T> extends AttributifyAttributes {}
 }
+
+declare global {
+  interface Window {
+    CESIUM_BASE_URL: string;
+  }
+}
