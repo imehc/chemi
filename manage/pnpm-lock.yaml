@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@mapbox/mapbox-gl-draw':
     specifier: ^1.4.2
@@ -45,6 +49,9 @@ devDependencies:
   '@iconify/json':
     specifier: ^2.1.151
     version: 2.2.77
+  '@types/geojson':
+    specifier: ^7946.0.10
+    version: 7946.0.10
   '@types/mapbox-gl':
     specifier: ^2.7.10
     version: 2.7.10

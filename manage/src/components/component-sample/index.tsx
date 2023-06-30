@@ -1,7 +1,10 @@
-import Map, { Layer, Source } from 'react-map-gl';
-import { useEffect, useRef } from 'react';
+import Map, { MapRef } from 'react-map-gl';
+import { LngLatBounds } from 'mapbox-gl';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { DrawModeChangeEvent } from '@mapbox/mapbox-gl-draw';
 import { DrawControl } from './DrawControl';
+import { bbox, centerOfMass } from '@turf/turf';
+import type { Geometry, Polygon } from 'geojson';
 
 export const feature = [
   {
@@ -24,7 +27,45 @@ export const feature = [
   },
 ];
 
-export const Sample = () => {
+interface Props {
+  defaultValue?: Polygon;
+}
+
+export const Sample: React.FC<Props> = ({ defaultValue }) => {
+  const [mapboxMap, setMapboxMap] = useState<MapRef | null>();
+
+  const [geometry, updateGeometry] = useState<Geometry | undefined>();
+
+  // 获取区域中心点
+  const polygonCenter = useMemo(() => {
+    if (
+      !defaultValue ||
+      !(defaultValue.type === 'Polygon') ||
+      !defaultValue.coordinates.length
+    ) {
+      return;
+    }
+    return centerOfMass(defaultValue).geometry.coordinates;
+  }, [defaultValue]);
+
+  // 缩放地图级别到可视范围
+  useEffect(() => {
+    if (
+      !defaultValue ||
+      !(defaultValue.type === 'Polygon') ||
+      !defaultValue.coordinates.length ||
+      !mapboxMap
+    ) {
+      return;
+    }
+    const _bbox = bbox(defaultValue);
+    const bounds = new LngLatBounds([
+      [_bbox[0], _bbox[1]],
+      [_bbox[2], _bbox[3]],
+    ]);
+    mapboxMap.getMap().fitBounds(bounds, { padding: 20 });
+  }, [defaultValue, mapboxMap]);
+  // ================================================COPY========================================================================
   const drawRef = useRef<MapboxDraw>(null);
 
   // drawRef will be undefined here, because Drawcontrol is not loaded yet.
@@ -49,6 +90,7 @@ export const Sample = () => {
 
     console.log('init');
   }, []);
+  // ========================================================================================================================
 
   return (
     <>
@@ -57,10 +99,11 @@ export const Sample = () => {
         rel="stylesheet"
       />
       <Map
+        ref={(ref) => ref && setMapboxMap(ref)}
         // mapLib={import('mapbox-gl')}
         initialViewState={{
-          latitude: 29.575944089902336,
-          longitude: 106.53269624170116,
+          latitude: polygonCenter?.[0] ?? 29.575944089902336,
+          longitude: polygonCenter?.[1] ?? 106.53269624170116,
           zoom: 8,
         }}
         style={{ width: '100vw', height: '100vh' }}
@@ -79,16 +122,17 @@ export const Sample = () => {
         </Source> */}
         <DrawControl
           position="top-left"
+          geometry={geometry}
           // ref={drawRef}
-          onModeChange={changeModeTo}
-          onCreate={(evt) => {
-            console.log(evt, 'onCreate');
+          // onModeChange={changeModeTo}
+          onCreate={({ features }) => {
+            updateGeometry(features?.[0]?.geometry as Geometry);
           }}
-          onUpdate={(evt) => {
-            console.log(evt, 'onUpdate');
+          onUpdate={({ features }) => {
+            updateGeometry(features?.[0]?.geometry as Geometry);
           }}
-          onDelete={(evt) => {
-            console.log(evt, 'onDelete');
+          onDelete={() => {
+            updateGeometry(undefined);
           }}
         />
       </Map>
