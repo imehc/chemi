@@ -1,7 +1,7 @@
 import { useEffect, useRef, type FC } from 'react';
 import { Map } from 'mapbox-gl';
 
-const accessToken =
+export const accessToken =
   'pk.eyJ1IjoicmljaG9vIiwiYSI6ImNreXkzbmJjcTBvZjQyd282dTJkNXIxamMifQ.ZafGfi_Ew5g7PX9OdsGROA';
 
 export const Basic: FC = () => {

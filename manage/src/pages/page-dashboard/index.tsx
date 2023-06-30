@@ -1,10 +1,10 @@
 import React, { type FC } from 'react';
-import { Basic } from '~/components';
+import { Basic, Sample } from '~/components';
 
 export const PageDashboard: FC = () => {
   return (
     <React.Fragment>
-      <Basic />
+      <Sample />
     </React.Fragment>
   );
 };
