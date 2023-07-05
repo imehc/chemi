@@ -17,6 +17,7 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@faker-js/faker": "^7.6.0",
+    "@floating-ui/react": "^0.24.5",
     "@tanstack/react-table": "^8.8.5",
     "clsx": "^1.2.1",
     "date-fns": "^2.29.3",
