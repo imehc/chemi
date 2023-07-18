@@ -4,9 +4,9 @@ import React, {
   useMemo,
   useRef,
   useState,
-} from "react";
-import ReactDatePicker from "react-datepicker";
-import zhCN from "date-fns/locale/zh-CN";
+} from 'react';
+import ReactDatePicker from 'react-datepicker';
+import zhCN from 'date-fns/locale/zh-CN';
 import {
   addMinutes,
   getHours,
@@ -16,31 +16,16 @@ import {
   isAfter,
   setHours,
   setMinutes,
-} from "date-fns";
-import "./index.css";
-import { SelectV1 } from "..";
-import leftArrowCheckedIcon from "./assets/left_arrow.svg";
-import leftArrowIcon from "./assets/left_arrow_grey.svg";
-import rightArrowCheckedIcon from "./assets/right_arrow.svg";
-import rightArrowIcon from "./assets/right_arrow_grey.svg";
-import styled from "@emotion/styled";
-import { groupBy } from "ramda";
-import clsx from "clsx";
-
-/**
- * 标记日期
- */
-export type DateMark = {
-  date: Date;
-  /**
-   * @description 告警颜色
-   * @param red 红色 #EB6767
-   * @param orange 橙色 #FF9A16
-   * @param yellow 黄色 #FFE042
-   * @param blue 蓝色 #5B8EF9
-   */
-  color: "red" | "orange" | "yellow" | "blue";
-};
+} from 'date-fns';
+import './index.css';
+import { DateMark, SelectV1 } from '..';
+import leftArrowCheckedIcon from './assets/left_arrow.svg';
+import leftArrowIcon from './assets/left_arrow_grey.svg';
+import rightArrowCheckedIcon from './assets/right_arrow.svg';
+import rightArrowIcon from './assets/right_arrow_grey.svg';
+import styled from '@emotion/styled';
+import { groupBy } from 'ramda';
+import clsx from 'clsx';
 
 // docs https://reactdatepicker.com/#example-year-select-dropdown
 
@@ -62,7 +47,7 @@ export interface ReactDatePickerProps {
   marks?: DateMark[];
   showYearSelectPicker?: boolean;
   bold?: boolean;
-  size: "large" | "middle" | "small";
+  size: 'large' | 'middle' | 'small';
 }
 
 export const DatePick: React.FC<ReactDatePickerProps> = ({
@@ -71,7 +56,7 @@ export const DatePick: React.FC<ReactDatePickerProps> = ({
   selectsStart,
   selectsEnd,
   setDate,
-  placeholderText = "请选择日期",
+  placeholderText = '请选择日期',
   selected,
   startDate,
   endDate,
@@ -83,21 +68,21 @@ export const DatePick: React.FC<ReactDatePickerProps> = ({
   marks = [],
   showYearSelectPicker = false,
   bold = false,
-  size = "middle",
+  size = 'middle',
 }) => {
   const ref = useRef<ReactDatePicker<never, undefined>>(null);
 
   const dateFormat = useMemo(() => {
     if (showYearPicker) {
-      return "yyyy";
+      return 'yyyy';
     }
     if (showMonthYearPicker) {
-      return "yyyy-MM";
+      return 'yyyy-MM';
     }
     if (showTimeInput) {
-      return "yyyy-MM-dd HH:mm";
+      return 'yyyy-MM-dd HH:mm';
     }
-    return "yyyy-MM-dd";
+    return 'yyyy-MM-dd';
   }, [showYearPicker, showMonthYearPicker, showTimeInput]);
 
   const handleYearRange = useCallback((date: Date): string => {
@@ -115,15 +100,15 @@ export const DatePick: React.FC<ReactDatePickerProps> = ({
 
   useEffect(() => {
     const container = document.querySelectorAll(
-      ".react-datepicker-wrapper"
+      '.react-datepicker-wrapper'
     ) as NodeListOf<HTMLDivElement>;
     if (!container.length) {
       return;
     }
     const fontSize =
-      size === "middle" ? "1rem" : size === "large" ? "1.125rem" : "0.875rem";
+      size === 'middle' ? '1rem' : size === 'large' ? '1.125rem' : '0.875rem';
     container.forEach((item) => {
-      item.style.setProperty("--react-date-picker-font-size", fontSize);
+      item.style.setProperty('--react-date-picker-font-size', fontSize);
     });
   }, [size]);
 
@@ -144,8 +129,8 @@ export const DatePick: React.FC<ReactDatePickerProps> = ({
       startDate={startDate}
       endDate={endDate}
       className={clsx(
-        "w-full h-full outline-none border-none cursor-pointer text-lg bg-transparent text-theme-black placeholder-theme-grey",
-        [bold ? "font-bold" : "placeholder:font-normal"]
+        'w-full h-full outline-none border-none cursor-pointer text-lg bg-transparent text-theme-black placeholder-theme-grey',
+        [bold ? 'font-bold' : 'placeholder:font-normal']
       )}
       nextMonthButtonLabel=">"
       previousMonthButtonLabel="<"
@@ -164,13 +149,13 @@ export const DatePick: React.FC<ReactDatePickerProps> = ({
       highlightDates={highlightDates}
       dayClassName={(date) => {
         const cls =
-          "w-6 h-6 flex items-center justify-center text-xs text-[#040F1F] font-bold cursor-pointer rounded-full border-none";
+          'w-6 h-6 flex items-center justify-center text-xs text-[#040F1F] font-bold cursor-pointer rounded-full border-none';
         if (disabled || (maxDate && isAfter(date, maxDate))) {
           return cls;
         }
         return (
           cls +
-          " hover:text-white hover:bg-gradient-to-br hover:from-[#6f88ff] hover:to-[#4c4de2]"
+          ' hover:text-white hover:bg-gradient-to-br hover:from-[#6f88ff] hover:to-[#4c4de2]'
         );
       }}
       renderCustomHeader={({
@@ -210,37 +195,31 @@ export const DatePick: React.FC<ReactDatePickerProps> = ({
           </div>
         ) : (
           <div
-            className={clsx("flex items-center mb-[15px]", [
-              showYearSelectPicker ? "justify-start" : "justify-between",
+            className={clsx('flex items-center mb-[15px]', [
+              showYearSelectPicker ? 'justify-start' : 'justify-between',
             ])}
           >
             {showYearSelectPicker && (
               <div className="w-[78px] h-7 mr-[10px]">
-                {/* TODO: 自定义Select组件 */}
                 <SelectV1
-                  fullWidth
-                  placeholder=""
                   type="date"
+                  options={years}
                   value={
                     years.find((item) => item === getYear(date)) ??
                     getYear(new Date(date))
                   }
-                  options={years}
-                  filterOption={(item) => item}
                   onChange={changeYear}
                 />
               </div>
             )}
             <div className="w-[78px] h-7">
-              {/* TODO: 自定义Select组件 */}
               <SelectV1
-                fullWidth
-                placeholder=""
                 type="date"
-                value={months[getMonth(date)]}
                 options={months}
-                filterOption={(item) => item}
-                onChange={(evt) => changeMonth(months.indexOf(evt))}
+                value={months[getMonth(date)]}
+                onChange={(evt) => {
+                  changeMonth(months.indexOf(evt));
+                }}
               />
             </div>
             {!showYearSelectPicker && (
@@ -296,10 +275,10 @@ const CustomTimeInput: React.FC<CustomTimeInputProps> = ({
   });
 
   const hours = useMemo(() => {
-    return [...new Array(24)].map((_, i) => i.toString().padStart(2, "0"));
+    return [...new Array(24)].map((_, i) => i.toString().padStart(2, '0'));
   }, []);
   const minutes = useMemo(() => {
-    return [...new Array(60)].map((_, i) => i.toString().padStart(2, "0"));
+    return [...new Array(60)].map((_, i) => i.toString().padStart(2, '0'));
   }, []);
 
   const computedDate = useMemo(() => {
@@ -313,36 +292,27 @@ const CustomTimeInput: React.FC<CustomTimeInputProps> = ({
   return (
     <React.Fragment>
       <div className="flex items-center justify-start">
-        <div className="w-[55px] h-7">
-          {/* TODO: 自定义Select组件 */}
+        <div className="w-[55px] h-7 relative">
           <SelectV1
-            fullWidth
-            placeholder=""
             type="date"
-            value={getHours(currDate).toString().padStart(2, "0")}
             options={hours}
-            filterOption={(item) => item}
+            value={hour.toString().padStart(2, '0')}
             onChange={(evt) => setHour(+evt)}
           />
         </div>
         <span className="text-sm text-[#9A9FA5] mx-[6px]">时</span>
         <div className="w-[55px] h-7">
-          {/* TODO: 自定义Select组件 */}
           <SelectV1
-            fullWidth
-            placeholder=""
             type="date"
-            value={getMinutes(currDate).toString().padStart(2, "0")}
             options={minutes}
-            filterOption={(item) => item}
+            value={minute.toString().padStart(2, '0')}
             onChange={(evt) => setMinute(+evt)}
           />
         </div>
         <span className="text-sm text-[#9A9FA5] ml-[6px]">分</span>
       </div>
-      {/* TODO: 自定义按钮 */}
       <button
-      className="px-2 py-1 borer border-solid border-[#ff0]"
+        className="px-2 border border-solid border-gray-400 flex justify-center items-center rounded-lg"
         disabled={disabled}
         onClick={() => {
           onDateChange(computedDate);
@@ -373,20 +343,20 @@ const ButtonWrap = styled.button<{ icon: string }>`
 
   &:hover {
     border: ${({ disabled }) => {
-      return disabled ? "1px solid #dcdeea" : "none";
+      return disabled ? '1px solid #dcdeea' : 'none';
     }};
     background: ${({ disabled }) => {
       return disabled
-        ? "transparent"
-        : "linear-gradient(to right top, #6f88ff, #4c4de2)";
+        ? 'transparent'
+        : 'linear-gradient(to right top, #6f88ff, #4c4de2)';
     }};
-    cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+    cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   }
   &:hover > img {
     ${({ disabled, icon }) => {
       if (!disabled) {
         return {
-          content: "url(" + icon + ")",
+          content: 'url(' + icon + ')',
         };
       }
     }}

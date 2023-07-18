@@ -7,12 +7,12 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { useLatest } from "../../hooks";
+import { useStatic } from "../../hooks";
 import pic下拉箭头 from "./assets/下拉箭头.svg";
 import pic日期 from "./assets/日期.svg";
 import { DatePick, type ReactDatePickerProps } from "./DatePick";
 import clsx from "clsx";
-export type DateRange = {
+type DateRange = {
   startDate: Date;
   endDate?: Date;
 };
@@ -78,6 +78,7 @@ interface DatePickerProps {
   marks?: ReactDatePickerProps["marks"];
   /**
    * 是否显示年份下拉框
+   * @default true
    */
   showYearSelectPicker?: boolean;
   /**
@@ -87,11 +88,7 @@ interface DatePickerProps {
   bold?: boolean;
 }
 
-/**
- * @implements
- * 需要完善相关组件及实现、图标
- */
-export const DatePicker: React.FC<DatePickerProps> = ({
+export const DatePicker2: React.FC<DatePickerProps> = ({
   defaultValue,
   allowClear = true,
   range = false,
@@ -109,15 +106,12 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   style,
   fixedWidthOption,
   marks,
-  showYearSelectPicker = false,
+  showYearSelectPicker = true,
 }) => {
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
 
-  const handleStartDate = useCallback((date: Date) => {
-    console.log(date, "dateindex");
-    setStartDate(date);
-  }, []);
+  const handleStartDate = useCallback((date: Date) => setStartDate(date), []);
   const handleEndDate = useCallback((date: Date) => setEndDate(date), []);
   const handleResetDate = useCallback(() => {
     setStartDate(undefined);
@@ -137,7 +131,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     }
   }, [defaultValue, handleResetDate]);
 
-  const changeRef = useLatest(onChange);
+  const changeRef = useStatic(onChange);
   useEffect(() => {
     if (!changeRef.current) return;
     if (!startDate) return;
@@ -161,11 +155,12 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   }, [endDate, startDate]);
 
   const months = useMemo(
-    () => [...new Array(12)].map((_, i) => i + 1 + "月"),
+    () => [...new Array(12)].map((_, i) => ( i + 1 + "月" )),
     []
   );
   const years = useMemo(
-    () => rangeDate(1990)(getYear(addYears(new Date(), 30))),
+    () =>
+      rangeDate(1990)(getYear(addYears(new Date(), 30))),
     []
   );
 
