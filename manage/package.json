@@ -17,17 +17,22 @@
     "clean": "rimraf node_modules"
   },
   "dependencies": {
+    "@mantine/core": "^6.0.17",
     "@react-spring/web": "^9.7.1",
     "@react-three/drei": "^9.66.6",
     "@react-three/fiber": "^8.11.2",
     "clsx": "^1.2.1",
     "date-fns": "^2.29.3",
+    "gsap": "^3.12.2",
     "query-string": "^8.1.0",
     "react": "^18.2.0",
+    "react-dat-gui": "^4.1.1",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.1",
+    "react-use-refs": "^1.0.1",
     "styled-components": "^5.3.6",
-    "three": "^0.150.0"
+    "three": "^0.150.0",
+    "zustand": "^4.3.9"
   },
   "devDependencies": {
     "@iconify/json": "^2.2.26",
