@@ -1,6 +1,7 @@
 export * from './component-button';
 export * from './component-button-2';
 export * from './component-checkbox';
+export * from './component-control';
 export * from './component-date-picker';
 export * from './component-date-picker-2';
 export * from './component-date-range-picker';
