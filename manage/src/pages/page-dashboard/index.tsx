@@ -1,5 +1,5 @@
 import React, { useState, type FC } from 'react';
-import { PreviewModel, ThreeAxesHelper } from '~/components';
+import { PreviewModel, TheatreDemo, ThreeAxesHelper } from '~/components';
 
 export const PageDashboard: FC = () => {
   const [localUrl, setLocalUrl] = useState<string>();
@@ -14,15 +14,17 @@ export const PageDashboard: FC = () => {
 
   return (
     <React.Fragment>
-      <div className="h-[400px] m-10 w-[600px]">
-        <PreviewModel url={localUrl} />
+      {/* <div className="h-[400px] m-10 w-[600px]"> */}
+      <div className="h-screen w-screen">
+        {/* <PreviewModel url={localUrl} /> */}
+        <TheatreDemo />
       </div>
       {/* <MultipleView /> */}
-      <input
+      {/* <input
         type="file"
         accept="model/gltf-binary,.glb,.gltf"
         onChange={handleFileChange}
-      />
+      /> */}
     </React.Fragment>
   );
 };
