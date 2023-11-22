@@ -14,7 +14,7 @@ export const PageDashboard: FC = () => {
 
   return (
     <React.Fragment>
-      <div className="m-10 h-[400px] w-[600px]">
+      <div className="h-[400px] m-10 w-[600px]">
         <PreviewModel url={localUrl} />
       </div>
       {/* <MultipleView /> */}

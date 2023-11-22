@@ -19,7 +19,7 @@ import {
 import { Menu, Button } from '@mantine/core';
 import useRefs from 'react-use-refs';
 import { create } from 'zustand';
-import './index.css';
+import './index.css?inline';
 
 type Store = {
   projection: 'Perspective';

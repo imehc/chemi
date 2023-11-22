@@ -22,8 +22,8 @@ export const PreviewModel: React.FC<Props> = (props) => {
       <Sky />
       <Suspense
         fallback={
-          <Html className="h-full w-full flex flex-col items-center justify-center">
-            <p className="whitespace-nowrap text-lg">加载中...</p>
+          <Html className="flex flex-col h-full items-center justify-center w-full">
+            <p className="text-lg whitespace-nowrap">加载中...</p>
           </Html>
         }
       >
