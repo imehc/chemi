@@ -1,5 +1,5 @@
 import React, { useState, type FC } from 'react';
-import { PreviewModel, TheatreDemo, ThreeAxesHelper } from '~/components';
+import { ThreeDimensional } from '~/components';
 
 export const PageDashboard: FC = () => {
   const [localUrl, setLocalUrl] = useState<string>();
@@ -17,7 +17,8 @@ export const PageDashboard: FC = () => {
       {/* <div className="h-[400px] m-10 w-[600px]"> */}
       <div className="h-screen w-screen">
         {/* <PreviewModel url={localUrl} /> */}
-        <TheatreDemo />
+        {/* <TheatreDemo /> */}
+        <ThreeDimensional />
       </div>
       {/* <MultipleView /> */}
       {/* <input

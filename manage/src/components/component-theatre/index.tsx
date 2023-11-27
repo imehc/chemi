@@ -8,8 +8,9 @@ import { useEffect } from 'react';
 
 import demoProjectState from './theatre-project-state.json';
 
-studio.initialize();
-studio.extend(extension);
+// 初始化编辑器
+// studio.initialize();
+// studio.extend(extension);
 
 const demoSheet = getProject('Demo Project', { state: demoProjectState }).sheet(
   'Demo Sheet'
@@ -23,7 +24,8 @@ export const TheatreDemo: React.FC = () => {
   useEffect(() => {
     demoSheet.project.ready.then(() => {
       console.log('Project loaded!');
-      demoSheet.sequence.play({ iterationCount: Infinity, range: [0, 10] });
+      // demoSheet.sequence.play({ iterationCount: Infinity, range: [0, 10] });
+      demoSheet.sequence.play();
     });
   }, []);
 
