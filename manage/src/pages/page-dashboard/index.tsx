@@ -1,5 +1,5 @@
 import React, { useState, type FC } from 'react';
-import { ThreeDimensional } from '~/components';
+import { ThreeDimensional, ThreeMap } from '~/components';
 
 export const PageDashboard: FC = () => {
   const [localUrl, setLocalUrl] = useState<string>();
@@ -18,7 +18,7 @@ export const PageDashboard: FC = () => {
       <div className="h-screen w-screen">
         {/* <PreviewModel url={localUrl} /> */}
         {/* <TheatreDemo /> */}
-        <ThreeDimensional />
+        <ThreeMap />
       </div>
       {/* <MultipleView /> */}
       {/* <input
