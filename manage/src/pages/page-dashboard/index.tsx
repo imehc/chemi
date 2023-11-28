@@ -18,7 +18,8 @@ export const PageDashboard: FC = () => {
       <div className="h-screen w-screen">
         {/* <PreviewModel url={localUrl} /> */}
         {/* <TheatreDemo /> */}
-        <ThreeMap />
+        <ThreeDimensional />
+        {/* <ThreeMap /> */}
       </div>
       {/* <MultipleView /> */}
       {/* <input
