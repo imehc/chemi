@@ -1,0 +1,38 @@
+name: Build and Deploy
+on: 
+  push:
+    branches: 
+      - three-demo
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 获取源码 🛎️
+        uses: actions/checkout@v3 
+        with:
+          ref: three-demo
+      
+      - name: Node环境版本 🗜️
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: 安装 Pnpm 🧬
+        uses: pnpm/action-setup@v2
+        id: pnpm-install
+        with:
+          version: 8
+          run_install: true
+      
+      - name: Install and Build 🔧 
+        working-directory: ./manage
+        run: |
+          pnpm install
+          pnpm build
+
+      - name: 部署 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: ./manage/dist
+          clean: true
