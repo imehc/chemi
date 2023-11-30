@@ -2,7 +2,7 @@ import { useGLTF, Center, Html } from '@react-three/drei';
 import { Suspense } from 'react';
 
 export const StaticModel = () => {
-  const { scene } = useGLTF('/model/scene.glb');
+  const { scene } = useGLTF('/models/monkey.glb');
   return (
     <Suspense
       fallback={

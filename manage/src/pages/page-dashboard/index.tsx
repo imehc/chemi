@@ -1,5 +1,6 @@
 import React, { useState, type FC } from 'react';
 import { ThreeDimensional, ThreeMap } from '~/components';
+import { R3F } from '~/demo/R3F';
 
 export const PageDashboard: FC = () => {
   const [localUrl, setLocalUrl] = useState<string>();
@@ -15,11 +16,12 @@ export const PageDashboard: FC = () => {
   return (
     <React.Fragment>
       {/* <div className="h-[400px] m-10 w-[600px]"> */}
-      <div className="h-screen w-screen">
+      <div className="fixed h-screen left-0 top-0 w-screen">
         {/* <PreviewModel url={localUrl} /> */}
         {/* <TheatreDemo /> */}
-        <ThreeDimensional />
+        {/* <ThreeDimensional /> */}
         {/* <ThreeMap /> */}
+        <R3F />
       </div>
       {/* <MultipleView /> */}
       {/* <input

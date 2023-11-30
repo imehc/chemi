@@ -76,7 +76,7 @@ const Model: React.FC<Props> = ({ url, isSnapshot }) => {
   return (
     <primitive object={scene}>
       <OrbitControls
-        ref={controlsRef}
+        ref={controlsRef as any}
         target={target}
         enableDamping // 是否启用阻尼效果,默认为false
         dampingFactor={0.1} // 适中的缓动效果,范围是0到1

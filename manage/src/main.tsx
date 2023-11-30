@@ -5,6 +5,7 @@ import BaseRouter from '~/router/BaseRouter';
 import '@unocss/reset/normalize.css';
 import './style.css';
 import 'virtual:uno.css';
+import '@mantine/core/styles.css';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
