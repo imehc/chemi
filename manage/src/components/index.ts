@@ -18,6 +18,7 @@ export * from './component-scroll-container-2';
 export * from './component-scroll-wrap';
 export * from './component-shadow-wrap';
 export * from './component-slider';
+export * from './component-sortable'
 export * from './component-switch';
 export * from './component-table';
 export * from './component-tooltip';

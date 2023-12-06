@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useScalePage } from '~/hooks';
-import { WaterWare } from '~/components';
+import { SortAble, WaterWare } from '~/components';
 
 export const PageDashboard: React.FC = () => {
   useScalePage();
@@ -15,9 +15,10 @@ export const PageDashboard: React.FC = () => {
         <div className='w-full h-40'>4</div>
         <div className='w-full h-40'>5</div>
       </ScrollContainer2> */}
-      <div className="w-[200px] h-[300px] mt-5">
+      {/* <div className="w-[200px] h-[300px] mt-5">
         <WaterWare value={50} />
-      </div>
+      </div> */}
+      <SortAble/>
     </React.Fragment>
   );
 };
