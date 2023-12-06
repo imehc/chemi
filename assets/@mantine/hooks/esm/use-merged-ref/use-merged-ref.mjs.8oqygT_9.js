@@ -1,0 +1,2 @@
+import{r as o}from"../../../../react/index.js.4247Uq6c.js";function r(n,t){typeof n=="function"?n(t):typeof n=="object"&&n!==null&&"current"in n&&(n.current=t)}function u(...n){return t=>{n.forEach(e=>r(e,t))}}function i(...n){return o.useCallback(u(...n),n)}export{r as a,i as u};
+//# sourceMappingURL=use-merged-ref.mjs.8oqygT_9.js.map

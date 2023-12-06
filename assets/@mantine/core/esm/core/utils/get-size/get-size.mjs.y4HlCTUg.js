@@ -1,0 +1,2 @@
+import{i as a}from"../is-number-like/is-number-like.mjs.IzWfUMVh.js";import{r as e}from"../units-converters/rem.mjs.Vi1x7Y7A.js";function t(r,n="size",i=!0){if(r!==void 0)return a(r)?i?e(r):r:`var(--${n}-${r})`}function f(r){return r===void 0?"var(--mantine-radius-default)":t(r,"mantine-radius")}function d(r){return t(r,"mantine-font-size")}function m(r){if(r)return t(r,"mantine-shadow",!1)}export{d as a,f as b,m as c,t as g};
+//# sourceMappingURL=get-size.mjs.y4HlCTUg.js.map

@@ -1,0 +1,2 @@
+import{_ as o}from"../../../@babel/runtime/helpers/esm/extends.js.dGVwEr9R.js";import{r}from"../../../react/index.js.4247Uq6c.js";import{$ as a}from"../../react-primitive/dist/index.mjs.mhee4U3J.js";const f=r.forwardRef((e,t)=>r.createElement(a.span,o({},e,{ref:t,style:{position:"absolute",border:0,width:1,height:1,padding:0,margin:-1,overflow:"hidden",clip:"rect(0, 0, 0, 0)",whiteSpace:"nowrap",wordWrap:"normal",...e.style}}))),i=f;export{i as $};
+//# sourceMappingURL=index.mjs.4tFoXzy5.js.map

@@ -1,0 +1,2 @@
+import{r}from"../../../../react/index.js.4247Uq6c.js";import{u as c}from"../use-callback-ref/use-callback-ref.mjs.Y--yqzTQ.js";function s(u,o){const t=c(u),e=r.useRef(0);return r.useEffect(()=>()=>window.clearTimeout(e.current),[]),r.useCallback(()=>{window.clearTimeout(e.current),e.current=window.setTimeout(t,o)},[t,o])}export{s as u};
+//# sourceMappingURL=use-debounced-callback.mjs.xnx1mM4N.js.map

@@ -1,0 +1,2 @@
+import{c as l}from"../../../../../../../../clsx/dist/clsx.mjs.2Jv0kmJG.js";const e={always:"mantine-focus-always",auto:"mantine-focus-auto",never:"mantine-focus-never"};function u({theme:s,options:a,unstyled:c}){return l((a==null?void 0:a.focusable)&&!c&&(s.focusClassName||e[s.focusRing]),(a==null?void 0:a.active)&&!c&&s.activeClassName)}export{u as g};
+//# sourceMappingURL=get-global-class-names.mjs.3UBN_EHG.js.map

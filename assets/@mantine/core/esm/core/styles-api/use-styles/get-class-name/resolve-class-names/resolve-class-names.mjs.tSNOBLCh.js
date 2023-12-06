@@ -1,0 +1,2 @@
+import{c}from"../../../../../../../../clsx/dist/clsx.mjs.2Jv0kmJG.js";const f={};function l(a){const r={};return a.forEach(o=>{Object.entries(o).forEach(([s,e])=>{r[s]?r[s]=c(r[s],e):r[s]=e})}),r}function C({theme:a,classNames:r,props:o,stylesCtx:s}){const t=(Array.isArray(r)?r:[r]).map(n=>typeof n=="function"?n(a,o,s):n||f);return l(t)}export{C as r};
+//# sourceMappingURL=resolve-class-names.mjs.tSNOBLCh.js.map

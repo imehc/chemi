@@ -1,1 +1,0 @@
-import{r as s,j as e,R as a,a as r}from"./index-HXVP11St.js";const c=()=>(s.useState(),e.jsx(a.Fragment,{children:e.jsx("div",{className:"fixed h-screen left-0 top-0 w-screen",children:e.jsx(r,{})})}));export{c as PageDashboard,c as default};

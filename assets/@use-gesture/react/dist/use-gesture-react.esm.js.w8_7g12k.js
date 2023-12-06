@@ -1,0 +1,2 @@
+import{R as t}from"../../../react/index.js.4247Uq6c.js";import{C as a}from"../../core/dist/use-gesture-core.esm.js.1JqyI6Q9.js";import{r as f,e as u}from"../../core/dist/actions-76b8683e.esm.js.3Avx-nHZ.js";function s(r,n={},i,o){const e=t.useMemo(()=>new a(r),[]);if(e.applyHandlers(r,o),e.applyConfig(n,i),t.useEffect(e.effect.bind(e)),t.useEffect(()=>e.clean.bind(e),[]),n.target===void 0)return e.bind.bind(e)}function g(r,n){return f(u),s({drag:r},n||{},"drag")}export{g as u};
+//# sourceMappingURL=use-gesture-react.esm.js.w8_7g12k.js.map

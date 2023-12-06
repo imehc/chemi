@@ -1,0 +1,2 @@
+import{g as t}from"../get-theme-color/get-theme-color.mjs.kFsCQQeT.js";function e(o,r){const l={from:(o==null?void 0:o.from)||r.defaultGradient.from,to:(o==null?void 0:o.to)||r.defaultGradient.to,deg:(o==null?void 0:o.deg)||r.defaultGradient.deg||0},d=t(l.from,r),f=t(l.to,r);return`linear-gradient(${l.deg}deg, ${d} 0%, ${f} 100%)`}export{e as g};
+//# sourceMappingURL=get-gradient.mjs.1pYh92xX.js.map

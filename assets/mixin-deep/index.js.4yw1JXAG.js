@@ -1,0 +1,2 @@
+import{i as a}from"../is-extendable/index.js.RGQs6FOU.js";import{f}from"../for-in/index.js.89ZkYOmD.js";var u=a,c=f;function s(r,i){for(var n=arguments.length,e=0;++e<n;){var o=arguments[e];t(o)&&c(o,m,r)}return r}function m(r,i){if(p(i)){var n=this[i];t(r)&&t(n)?s(n,r):this[i]=r}}function t(r){return u(r)&&!Array.isArray(r)}function p(r){return r!=="__proto__"&&r!=="constructor"&&r!=="prototype"}var b=s;export{b as m};
+//# sourceMappingURL=index.js.4yw1JXAG.js.map

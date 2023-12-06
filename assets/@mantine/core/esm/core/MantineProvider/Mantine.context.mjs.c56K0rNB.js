@@ -1,0 +1,2 @@
+import{r as t}from"../../../../../react/index.js.4247Uq6c.js";const r=t.createContext(null);function e(){const n=t.useContext(r);if(!n)throw new Error("[@mantine/core] MantineProvider was not found in tree");return n}function a(){return e().cssVariablesResolver}function o(){return e().classNamesPrefix}function i(){return e().getStyleNonce}export{r as M,a,o as b,i as u};
+//# sourceMappingURL=Mantine.context.mjs.c56K0rNB.js.map

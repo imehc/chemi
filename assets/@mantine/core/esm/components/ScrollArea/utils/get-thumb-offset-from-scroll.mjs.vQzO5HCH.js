@@ -1,0 +1,2 @@
+import{g as i}from"./get-thumb-size.mjs.rf2KxVTR.js";import{l as p}from"./linear-scale.mjs.jnzkLJ-z.js";function u(o,[t,r]){return Math.min(r,Math.max(t,o))}function h(o,t,r="ltr"){const n=i(t),a=t.scrollbar.paddingStart+t.scrollbar.paddingEnd,c=t.scrollbar.size-a,l=t.content-t.viewport,m=c-n,e=r==="ltr"?[0,l]:[l*-1,0],s=u(o,e);return p([0,l],[0,m])(s)}export{h as g};
+//# sourceMappingURL=get-thumb-offset-from-scroll.mjs.vQzO5HCH.js.map
