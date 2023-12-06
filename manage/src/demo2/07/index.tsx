@@ -6,7 +6,7 @@ import { Physics } from './Physics';
 /**
  * FPS 八叉树
  */
-export const Demoo007 = () => {
+const Demo2v07 = () => {
   return (
     <>
       <Canvas shadows>
@@ -36,3 +36,5 @@ export const Demoo007 = () => {
     </>
   );
 };
+
+export default Demo2v07;

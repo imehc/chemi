@@ -13,7 +13,7 @@ import { Polyhedron } from './Polyhedron';
 /**
  * 阴影
  */
-export const Demo14: React.FC = () => {
+const Demo14: React.FC = () => {
   return (
     <Canvas camera={{ position: [4, 4, 1.5] }} shadows>
       <Lights />
@@ -49,3 +49,5 @@ export const Demo14: React.FC = () => {
     </Canvas>
   );
 };
+
+export default Demo14;

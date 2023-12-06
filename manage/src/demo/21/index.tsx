@@ -15,7 +15,7 @@ import { Model } from './Model';
  *  npx gltfjsx@latest [模型路径] -o [输出路径] -t
  * ```
  */
-export const Demo21: React.FC = () => {
+const Demo21: React.FC = () => {
   return (
     <Canvas shadows camera={{ position: [0, 0, 1.66] }}>
       <Environment preset="forest" />
@@ -25,3 +25,5 @@ export const Demo21: React.FC = () => {
     </Canvas>
   );
 };
+
+export default Demo21;

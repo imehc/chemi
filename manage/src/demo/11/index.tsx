@@ -13,7 +13,7 @@ import { useMemo } from 'react';
 /**
  * GUI组件
  */
-export const Demo11: React.FC = () => {
+const Demo11: React.FC = () => {
   const polyhedron = useMemo(
     () => [
       new BoxGeometry(),
@@ -58,3 +58,5 @@ export const Demo11: React.FC = () => {
     </Canvas>
   );
 };
+
+export default Demo11;

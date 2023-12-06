@@ -4,7 +4,7 @@ import { Box } from './Box';
 /**
  * 场景状态
  */
-export const Demo03: React.FC = () => {
+const Demo03: React.FC = () => {
   return (
     <Canvas camera={{ position: [0, 0, 2] }}>
       <Box position={[-0.75, 0, 0]} name="A" />
@@ -12,3 +12,5 @@ export const Demo03: React.FC = () => {
     </Canvas>
   );
 };
+
+export default Demo03;

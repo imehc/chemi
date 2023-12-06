@@ -5,7 +5,7 @@ import { Polyhedron } from './Polyhedron';
 /**
  * 修改几何属性
  */
-export const Demoo002 = () => {
+const Demo2v02 = () => {
   return (
     <Canvas camera={{ position: [1, 1, 3] }}>
       <Polyhedron />
@@ -14,3 +14,5 @@ export const Demoo002 = () => {
     </Canvas>
   );
 };
+
+export default Demo2v02;

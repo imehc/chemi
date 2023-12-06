@@ -7,7 +7,7 @@ import { Env } from './Env';
 /**
  * GLTF场景
  */
-export const Demo18: React.FC = () => {
+const Demo18: React.FC = () => {
   return (
     <>
       <Canvas camera={{ position: [-8, 5, 8] }}>
@@ -25,3 +25,5 @@ export const Demo18: React.FC = () => {
     </>
   );
 };
+
+export default Demo18;

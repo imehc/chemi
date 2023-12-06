@@ -6,7 +6,7 @@ import { useMemo } from 'react';
 /**
  * 层次结构
  */
-export const Demoo006 = () => {
+const Demo2v06 = () => {
   const options = useMemo(() => {
     return {
       positionX: { value: 4, min: 0, max: 10, step: 0.1 },
@@ -53,3 +53,5 @@ export const Demoo006 = () => {
     </Canvas>
   );
 };
+
+export default Demo2v06;

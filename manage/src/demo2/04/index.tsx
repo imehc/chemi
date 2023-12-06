@@ -6,7 +6,7 @@ import { Rig } from './Rig';
 /**
  * 事件传播
  */
-export const Demoo004 = () => {
+const Demo2v04 = () => {
   return (
     <Canvas camera={{ position: [0, 0, 4] }}>
       <directionalLight position={[1, 1, 1]} />
@@ -31,3 +31,5 @@ export const Demoo004 = () => {
     </Canvas>
   );
 };
+
+export default Demo2v04;

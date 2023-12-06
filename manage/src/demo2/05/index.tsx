@@ -4,7 +4,10 @@ import { useRef } from 'react';
 import { Arena } from './Arena';
 import { Tween } from './Tween';
 
-export const Demoo005 = () => {
+/**
+ * 更改相机位置及其面向位置
+ */
+const Demo2v05 = () => {
   const ref = useRef(null);
   return (
     <Canvas camera={{ position: [10, 10, 10] }} shadows>
@@ -30,3 +33,5 @@ export const Demoo005 = () => {
     </Canvas>
   );
 };
+
+export default Demo2v05;

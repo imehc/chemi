@@ -8,7 +8,7 @@ import './styles.css';
 /**
  * 添加注释
  */
-export const Demo20: React.FC = () => {
+const Demo20: React.FC = () => {
   const { model } = useControls({
     model: {
       value: 'hammer',
@@ -40,3 +40,4 @@ export const Demo20: React.FC = () => {
     </>
   );
 };
+export default Demo20;

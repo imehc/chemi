@@ -5,7 +5,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 /**
  * 加载模型
  */
-export const Demo16: React.FC = () => {
+const Demo16: React.FC = () => {
   const gltf = useLoader(GLTFLoader, '/models/monkey.glb');
 
   return (
@@ -25,3 +25,5 @@ export const Demo16: React.FC = () => {
     </Canvas>
   );
 };
+
+export default Demo16;

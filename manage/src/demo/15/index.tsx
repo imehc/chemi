@@ -14,7 +14,7 @@ import { Polyhedron } from './Polyhedron';
 /**
  * 使用图片纹理
  */
-export const Demo15: React.FC = () => {
+const Demo15: React.FC = () => {
   const texture = useLoader(TextureLoader, '/imgs/grid.png');
   return (
     <Canvas camera={{ position: [4, 4, 1.5] }} shadows>
@@ -60,3 +60,5 @@ export const Demo15: React.FC = () => {
     </Canvas>
   );
 };
+
+export default Demo15;

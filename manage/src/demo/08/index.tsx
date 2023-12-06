@@ -6,7 +6,7 @@ import { Polyhedron } from './Polyhedron';
 /**
  * 轨道控制
  */
-export const Demo08: React.FC = () => {
+const Demo08: React.FC = () => {
   const polyhedron = [
     new BoxGeometry(),
     new SphereGeometry(0.785398),
@@ -38,3 +38,5 @@ export const Demo08: React.FC = () => {
     </Canvas>
   );
 };
+
+export default Demo08;

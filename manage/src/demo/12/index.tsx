@@ -11,7 +11,7 @@ import { Polyhedron } from './Polyhedron';
 /**
  * 材质
  */
-export const Demo12: React.FC = () => {
+const Demo12: React.FC = () => {
   return (
     <Canvas camera={{ position: [-1, 4, 2.5] }}>
       <directionalLight position={[1, 1, 1]} />
@@ -42,3 +42,5 @@ export const Demo12: React.FC = () => {
     </Canvas>
   );
 };
+
+export default Demo12;

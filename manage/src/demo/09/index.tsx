@@ -6,7 +6,7 @@ import './index.css';
 /**
  * 第一人称轨道控制
  */
-export const Demo09: React.FC = () => {
+const Demo09: React.FC = () => {
   const [showInstructions, setShowInstructions] = useState(true);
 
   useEffect(() => {
@@ -41,3 +41,5 @@ export const Demo09: React.FC = () => {
     </>
   );
 };
+
+export default Demo09;

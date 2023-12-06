@@ -4,7 +4,7 @@ import { Box } from './Box';
 import { Overlay } from './Overlay';
 import { useKeyboard } from './useKeyboard';
 
-export const Demo23: React.FC = () => {
+const Demo23: React.FC = () => {
   const keyMap = useKeyboard();
 
   return (
@@ -22,3 +22,5 @@ export const Demo23: React.FC = () => {
     </>
   );
 };
+
+export default Demo23;

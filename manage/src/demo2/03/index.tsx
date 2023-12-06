@@ -5,7 +5,7 @@ import { Box } from './Box';
 /**
  * 嵌套组件
  */
-export const Demoo003 = () => {
+const Demo2v03 = () => {
   return (
     <Canvas camera={{ position: [0, 0, 4] }}>
       <Box position-x={-2.5}>
@@ -20,3 +20,5 @@ export const Demoo003 = () => {
     </Canvas>
   );
 };
+
+export default Demo2v03;

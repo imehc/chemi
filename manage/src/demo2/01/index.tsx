@@ -14,7 +14,10 @@ const Tween = () => {
   return null;
 };
 
-export const Demoo01: React.FC = () => {
+/**
+ * 房子
+ */
+const Demo2v01: React.FC = () => {
   const ref = useRef(null);
 
   return (
@@ -30,3 +33,5 @@ export const Demoo01: React.FC = () => {
     </Canvas>
   );
 };
+
+export default Demo2v01;

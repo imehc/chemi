@@ -6,7 +6,7 @@ import { Rig } from './Rig';
 /**
  * 使用插值 （Lerp） 对对象变换和材质属性进行动画处理。
  */
-export const Demo22: React.FC = () => {
+const Demo22: React.FC = () => {
   return (
     <Canvas camera={{ position: [0, 0, 5] }}>
       <Environment preset="forest" background />
@@ -22,3 +22,5 @@ export const Demo22: React.FC = () => {
     </Canvas>
   );
 };
+
+export default Demo22;

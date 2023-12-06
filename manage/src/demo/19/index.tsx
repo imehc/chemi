@@ -21,7 +21,7 @@ const Models = [
 /**
  * useGLTF
  */
-export const Demo19: React.FC = () => {
+const Demo19: React.FC = () => {
   const { title } = useControls({
     title: {
       options: Models.map(({ title }) => title),
@@ -45,3 +45,5 @@ export const Demo19: React.FC = () => {
     </>
   );
 };
+
+export default Demo19;
