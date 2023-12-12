@@ -39,6 +39,7 @@ const DemoV211 = lazy(() => import('../demo2/11'));
 const DemoV212 = lazy(() => import('../demo2/12'));
 const DemoV213 = lazy(() => import('../demo2/13'));
 const DemoV214 = lazy(() => import('../demo2/14'));
+const DemoV215 = lazy(() => import('../demo2/15'));
 
 export default [
   {
@@ -226,6 +227,11 @@ export default [
     label: '地球 Map',
     value: '214',
     component: <DemoV214 />,
+  },
+  {
+    label: '摄影测量',
+    value: '215',
+    component: <DemoV215 />,
   },
 ] satisfies (ComboboxItem & {
   component: JSX.Element;
