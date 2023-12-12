@@ -1,5 +1,6 @@
 import { createTheme, MantineProvider, Select } from '@mantine/core';
 import { useState, Suspense } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Loading } from '~/components';
 import collect from './collect';
 
@@ -13,6 +14,7 @@ const idx = 36;
  * @link https://sbcode.net/react-three-fiber/
  */
 export const R3F: React.FC = () => {
+  const navigate = useNavigate();
   const [select, setSelect] = useState<
     Omit<(typeof collect)[number], 'component'>
   >(() => ({ label: collect.at(idx)!.label, value: collect.at(idx)!.value }));
@@ -20,7 +22,7 @@ export const R3F: React.FC = () => {
   return (
     <div className="bg-black h-full w-full">
       <MantineProvider theme={theme}>
-        <div className="-translate-x-1/2 fixed left-1/2 min-w-[15rem] top-10 w-1/5 z-10">
+        <div className="-translate-x-1/2 fixed flex gap-2 items-center justify-start left-1/2 min-w-[15rem] top-10 w-1/5 z-10">
           <Select
             searchable
             onChange={(value) => {
@@ -32,6 +34,14 @@ export const R3F: React.FC = () => {
             value={select.value}
             data={collect.map((v) => ({ label: v.label, value: v.value }))}
           />
+          <Link
+            to="https://sbcode.net/react-three-fiber/"
+            target="_blank"
+            rel="noreferrer"
+            className="whitespace-nowrap"
+          >
+            参考链接
+          </Link>
         </div>
         <div className="h-full w-full">
           <Suspense fallback={<Loading />}>
