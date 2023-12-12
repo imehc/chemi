@@ -9,7 +9,7 @@ import { Mesh, TextureLoader } from 'three';
  */
 export const Demo2v14 = () => {
   return (
-    <Canvas shadows camera={{ position: [0, 0, 1.75] }}>
+    <Canvas shadows camera={{ position: [0, 0, 2.75] }}>
       <Environment files="/imgs/venice_sunset_1k.hdr" />
       <directionalLight
         intensity={2}
