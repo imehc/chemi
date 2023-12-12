@@ -1,2 +1,0 @@
-import{D as t}from"../../../three/build/three.module.js.v3oJJcpo.js";import{c as i}from"../../../zustand/esm/index.js.zIjYpMGI.js";let o=0;const g=i(a=>(t.onStart=(s,r,e)=>{a({active:!0,item:s,loaded:r,total:e,progress:(r-o)/(e-o)*100})},t.onLoad=()=>{a({active:!1})},t.onError=s=>a(r=>({errors:[...r.errors,s]})),t.onProgress=(s,r,e)=>{r===e&&(o=e),a({active:!0,item:s,loaded:r,total:e,progress:(r-o)/(e-o)*100||100})},{errors:[],active:!1,progress:0,item:"",loaded:0,total:0}));export{g as u};
-//# sourceMappingURL=useProgress.js.2TVCs9uI.js.map
