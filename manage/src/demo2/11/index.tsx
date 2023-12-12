@@ -2,6 +2,9 @@ import { Bounds, Environment, OrbitControls, Stats } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Squircle } from './Squircle';
 
+/**
+ * Squircle
+ */
 export const Demo2v11 = () => {
   return (
     <Canvas camera={{ position: [0, 2, -1.5] }}>

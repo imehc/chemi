@@ -32,6 +32,13 @@ const DemoV204 = lazy(() => import('../demo2/04'));
 const DemoV205 = lazy(() => import('../demo2/05'));
 const DemoV206 = lazy(() => import('../demo2/06'));
 const DemoV207 = lazy(() => import('../demo2/07'));
+const DemoV208 = lazy(() => import('../demo2/08'));
+const DemoV209 = lazy(() => import('../demo2/09'));
+const DemoV210 = lazy(() => import('../demo2/10'));
+const DemoV211 = lazy(() => import('../demo2/11'));
+const DemoV212 = lazy(() => import('../demo2/12'));
+const DemoV213 = lazy(() => import('../demo2/13'));
+const DemoV214 = lazy(() => import('../demo2/14'));
 
 export default [
   {
@@ -184,6 +191,41 @@ export default [
     label: 'FPS 八叉树',
     value: '207',
     component: <DemoV207 />,
+  },
+  {
+    label: '无限滚动',
+    value: '208',
+    component: <DemoV208 />,
+  },
+  {
+    label: '鼠标滑动',
+    value: '209',
+    component: <DemoV209 />,
+  },
+  {
+    label: '平滑过渡',
+    value: '210',
+    component: <DemoV210 />,
+  },
+  {
+    label: 'Squircle',
+    value: '211',
+    component: <DemoV211 />,
+  },
+  {
+    label: '物料拾取',
+    value: '212',
+    component: <DemoV212 />,
+  },
+  {
+    label: '神经网络',
+    value: '213',
+    component: <DemoV213 />,
+  },
+  {
+    label: '地球 Map',
+    value: '214',
+    component: <DemoV214 />,
   },
 ] satisfies (ComboboxItem & {
   component: JSX.Element;
