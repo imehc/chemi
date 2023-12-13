@@ -1,0 +1,8 @@
+import{_ as h}from"./FaceLandmarker.js.U_LjLCwo.js";import{_ as w}from"../../../@babel/runtime/helpers/esm/extends.js.dGVwEr9R.js";import{r as e}from"../../../react/index.js.4247Uq6c.js";import{s as m}from"../../../suspend-react/index.js.7rE_FwbT.js";import{u as M}from"../../fiber/dist/index-db8af450.esm.js.eaJ-IQWK.js";const L=e.forwardRef(({sdfGlyphSize:p=64,anchorX:u="center",anchorY:c="middle",font:s,fontSize:d=1,children:n,characters:i,onSync:a,..._},x)=>{const{Text:E,preloadFont:l}=m(async()=>h(()=>import("../../../troika-three-text/dist/troika-three-text.esm.js.cZn56uKA.js"),__vite__mapDeps([0,1,2,3,4,5])),[]),T=M(({invalidate:t})=>t),[o]=e.useState(()=>new E),[v,y]=e.useMemo(()=>{const t=[];let f="";return e.Children.forEach(n,r=>{typeof r=="string"||typeof r=="number"?f+=r:t.push(r)}),[t,f]},[n]);return m(()=>new Promise(t=>l({font:s,characters:i},t)),["troika-text",s,i]),e.useLayoutEffect(()=>void o.sync(()=>{T(),a&&a(o)})),e.useEffect(()=>()=>o.dispose(),[o]),e.createElement("primitive",w({object:o,ref:x,font:s,text:y,anchorX:u,anchorY:c,fontSize:d,sdfGlyphSize:p},_),v)});export{L as T};
+//# sourceMappingURL=Text.js.o3fTSrI_.js.map
+function __vite__mapDeps(indexes) {
+  if (!__vite__mapDeps.viteFileDeps) {
+    __vite__mapDeps.viteFileDeps = ["assets/troika-three-text/dist/troika-three-text.esm.js.cZn56uKA.js","assets/three/build/three.module.js.ZP5wlr6b.js","assets/troika-worker-utils/dist/troika-worker-utils.esm.js.Tf5pxf5n.js","assets/webgl-sdf-generator/dist/webgl-sdf-generator.mjs.jzOD_gnA.js","assets/bidi-js/dist/bidi.mjs.MDv4KBiL.js","assets/troika-three-utils/dist/troika-three-utils.esm.js.hIzUVtUy.js"]
+  }
+  return indexes.map((i) => __vite__mapDeps.viteFileDeps[i])
+}
