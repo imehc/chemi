@@ -1,9 +1,35 @@
-import { Html, OrbitControls, Sky } from '@react-three/drei';
+import { Html, OrbitControls, Select, Sky } from '@react-three/drei';
 import { Canvas, useLoader, useThree } from '@react-three/fiber';
-import { Suspense, useEffect, useMemo, useRef } from 'react';
-import { Box3, MOUSE, Vector3 } from 'three';
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
+import { Box3, Vector3 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls as OrbitControlsProps } from 'three/examples/jsm/controls/OrbitControls';
+import { FileButton, Button } from '@mantine/core';
+
+export const SelectModel = () => {
+  const [localUrl, setLocalUrl] = useState<string>();
+  const handleFileChange = (file: File | null) => {
+    if (!file) {
+      throw new Error('未选择文件');
+    }
+    setLocalUrl(window.URL.createObjectURL(file));
+  };
+  return (
+    <div className="h-full relative w-full">
+      <div className="absolute left-2 top-2 z-10">
+        <FileButton
+          onChange={handleFileChange}
+          accept="model/gltf-binary,.glb,.gltf"
+        >
+          {(props) => <Button {...props}>Upload image</Button>}
+        </FileButton>
+      </div>
+      <PreviewModel url={localUrl} />
+    </div>
+  );
+};
+
+export default SelectModel;
 
 interface Props {
   /**
@@ -13,12 +39,12 @@ interface Props {
   /**
    * 只展示模型的快照
    */
-  isSnapshot?: boolean;
+  // isSnapshot?: boolean;
 }
 
-export const PreviewModel: React.FC<Props> = (props) => {
+const PreviewModel: React.FC<Props> = (props) => {
   return (
-    <Canvas>
+    <Canvas className="h-full w-full">
       <Sky />
       <Suspense
         fallback={
@@ -27,17 +53,13 @@ export const PreviewModel: React.FC<Props> = (props) => {
           </Html>
         }
       >
-        <Model {...props} />
+        {props.url && <Model url={props.url} />}
       </Suspense>
     </Canvas>
   );
 };
 
-const Model: React.FC<Props> = ({ url, isSnapshot }) => {
-  if (!url) {
-    return null;
-  }
-
+const Model: React.FC<Required<Props>> = ({ url }) => {
   const { scene } = useLoader(GLTFLoader, url, (progress) => {});
   const { camera } = useThree();
   const controlsRef = useRef<OrbitControlsProps>(null);

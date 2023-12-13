@@ -1,6 +1,6 @@
 import { createTheme, MantineProvider, Select } from '@mantine/core';
 import { useState, Suspense } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Loading } from '~/components';
 import collect from './collect';
 
@@ -14,7 +14,6 @@ const idx = 36;
  * @link https://sbcode.net/react-three-fiber/
  */
 export const R3F: React.FC = () => {
-  const navigate = useNavigate();
   const [select, setSelect] = useState<
     Omit<(typeof collect)[number], 'component'>
   >(() => ({ label: collect.at(idx)!.label, value: collect.at(idx)!.value }));

@@ -50,6 +50,8 @@ export const ThreeDimensional: React.FC = () => {
         >
           <group>
             <OrbitControls makeDefault />
+            <directionalLight position={[0, 0, 10]} />
+            <pointLight position={[0, 0, 10]} />
             <PerspectiveCamera
               fov={75}
               aspect={window.innerWidth / window.innerHeight}
@@ -74,3 +76,5 @@ export const ThreeDimensional: React.FC = () => {
     </div>
   );
 };
+
+export default ThreeDimensional;

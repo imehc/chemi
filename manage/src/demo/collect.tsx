@@ -41,6 +41,12 @@ const DemoV213 = lazy(() => import('../demo2/13'));
 const DemoV214 = lazy(() => import('../demo2/14'));
 const DemoV215 = lazy(() => import('../demo2/15'));
 
+const DemoLocal01 = lazy(() => import('../components/component-preview-model'));
+const DemoLocal02 = lazy(() => import('../components/component-theatre'));
+const DemoLocal03 = lazy(
+  () => import('../components/component-three-dimensional')
+);
+
 export default [
   {
     label: '基本场景',
@@ -232,6 +238,22 @@ export default [
     label: '摄影测量',
     value: '215',
     component: <DemoV215 />,
+  },
+  // 自己写的
+  {
+    label: '加载本地模型',
+    value: '301',
+    component: <DemoLocal01 />,
+  },
+  {
+    label: 'Theatre 编辑器',
+    value: '302',
+    component: <DemoLocal02 />,
+  },
+  {
+    label: '场景背景切换',
+    value: '303',
+    component: <DemoLocal03 />,
   },
 ] satisfies (ComboboxItem & {
   component: JSX.Element;
