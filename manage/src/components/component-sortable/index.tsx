@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   DndContext,
   closestCenter,
@@ -6,6 +6,7 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
+  DragEndEvent,
 } from '@dnd-kit/core';
 import {
   arrayMove,
@@ -13,7 +14,6 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-
 import { SortableItem } from './SortableItem';
 
 const data = [
@@ -46,22 +46,21 @@ export const SortAble = () => {
           items={items}
           strategy={verticalListSortingStrategy}
         >
-          {items.map(({ id, content }) => <div key={id} className="flex">
-            <span onClick={() => { console.log(id) }}>I im a sortable item</span>
+          {items.map(({ id, content }) => (
             <SortableItem key={id} id={id} name={content} />
-          </div>)}
+          ))}
         </SortableContext>
       </DndContext>
     </div>
   );
 
-  function handleDragEnd(event) {
+  function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
 
-    if (active.id !== over.id) {
+    if (active.id !== over?.id) {
       setItems((items) => {
         const oldIndex = items.findIndex(v => v.id === active.id);
-        const newIndex = items.findIndex(v => v.id === over.id);
+        const newIndex = items.findIndex(v => v.id === over?.id);
         return arrayMove(items, oldIndex, newIndex);
       });
     }
