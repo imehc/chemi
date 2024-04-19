@@ -1,0 +1,1 @@
+import{R as t}from"../../../../../react/index.js.CiILtb88.js";import{P as o}from"./Portal.mjs.BGXc5R4M.js";function n({withinPortal:r=!0,children:e,...a}){return r?t.createElement(o,{...a},e):t.createElement(t.Fragment,null,e)}n.displayName="@mantine/core/OptionalPortal";export{n as O};

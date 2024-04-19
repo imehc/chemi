@@ -1,0 +1,1 @@
+import{r as m}from"../resolve-styles/resolve-styles.mjs.BK6pl5Id.js";function y({theme:t,themeName:r,props:o,stylesCtx:l,selector:n}){return r.map(s=>{var e;return m({theme:t,styles:(e=t.components[s])==null?void 0:e.styles,props:o,stylesCtx:l})[n]}).reduce((s,e)=>({...s,...e}),{})}export{y as g};

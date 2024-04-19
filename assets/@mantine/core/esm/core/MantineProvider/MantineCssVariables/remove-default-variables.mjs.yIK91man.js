@@ -1,2 +1,0 @@
-import{d as i}from"./default-css-variables-resolver.mjs.pIm_5jty.js";import{D as f}from"../default-theme.mjs.3_TBVLw4.js";import{k as l}from"../../utils/keys/keys.mjs.U2sJ5kXD.js";const o=i(f);function h(r){const s={variables:{},light:{},dark:{}};return l(r.variables).forEach(a=>{o.variables[a]!==r.variables[a]&&(s.variables[a]=r.variables[a])}),l(r.light).forEach(a=>{o.light[a]!==r.light[a]&&(s.light[a]=r.light[a])}),l(r.dark).forEach(a=>{o.dark[a]!==r.dark[a]&&(s.dark[a]=r.dark[a])}),s}export{h as r};
-//# sourceMappingURL=remove-default-variables.mjs.yIK91man.js.map

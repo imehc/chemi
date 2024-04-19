@@ -1,0 +1,1 @@
+import{r as n}from"../../../react/index.js.CiILtb88.js";import{o as l,a as E}from"./vanilla.mjs.DuREs9xL.js";function i(t,e,f=[],r){const c=n.useRef(e);n.useEffect(()=>void(c.current=e),[e]),n.useEffect(()=>{const o=a=>{var u;return(u=c.current)==null?void 0:u.call(c,a)},s=l(t,o,r);return()=>E(t,o,{...r,context:s})},[t,r==null?void 0:r.once,...f])}export{i as u};

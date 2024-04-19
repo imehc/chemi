@@ -1,2 +1,0 @@
-import{r as a}from"../../../../../react/index.js.4247Uq6c.js";import{i as u}from"../../core/utils/is-element/is-element.mjs.fVF3mf1h.js";import{u as f}from"../../../../hooks/esm/use-focus-trap/use-focus-trap.mjs.zqZ6dWfm.js";import{u as m}from"../../../../hooks/esm/use-merged-ref/use-merged-ref.mjs.8oqygT_9.js";function p({children:r,active:o=!0,refProp:e="ref"}){const s=f(o),t=m(s,r==null?void 0:r.ref);return u(r)?a.cloneElement(r,{[e]:t}):r}p.displayName="@mantine/core/FocusTrap";export{p as F};
-//# sourceMappingURL=FocusTrap.mjs.J6h4ZTYW.js.map

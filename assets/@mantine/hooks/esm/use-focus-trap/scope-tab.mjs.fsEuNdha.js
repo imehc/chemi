@@ -1,2 +1,0 @@
-import{f as s}from"./tabbable.mjs.MeBihu3m.js";function g(a,e){const t=s(a);if(!t.length){e.preventDefault();return}const o=t[e.shiftKey?0:t.length-1],i=a.getRootNode();let c=o===i.activeElement||a===i.activeElement;const n=i.activeElement;if(n.tagName==="INPUT"&&n.getAttribute("type")==="radio"&&(c=t.filter(r=>r.getAttribute("type")==="radio"&&r.getAttribute("name")===n.getAttribute("name")).includes(o)),!c)return;e.preventDefault();const l=t[e.shiftKey?t.length-1:0];l&&l.focus()}export{g as s};
-//# sourceMappingURL=scope-tab.mjs.fsEuNdha.js.map

@@ -1,2 +1,0 @@
-import{R as s}from"../../../../../react/index.js.4247Uq6c.js";import{s as r}from"./styles-to-string/styles-to-string.mjs.wjYeAz3N.js";import{u as l}from"../MantineProvider/Mantine.context.mjs.c56K0rNB.js";function c({selector:n,styles:t,media:o}){const e=l();return s.createElement("style",{"data-mantine-styles":"inline",nonce:e==null?void 0:e(),dangerouslySetInnerHTML:{__html:r({selector:n,styles:t,media:o})}})}export{c as I};
-//# sourceMappingURL=InlineStyles.mjs.YRVeOOJy.js.map

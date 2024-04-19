@@ -1,2 +1,0 @@
-function a(e){let i=0;for(let E in e.attributes){const n=e.getAttribute(E);i+=n.count*n.itemSize*n.array.BYTES_PER_ELEMENT}const t=e.getIndex();return i+=t?t.count*t.itemSize*t.array.BYTES_PER_ELEMENT:0,i}export{a as e};
-//# sourceMappingURL=estimateBytesUsed.mjs.wf6kimKT.js.map

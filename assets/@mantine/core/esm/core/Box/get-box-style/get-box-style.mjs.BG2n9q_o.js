@@ -1,0 +1,1 @@
+function o(r,n){return Array.isArray(r)?[...r].reduce((u,t)=>({...u,...o(t,n)}),{}):typeof r=="function"?r(n):r??{}}function c({theme:r,style:n,vars:u,styleProps:t}){const f=o(n,r),i=o(u,r);return{...f,...i,...t}}export{c as g};

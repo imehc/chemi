@@ -1,2 +1,0 @@
-import{g as o}from"../../@theatre/core/dist/index.js.BxvA29o6.js";import{w as t}from"./with-selector.js_commonjs-module.KSuf0bc-.js";import"../cjs/use-sync-external-store-shim/with-selector.production.min.js.n826ptjx.js";import{w as r}from"../cjs/use-sync-external-store-shim/with-selector.production.min.js_commonjs-exports.O8ohlwSl.js";t.exports=r;var e=t.exports;const a=o(e);export{a as u};
-//# sourceMappingURL=with-selector.js.8_ks4a7T.js.map

@@ -1,0 +1,1 @@
+function t(e){return e.replace("(min-width: ","").replace("em)","")}function o({media:e,...s}){const n=Object.keys(e).sort((r,a)=>Number(t(r))-Number(t(a))).map(r=>({query:r,styles:e[r]}));return{...s,media:n}}export{o as s};

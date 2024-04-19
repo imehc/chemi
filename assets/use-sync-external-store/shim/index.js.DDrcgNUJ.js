@@ -1,0 +1,1 @@
+import{s as r}from"./index.js_commonjs-module.xhlj8D3a.js";import"../cjs/use-sync-external-store-shim.production.min.js.D5xNknEl.js";import{u as o}from"../cjs/use-sync-external-store-shim.production.min.js_commonjs-exports.DEBjeR1u.js";r.exports=o;var i=r.exports;export{i as s};

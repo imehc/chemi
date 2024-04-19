@@ -1,2 +1,0 @@
-import{_ as a}from"../../../@babel/runtime/helpers/esm/extends.js.dGVwEr9R.js";import{r as e}from"../../../react/index.js.4247Uq6c.js";import{$ as s}from"../../react-primitive/dist/index.mjs.mhee4U3J.js";const d=e.forwardRef((t,r)=>{const{children:o,width:c=10,height:f=5,...i}=t;return e.createElement(s.svg,a({},i,{ref:r,width:c,height:f,viewBox:"0 0 30 10",preserveAspectRatio:"none"}),t.asChild?o:e.createElement("polygon",{points:"0,0 30,0 15,10"}))}),$=d;export{$};
-//# sourceMappingURL=index.mjs.e62nmN-N.js.map

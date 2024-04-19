@@ -1,0 +1,1 @@
+import{g as n}from"./get-thumb-ratio.mjs.DtSSbGeD.js";function l(t){const r=n(t.viewport,t.content),o=t.scrollbar.paddingStart+t.scrollbar.paddingEnd,a=(t.scrollbar.size-o)*r;return Math.max(a,18)}export{l as g};

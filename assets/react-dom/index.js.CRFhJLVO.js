@@ -1,2 +1,0 @@
-import{g as _}from"../@theatre/core/dist/index.js.BxvA29o6.js";import{r}from"./index.js_commonjs-module.DxcPXuYc.js";import"./cjs/react-dom.production.min.js.Zb8U3-o4.js";import{r as e}from"./cjs/react-dom.production.min.js_commonjs-exports.qAWgAA3K.js";function o(){if(!(typeof __REACT_DEVTOOLS_GLOBAL_HOOK__>"u"||typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE!="function"))try{__REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE(o)}catch(t){console.error(t)}}o(),r.exports=e;var c=r.exports;const n=_(c);export{n as R,c as r};
-//# sourceMappingURL=index.js.CRFhJLVO.js.map

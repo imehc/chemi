@@ -1,0 +1,1 @@
+import{R as t}from"../../../../../../react/index.js.CiILtb88.js";function r({value:e,valuesDivider:n=",",...o}){return t.createElement("input",{type:"hidden",value:Array.isArray(e)?e.join(n):e||"",...o})}r.displayName="@mantine/core/ComboboxHiddenInput";export{r as C};

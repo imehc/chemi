@@ -1,0 +1,1 @@
+function u(r){return r.startsWith("data-")?r:`data-${r}`}function i(r){return Object.keys(r).reduce((t,n)=>{const e=r[n];return e===void 0||e===""||e===!1||e===null||(t[u(n)]=r[n]),t},{})}function f(r){return r?typeof r=="string"?{[u(r)]:!0}:Array.isArray(r)?[...r].reduce((t,n)=>({...t,...f(n)}),{}):i(r):null}export{f as g};

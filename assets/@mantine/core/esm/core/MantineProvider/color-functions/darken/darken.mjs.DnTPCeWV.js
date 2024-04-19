@@ -1,0 +1,1 @@
+import{t as c}from"../to-rgba/to-rgba.mjs.Dj1cs63r.js";function e(r,n){if(r.startsWith("var("))return`color-mix(in srgb, ${r}, black ${n*100}%)`;const{r:a,g:s,b:o,a:i}=c(r),$=1-n,t=b=>Math.round(b*$);return`rgba(${t(a)}, ${t(s)}, ${t(o)}, ${i})`}export{e as d};

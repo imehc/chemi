@@ -1,0 +1,1 @@
+import{f as l}from"../find-element-ancestor/find-element-ancestor.mjs.Cv-4bSct.js";function i(t,n,r){var e;return r?Array.from(((e=l(r,n))==null?void 0:e.querySelectorAll(t))||[]).findIndex(f=>f===r):null}export{i as g};

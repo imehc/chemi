@@ -1,0 +1,1 @@
+import{c as t}from"./css-variables-object-to-string.mjs.BPtMxSDn.js";import{w as o}from"./wrap-with-selector.mjs.ChtKCqmh.js";function m(a,r){const s=t(a.variables),i=s?o(r,s):"",c=t(a.dark),n=c?o(`${r}[data-mantine-color-scheme="dark"]`,c):"",e=t(a.light),d=e?o(`${r}[data-mantine-color-scheme="light"]`,e):"";return`${i}${n}${d}`}export{m as c};

@@ -1,0 +1,1 @@
+import{c as s}from"../../../../../../../../clsx/dist/clsx.mjs.B-dksMZM.js";const u={always:"mantine-focus-always",auto:"mantine-focus-auto",never:"mantine-focus-never"};function l({theme:c,options:a,unstyled:e}){return s((a==null?void 0:a.focusable)&&!e&&(c.focusClassName||u[c.focusRing]),(a==null?void 0:a.active)&&!e&&c.activeClassName)}export{l as g};

@@ -1,0 +1,1 @@
+import{r as l}from"../resolve-class-names/resolve-class-names.mjs.JktKmBsT.js";function c({selector:e,stylesCtx:r,options:a,props:s,theme:m}){return l({theme:m,classNames:a==null?void 0:a.classNames,props:(a==null?void 0:a.props)||s,stylesCtx:r})[e]}export{c as g};

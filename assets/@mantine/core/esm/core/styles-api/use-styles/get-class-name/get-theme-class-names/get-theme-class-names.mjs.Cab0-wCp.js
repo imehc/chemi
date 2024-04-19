@@ -1,0 +1,1 @@
+import{r as t}from"../resolve-class-names/resolve-class-names.mjs.JktKmBsT.js";function p({themeName:m,theme:s,selector:o,props:r,stylesCtx:l}){return m.map(n=>{var a,e;return(e=t({theme:s,classNames:(a=s.components[n])==null?void 0:a.classNames,props:r,stylesCtx:l}))==null?void 0:e[o]})}export{p as g};

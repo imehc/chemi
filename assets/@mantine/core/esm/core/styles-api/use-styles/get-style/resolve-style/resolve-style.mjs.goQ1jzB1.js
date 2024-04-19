@@ -1,2 +1,0 @@
-var p=Object.defineProperty,o=Object.getOwnPropertySymbols,u=Object.prototype.hasOwnProperty,i=Object.prototype.propertyIsEnumerable,n=(r,e,t)=>e in r?p(r,e,{enumerable:!0,configurable:!0,writable:!0,value:t}):r[e]=t,a=(r,e)=>{for(var t in e||(e={}))u.call(e,t)&&n(r,t,e[t]);if(o)for(var t of o(e))i.call(e,t)&&n(r,t,e[t]);return r};function _({style:r,theme:e}){return Array.isArray(r)?[...r].reduce((t,f)=>a(a({},t),_({style:f,theme:e})),{}):typeof r=="function"?r(e):r??{}}export{_ as r};
-//# sourceMappingURL=resolve-style.mjs.goQ1jzB1.js.map

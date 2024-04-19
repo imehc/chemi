@@ -1,0 +1,1 @@
+import{g as o}from"../@theatre/core/dist/index.js.DAEYzC0v.js";import{r}from"./index.js_commonjs-module.DhgsKDqp.js";import{r as e}from"./cjs/react-reconciler.production.min.js.Bhz7NQsG.js";r.exports=e;var t=r.exports;const p=o(t);export{p as R};

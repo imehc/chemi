@@ -1,2 +1,0 @@
-import{_ as f}from"../../../@babel/runtime/helpers/esm/extends.js.dGVwEr9R.js";import{r}from"../../../react/index.js.4247Uq6c.js";import{R as l}from"../../../react-dom/index.js.CRFhJLVO.js";import{$ as i}from"../../react-primitive/dist/index.mjs.mhee4U3J.js";const n=r.forwardRef((a,t)=>{var o;const{container:e=globalThis==null||(o=globalThis.document)===null||o===void 0?void 0:o.body,...c}=a;return e?l.createPortal(r.createElement(i.div,f({},c,{ref:t})),e):null}),m=n;export{m as $};
-//# sourceMappingURL=index.mjs.--ZckFD_.js.map

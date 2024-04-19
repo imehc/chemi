@@ -1,0 +1,1 @@
+const t=["h1","h2","h3","h4","h5","h6"];function e(n,i){return typeof n=="string"&&n in i.lineHeights?`var(--mantine-line-height-${n})`:typeof n=="string"&&t.includes(n)?`var(--mantine-${n}-line-height)`:n}export{e as l};

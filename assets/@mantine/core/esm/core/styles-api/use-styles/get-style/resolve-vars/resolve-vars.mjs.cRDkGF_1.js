@@ -1,2 +1,0 @@
-import{m as f}from"./merge-vars.mjs.zzDogTMB.js";function b({vars:a,varsResolver:u,theme:l,props:n,stylesCtx:o,selector:c,themeName:_}){var i;return(i=f([u==null?void 0:u(l,n,o),..._.map(m=>{var v,r,d;return(d=(r=(v=l.components)==null?void 0:v[m])==null?void 0:r.vars)==null?void 0:d.call(r,l,n,o)}),a==null?void 0:a(l,n,o)]))==null?void 0:i[c]}export{b as r};
-//# sourceMappingURL=resolve-vars.mjs.cRDkGF_1.js.map

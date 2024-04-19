@@ -1,0 +1,1 @@
+import{g as r}from"../get-theme-color/get-theme-color.mjs.D6X7-U-t.js";function c(o,f){const l={from:(o==null?void 0:o.from)||f.defaultGradient.from,to:(o==null?void 0:o.to)||f.defaultGradient.to,deg:(o==null?void 0:o.deg)||f.defaultGradient.deg||0},m=r(l.from,f),s=r(l.to,f);return`linear-gradient(${l.deg}deg, ${m} 0%, ${s} 100%)`}export{c as g};

@@ -1,2 +1,0 @@
-import{c as o}from"./color-resolver/color-resolver.mjs.LBJSWTSq.js";import{f as e}from"./font-size-resolver/font-size-resolver.mjs.94Hw6a3X.js";import{s as r}from"./spacing-resolver/spacing-resolver.mjs.iojAMUpY.js";import{i as s}from"./identity-resolver/identity-resolver.mjs.XccjSiAA.js";import{s as i}from"./size-resolver/size-resolver.mjs.xBkTYM63.js";import{l as t}from"./line-height-resolver/line-height-resolver.mjs.t1AZsK_R.js";const v={color:o,fontSize:e,spacing:r,identity:s,size:i,lineHeight:t};export{v as r};
-//# sourceMappingURL=index.mjs.riHh-7bW.js.map

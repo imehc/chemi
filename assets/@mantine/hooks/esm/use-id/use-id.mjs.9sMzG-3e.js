@@ -1,2 +1,0 @@
-import{r as u}from"../../../../react/index.js.4247Uq6c.js";import{u as s}from"../use-isomorphic-effect/use-isomorphic-effect.mjs.UowYAxrU.js";import{u as f}from"./use-react-id.mjs.ne366pcy.js";import{r as i}from"../utils/random-id/random-id.mjs.s7LRZ7b1.js";function p(r){const t=f(),[o,e]=u.useState(t);return s(()=>{e(i())},[]),typeof r=="string"?r:typeof window>"u"?t:o}export{p as u};
-//# sourceMappingURL=use-id.mjs.9sMzG-3e.js.map

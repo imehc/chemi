@@ -1,0 +1,1 @@
+import{f as c}from"../../utils/filter-props/filter-props.mjs.DgbN-LSt.js";import"../../../../../../react/index.js.CiILtb88.js";import{u as f}from"../MantineThemeProvider/MantineThemeProvider.mjs.B-l97vt9.js";function i(n,r,s){var e;const t=f(),o=(e=t.components[n])==null?void 0:e.defaultProps,p=typeof o=="function"?o(t):o;return{...r,...p,...c(s)}}export{i as u};

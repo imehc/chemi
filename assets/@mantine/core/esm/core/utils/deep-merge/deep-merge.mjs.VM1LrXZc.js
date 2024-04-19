@@ -1,0 +1,1 @@
+function o(r){return r&&typeof r=="object"&&!Array.isArray(r)}function i(r,f){const s={...r},c=f;return o(r)&&o(f)&&Object.keys(f).forEach(n=>{o(c[n])&&n in r?s[n]=i(s[n],c[n]):s[n]=c[n]}),s}export{i as d};

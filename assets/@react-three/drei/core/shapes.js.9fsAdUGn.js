@@ -1,2 +1,0 @@
-import{_ as l}from"../../../@babel/runtime/helpers/esm/extends.js.dGVwEr9R.js";import{r as e}from"../../../react/index.js.4247Uq6c.js";function m(o,t){const n=o+"Geometry";return e.forwardRef(({args:a,children:c,...s},u)=>{const r=e.useRef(null);return e.useImperativeHandle(u,()=>r.current),e.useLayoutEffect(()=>void(t==null?void 0:t(r.current))),e.createElement("mesh",l({ref:r},s),e.createElement(n,{attach:"geometry",args:a}),c)})}const d=m("circle");export{d as C};
-//# sourceMappingURL=shapes.js.9fsAdUGn.js.map

@@ -1,2 +1,0 @@
-import{i as n}from"./is-options-group.mjs.IpDI0AK7.js";function l({options:o,search:r,limit:s}){const u=r.trim().toLowerCase(),t=[];for(let i=0;i<o.length;i+=1){const e=o[i];if(t.length===s)return t;n(e)&&t.push({group:e.group,items:l({options:e.items,search:r,limit:s-t.length})}),n(e)||e.label.toLowerCase().includes(u)&&t.push(e)}return t}export{l as d};
-//# sourceMappingURL=default-options-filter.mjs.yRtABtg6.js.map

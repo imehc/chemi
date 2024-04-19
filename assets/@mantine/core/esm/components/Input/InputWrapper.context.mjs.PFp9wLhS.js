@@ -1,0 +1,1 @@
+import"../../../../../react/index.js.CiILtb88.js";import{c as t}from"../../core/utils/create-optional-context/create-optional-context.mjs.f441_McJ.js";const[p,r]=t({offsetBottom:!1,offsetTop:!1,describedBy:void 0,getStyles:null,inputId:void 0,labelId:void 0});export{p as I,r as u};

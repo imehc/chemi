@@ -1,2 +1,0 @@
-import{u as n}from"../../../../hooks/esm/use-callback-ref/use-callback-ref.mjs.Y--yqzTQ.js";import{u as a}from"../../../../hooks/esm/use-isomorphic-effect/use-isomorphic-effect.mjs.UowYAxrU.js";function c(e,o){const s=n(o);a(()=>{let r=0;if(e){const i=new ResizeObserver(()=>{cancelAnimationFrame(r),r=window.requestAnimationFrame(s)});return i.observe(e),()=>{window.cancelAnimationFrame(r),i.unobserve(e)}}},[e,s])}export{c as u};
-//# sourceMappingURL=use-resize-observer.mjs.dOkCWTkB.js.map

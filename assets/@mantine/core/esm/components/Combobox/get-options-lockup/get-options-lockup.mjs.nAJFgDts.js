@@ -1,2 +1,0 @@
-var a=Object.defineProperty,o=Object.getOwnPropertySymbols,u=Object.prototype.hasOwnProperty,f=Object.prototype.propertyIsEnumerable,n=(t,r,e)=>r in t?a(t,r,{enumerable:!0,configurable:!0,writable:!0,value:e}):t[r]=e,p=(t,r)=>{for(var e in r||(r={}))u.call(r,e)&&n(t,e,r[e]);if(o)for(var e of o(r))f.call(r,e)&&n(t,e,r[e]);return t};function l(t){return t.reduce((r,e)=>"group"in e?p(p({},r),l(e.items)):(r[e.value]=e,r),{})}export{l as g};
-//# sourceMappingURL=get-options-lockup.mjs.nAJFgDts.js.map

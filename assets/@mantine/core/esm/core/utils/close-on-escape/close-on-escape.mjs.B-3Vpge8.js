@@ -1,0 +1,1 @@
+import{n}from"../noop/noop.mjs.BjFrJKj1.js";function a(r,e={active:!0}){return typeof r!="function"||!e.active?e.onKeyDown||n:c=>{var f;c.key==="Escape"&&(r(c),(f=e.onTrigger)==null||f.call(e))}}export{a as c};
