@@ -5,14 +5,14 @@ on:
     branches: 
       - three-demo
     paths:
-      - 'package.json'
+      - 'manage/package.json'
     tags-ignore:
       - '**'
   pull_request:
     branches: 
       - three-demo
     paths:
-      - 'package.json'
+      - 'manage/package.json'
 
 jobs:
   build-and-deploy:
