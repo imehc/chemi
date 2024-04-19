@@ -19,7 +19,7 @@ export type Collider = {
 export const Physics = () => {
   const { nodes, scene } = useGLTF(
     'models/scene-transformed.glb'
-  ) as GLTFResult;
+  ) as unknown as GLTFResult;
   const octree = useOctree(scene);
   useOctreeHelper(octree);
 

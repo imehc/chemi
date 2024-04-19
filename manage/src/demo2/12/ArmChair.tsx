@@ -10,7 +10,7 @@ export default function ArmChair() {
   const ref = useRef<Mesh>(null);
   const { nodes, materials } = useGLTF(
     '/v212/models/armchair-transformed.glb'
-  ) as GLTFResult;
+  ) as unknown as GLTFResult;
 
   const materialOverrides = useMemo(() => {
     return {

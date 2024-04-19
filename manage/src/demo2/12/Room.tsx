@@ -4,7 +4,7 @@ import { GLTFResult } from '~/types/use_gltf';
 export default function Room() {
   const { nodes, materials } = useGLTF(
     '/v212/models/room-transformed.glb'
-  ) as GLTFResult;
+  ) as unknown as GLTFResult;
 
   return (
     <>

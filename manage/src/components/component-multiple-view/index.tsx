@@ -1,4 +1,3 @@
-import * as THREE from 'three';
 import React, { forwardRef, PropsWithChildren } from 'react';
 import { Canvas } from '@react-three/fiber';
 import {
@@ -20,6 +19,7 @@ import { Menu, Button } from '@mantine/core';
 import useRefs from 'react-use-refs';
 import { create } from 'zustand';
 import './index.css?inline';
+import { Matrix4 } from 'three';
 
 type Store = {
   projection: 'Perspective';
@@ -30,7 +30,7 @@ type Store = {
   setProjection: (projection: Store['projection']) => void;
 };
 
-const matrix = new THREE.Matrix4();
+const matrix = new Matrix4();
 const positions = {
   Top: [0, 10, 0],
   Bottom: [0, -10, 0],
@@ -131,7 +131,7 @@ export const MultipleView: React.FC<Props> = ({ url }) => {
 
 interface SceneProps extends PropsWithChildren {
   background: string;
-  matrix: THREE.Matrix4;
+  matrix: Matrix4;
 }
 
 const Scene: React.FC<SceneProps> = ({
@@ -159,7 +159,7 @@ const Scene: React.FC<SceneProps> = ({
         // Why onUpdate and not just matrix={matrix} ?
         // This is an implementation detail, overwriting (most) transform objects isn't possible in Threejs
         // because they are defined read-only. Therefore Fiber will always call .copy() if you pass
-        // an object, for instance matrix={new THREE.Matrix4()} or position={new THREE.Vector3()}
+        // an object, for instance matrix={new Matrix4()} or position={new Vector3()}
         // In this rare case we do not want it to copy the matrix, but refer to it.
         onUpdate={(self) => (self.matrix = matrix)}
         {...props}

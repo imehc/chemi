@@ -1,7 +1,7 @@
 import { Html, OrbitControls, Select, Sky } from '@react-three/drei';
 import { Canvas, useLoader, useThree } from '@react-three/fiber';
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
-import { Box3, Vector3 } from 'three';
+import { Box3, Vector3, PerspectiveCamera } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls as OrbitControlsProps } from 'three/examples/jsm/controls/OrbitControls';
 import { FileButton, Button } from '@mantine/core';
@@ -81,9 +81,7 @@ const Model: React.FC<Required<Props>> = ({ url }) => {
     // 根据模型大小调整相机位置
     const offset =
       distance /
-      Math.tan(
-        (Math.PI / 180.0) * (camera as THREE.PerspectiveCamera).fov * 0.5
-      );
+      Math.tan((Math.PI / 180.0) * (camera as PerspectiveCamera).fov * 0.5);
 
     // 设置相机位置和目标点
     controlsRef.current.target.copy(target);

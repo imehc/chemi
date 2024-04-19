@@ -1,8 +1,19 @@
 name: Build and Deploy
-on: 
+
+on:
   push:
     branches: 
       - three-demo
+    paths:
+      - 'package.json'
+    tags-ignore:
+      - '**'
+  pull_request:
+    branches: 
+      - three-demo
+    paths:
+      - 'package.json'
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest

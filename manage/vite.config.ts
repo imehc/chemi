@@ -1,13 +1,19 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import { fileURLToPath, URL } from 'url';
-import eslintPlugin from 'vite-plugin-eslint';
+import eslint from 'vite-plugin-eslint';
 import unocss from 'unocss/vite';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   // https://github.com/vitejs/awesome-vite#plugins
-  plugins: [react(), eslintPlugin(), unocss()],
+  plugins: [
+    react(),
+    eslint(),
+    unocss(),
+    visualizer()
+  ],
   server: {
     host: '0.0.0.0',
     port: 6012,
@@ -19,7 +25,7 @@ export default defineConfig({
     },
   },
   build: {
-    sourcemap: true,
+    // sourcemap: true,
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {

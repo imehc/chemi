@@ -10,7 +10,7 @@ import { Selectable } from './Selectable';
 export const Scene = () => {
   const { nodes, materials } = useGLTF(
     'https://cdn.jsdelivr.net/gh/Sean-Bradley/React-Three-Fiber-Boilerplate@teleport/public/models/scene-transformed.glb'
-  ) as GLTFResult;
+  ) as unknown as GLTFResult;
 
   return (
     <group dispose={null}>

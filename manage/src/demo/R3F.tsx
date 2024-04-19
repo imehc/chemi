@@ -45,7 +45,7 @@ export const R3F: React.FC = () => {
         </div>
         <div className="h-full w-full">
           <Suspense fallback={<Loading />}>
-            {collect.find((v) => v.value === select.value)!.component}
+            {collect.find((v) => v.value === select.value)?.component()}
           </Suspense>
         </div>
       </MantineProvider>

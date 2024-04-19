@@ -133,13 +133,14 @@ export const CarColor: FC = () => {
     container.appendChild(renderer.domElement);
 
     const dracoLoader = new DRACOLoader();
-    // dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
-    dracoLoader.setDecoderPath(
-      new URL(
-        '/node_modules/three/examples/jsm/libs/draco/gltf/',
-        new URL(import.meta.url).origin
-      ).href
-    );
+    // TODO: 使用本地打包后不可见，待解决
+    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
+    // dracoLoader.setDecoderPath(
+    //   new URL(
+    //     '/node_modules/three/examples/jsm/libs/draco/gltf/',
+    //     new URL(import.meta.url).origin
+    //   ).href
+    // );
     const loader = new GLTFLoader();
     //设置GLTFLoader加载器使用DRACO来解析我们的模型数据
     loader.setDRACOLoader(dracoLoader);

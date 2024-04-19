@@ -12,7 +12,7 @@ interface Props {
 export const Arena: React.FC<Props> = ({ controls }) => {
   const { nodes, materials } = useGLTF(
     '/models/collision-world.glb'
-  ) as GLTFResult;
+  ) as unknown as GLTFResult;
   const { camera } = useThree();
 
   useControls('Camera', () => {

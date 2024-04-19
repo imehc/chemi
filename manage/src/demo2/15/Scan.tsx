@@ -6,7 +6,7 @@ import { GLTFResult } from '~/types/use_gltf';
 export function Model({ controls }: any) {
   const { nodes, materials } = useGLTF(
     '/models/scan-transformed.glb'
-  ) as GLTFResult;
+  ) as unknown as GLTFResult;
 
   return (
     <group dispose={null}>
