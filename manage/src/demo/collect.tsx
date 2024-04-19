@@ -47,6 +47,8 @@ const DemoLocal03 = lazy(
   () => import('../components/component-three-dimensional')
 );
 
+const DemoV301 = lazy(() => import('../demo3/01'));
+
 export default [
   {
     label: '基本场景',
@@ -254,6 +256,12 @@ export default [
     label: '场景背景切换',
     value: '303',
     component: <DemoLocal03 />,
+  },
+  // 掘金上的
+  {
+    label: '汽车换肤',
+    value: '401',
+    component: <DemoV301 />,
   },
 ] satisfies (ComboboxItem & {
   component: JSX.Element;

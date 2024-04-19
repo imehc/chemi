@@ -11,6 +11,8 @@ import demoProjectState from './theatre-project-state.json';
 // 初始化编辑器;
 studio.initialize();
 studio.extend(extension);
+// https://www.theatrejs.com/docs/latest/manual/keyboard-shortcuts
+studio.ui.hide();
 
 const demoSheet = getProject('Demo Project', { state: demoProjectState }).sheet(
   'Demo Sheet'

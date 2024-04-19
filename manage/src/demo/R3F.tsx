@@ -8,7 +8,8 @@ const theme = createTheme({
   /** Put your mantine theme override here */
 });
 
-const idx = 36;
+// const idx = 35;
+const idx = 41;
 
 /**
  * @link https://sbcode.net/react-three-fiber/
@@ -21,7 +22,7 @@ export const R3F: React.FC = () => {
   return (
     <div className="bg-black h-full w-full">
       <MantineProvider theme={theme}>
-        <div className="-translate-x-1/2 fixed flex gap-2 items-center justify-start left-1/2 min-w-[15rem] top-10 w-1/5 z-10">
+        <div className="fixed flex gap-2 items-center justify-start left-10 min-w-[15rem] top-10 w-1/5 z-10">
           <Select
             searchable
             onChange={(value) => {
