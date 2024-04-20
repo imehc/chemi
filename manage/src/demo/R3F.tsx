@@ -22,7 +22,7 @@ export const R3F: React.FC = () => {
   return (
     <div className="bg-black h-full w-full">
       <MantineProvider theme={theme}>
-        <div className="fixed flex gap-2 items-center justify-start left-10 min-w-[15rem] top-10 w-1/5 z-10">
+        <div className="bottom-10 fixed flex gap-2 items-center justify-start left-10 min-w-[15rem] w-1/5 z-10">
           <Select
             searchable
             onChange={(value) => {
