@@ -11,13 +11,16 @@ import {
 } from 'three-stdlib';
 import { useFrame } from '@react-three/fiber';
 import { useKeyPress } from 'ahooks';
-import { IPath, useConfigStore } from '~/store';
+import { IState, useConfigStore } from '~/store';
 
-interface Props extends IPath {
+type IPathInfo = IState['modelPaths'][number];
+
+interface Props extends IPathInfo {
   orbitRef: ReturnType<typeof useRef<OrbitControlsImpl | null>>;
 }
 
 export const LocalModal: FC<Props> = ({ url, type }) => {
+  // TODO: 如果有相关模型信息，就还原之前的模型位置
   const transformRef = useRef<TransformControlsImpl>(null);
   const {
     currentModelConfig,

@@ -12,6 +12,7 @@ import { useConfigStore } from '~/store';
 interface Props {
   onSelectSingleFile(file?: File): void;
   onSave(): void;
+  onReset(): void;
   onModelClisk(url: string): void;
   onDownloadScenePicture(): void;
 }
@@ -19,12 +20,11 @@ interface Props {
 export const LeftLayout: FC<Props> = ({
   onSelectSingleFile,
   onSave,
+  onReset,
   onModelClisk,
   onDownloadScenePicture,
 }) => {
   const defaultModelPaths = useConfigStore((state) => state.defaultModelPaths);
-
-  console.log(defaultModelPaths);
 
   return (
     <div className="w-1/5 max-w-[360px] h-full p-4">
@@ -68,6 +68,9 @@ export const LeftLayout: FC<Props> = ({
       </Card>
       <Button className="mt-4 mr-2" onClick={onSave}>
         Save
+      </Button>
+      <Button className="mt-4 mr-2" onClick={onReset}>
+        Reset
       </Button>
       <Button className="mt-4" onClick={onDownloadScenePicture}>
         Download Scene Picture

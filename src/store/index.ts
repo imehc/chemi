@@ -13,7 +13,7 @@ export interface IPath {
   url: string;
 }
 
-interface IInfo {
+export interface IInfo {
   position: Vector3;
   rotation: Euler;
   scale: Vector3;
@@ -29,20 +29,20 @@ interface ISceneConfig {
   camera: IInfo;
 }
 
-interface State {
+export interface IState {
   /** 默认的可用模型 */
   defaultModelPaths: (IPath & { picture: string })[];
   /** 场景信息 */
   sceneConfig?: ISceneConfig;
   /** 加载到场景的路径信息 */
-  modelPaths: IPath[];
+  modelPaths: (IPath & { info?: IInfo })[];
   /** 场景中的模型配置 */
   modelConfigs: IConfig[];
   /** 当前选择的模型 */
   currentModelConfig?: IConfig;
 }
 
-interface Action {
+interface IAction {
   /** 设置场景信息 */
   setSceneConfig(conf: ISceneConfig): void;
   /** 添加一个模型路径信息 */
@@ -51,11 +51,13 @@ interface Action {
   appendModelConfig(config: IConfig): void;
   /** 更新一个模型配置 */
   updateCurrentModelConfig(config: IConfig): void;
+  /** 清空场景所有模型 */
+  clearModelConfigs(): void;
   /** 设置一个模型为当前选择模型 */
   setCurrentModel(uuid?: string): void;
 }
 
-export const useConfigStore = create<State & Action>()(
+export const useConfigStore = create<IState & IAction>()(
   devtools((set, get) => ({
     defaultModelPaths: paths,
     modelPaths: [],
@@ -74,6 +76,8 @@ export const useConfigStore = create<State & Action>()(
         ),
         currentModelConfig: config,
       }),
+    clearModelConfigs: () =>
+      set({ modelPaths: [], modelConfigs: [], currentModelConfig: undefined }),
     setCurrentModel: (uuid) =>
       set({
         currentModelConfig: uuid

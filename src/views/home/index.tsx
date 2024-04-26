@@ -11,6 +11,7 @@ import {
 } from '@react-three/drei';
 import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { saveAs } from 'file-saver';
+import { toast } from 'react-toastify';
 import { EnvBackground, LeftLayout, LocalModal } from '~/components';
 import { useConfigStore } from '~/store';
 
@@ -21,21 +22,36 @@ import { useConfigStore } from '~/store';
 export const Home: FC = () => {
   const orbitRef = useRef<OrbitControlsImpl>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const { modelPaths, appendModelPath } = useConfigStore();
+  const { modelPaths, appendModelPath, modelConfigs, clearModelConfigs } =
+    useConfigStore();
 
   const handleFileChange = (file?: File) => {
     if (!file) {
-      throw new Error('未选择文件');
+      toast.error('Unselected file');
+      return;
     }
     if (modelPaths.length > 5) {
-      throw new Error('场景模型过多会导致卡顿');
+      toast.error('No more than five models');
+      return;
     }
     // 应上传获取到远程链接
     appendModelPath({ type: 'local', url: window.URL.createObjectURL(file) });
   };
   const handleSave = useCallback(() => {
-    console.log('1');
-  }, []);
+    console.log(
+      modelConfigs.map((item) => [
+        item.info.position,
+        item.info.scale,
+        item.info.rotation,
+      ])
+    );
+  }, [modelConfigs]);
+
+  const handleReset = useCallback(
+    () => clearModelConfigs(),
+    [clearModelConfigs]
+  );
+
   const handleDownloadScenePicture = useCallback(() => {
     const { current: canvas } = canvasRef;
     if (!canvas) return;
@@ -43,15 +59,10 @@ export const Home: FC = () => {
   }, []);
 
   useEffect(() => {
-    if (modelPaths.length > 5) {
-      console.error('oops!!!');
-      return;
-    }
-  }, [modelPaths.length]);
-
-  useEffect(() => {
     return () => {
-      modelPaths.forEach((path) => window.URL.revokeObjectURL(path.url));
+      modelPaths.forEach(
+        (path) => path.type === 'local' && window.URL.revokeObjectURL(path.url)
+      );
     };
   }, [modelPaths]);
 
@@ -60,7 +71,14 @@ export const Home: FC = () => {
       <LeftLayout
         onSelectSingleFile={handleFileChange}
         onSave={handleSave}
-        onModelClisk={(url) => appendModelPath({ type: 'remote', url })}
+        onReset={handleReset}
+        onModelClisk={(url) => {
+          if (modelPaths.length > 5) {
+            toast.error('No more than five models');
+            return;
+          }
+          appendModelPath({ type: 'remote', url });
+        }}
         onDownloadScenePicture={handleDownloadScenePicture}
       />
       <Canvas

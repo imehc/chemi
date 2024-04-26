@@ -2,14 +2,16 @@ import { FC, useCallback, useEffect, useRef } from 'react';
 import { useEnvironment, Environment } from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
-import { useConfigStore } from '~/store';
+import { type IInfo, useConfigStore } from '~/store';
 import { useThrottleFn } from 'ahooks';
 
 interface Props {
   orbitRef: ReturnType<typeof useRef<OrbitControlsImpl | null>>;
+  info?: IInfo;
 }
 
 export const EnvBackground: FC<Props> = ({ orbitRef }) => {
+  // TODO: 如果有info相关信息，就设置场景位置
   const setSceneConfig = useConfigStore((state) => state.setSceneConfig);
   const { camera } = useThree();
 
