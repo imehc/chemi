@@ -1,39 +1,73 @@
-import { FC, useEffect, useMemo, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   useGLTF,
   TransformControls,
   TransformControlsProps,
 } from '@react-three/drei';
-import { Group, AnimationMixer } from 'three';
+import { AnimationMixer, Object3D } from 'three';
 import {
   TransformControls as TransformControlsImpl,
   OrbitControls as OrbitControlsImpl,
 } from 'three-stdlib';
 import { useFrame } from '@react-three/fiber';
 import { useKeyPress } from 'ahooks';
+import { IPath, useConfigStore } from '~/store';
 
-interface Props {
+interface Props extends IPath {
   orbitRef: ReturnType<typeof useRef<OrbitControlsImpl | null>>;
-  url: string;
-  select: string | undefined;
-  onSelect(uuid: string): void;
 }
 
-export const LocalModal: FC<Props> = ({ url, orbitRef, select, onSelect }) => {
-  const onSelectRef = useRef(onSelect);
+export const LocalModal: FC<Props> = ({ url, type }) => {
   const transformRef = useRef<TransformControlsImpl>(null);
-  const groupRef = useRef<Group>(null);
+  const {
+    currentModelConfig,
+    updateCurrentModelConfig,
+    appendModelConfig,
+    setCurrentModel,
+  } = useConfigStore();
 
   const { scene, animations } = useGLTF(url);
   const mixer = useMemo(() => new AnimationMixer(scene), [scene]);
-  useEffect(() => {
-    onSelectRef.current(scene.uuid);
-  }, [scene.uuid]);
 
-  const isSelect = useMemo(() => select === scene.uuid, [scene.uuid, select]);
+  type IParams = Parameters<typeof appendModelConfig>[number];
+
+  useEffect(() => {
+    const params = {
+      uuid: scene.uuid,
+      path: { url, type },
+      info: {
+        position: scene.position.clone(),
+        rotation: scene.rotation.clone(),
+        scale: scene.scale.clone(),
+      },
+    } satisfies IParams;
+    appendModelConfig(params);
+  }, [
+    appendModelConfig,
+    scene.position,
+    scene.rotation,
+    scene.scale,
+    scene.uuid,
+    type,
+    url,
+  ]);
+
+  const isSelect = useMemo(
+    () => currentModelConfig?.uuid === scene.uuid,
+    [currentModelConfig?.uuid, scene.uuid]
+  );
   // Press the tab key to switch the control type
   // "scale" , "rotate", "translate"
   const [mode, setMode] = useState<TransformControlsProps['mode']>();
+
+  useEffect(() => {
+    const { current: transform } = transformRef;
+    if (!transform) return;
+
+    return () => {
+      transform.dispose();
+    };
+  }, []);
 
   useEffect(() => {
     if (animations.length) {
@@ -62,9 +96,18 @@ export const LocalModal: FC<Props> = ({ url, orbitRef, select, onSelect }) => {
   });
 
   useFrame((_, delta) => {
-    orbitRef.current?.update();
     mixer?.update(delta);
   });
+
+  const onControlChange = useCallback(() => {
+    const { current: transform } = transformRef;
+    if (!transform || !currentModelConfig) return;
+    const { position, scale, rotation } = transform['object'] as Object3D;
+    updateCurrentModelConfig({
+      ...currentModelConfig,
+      info: { position, scale, rotation },
+    });
+  }, [currentModelConfig, updateCurrentModelConfig]);
 
   return (
     <TransformControls
@@ -73,10 +116,9 @@ export const LocalModal: FC<Props> = ({ url, orbitRef, select, onSelect }) => {
       showY={isSelect}
       showZ={isSelect}
       mode={mode}
+      onMouseUp={onControlChange}
     >
-      <group ref={groupRef} onClick={() => onSelectRef.current(scene.uuid)}>
-        <primitive object={scene} />
-      </group>
+      <primitive object={scene} onClick={() => setCurrentModel(scene.uuid)} />
     </TransformControls>
   );
 };
