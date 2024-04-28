@@ -1,5 +1,5 @@
 import { css } from '#/css';
-import { FC, Suspense, useCallback, useEffect, useRef } from 'react';
+import { FC, Suspense, useCallback, useEffect, useMemo, useRef } from 'react';
 import { MathUtils } from 'three';
 import { Canvas } from '@react-three/fiber';
 import {
@@ -14,16 +14,31 @@ import { saveAs } from 'file-saver';
 import { toast } from 'react-toastify';
 import { EnvBackground, LeftLayout, LocalModal } from '~/components';
 import { useConfigStore } from '~/store';
+import {
+  IRemoteInfo,
+  addInfoToRemote,
+  removeInfoFromRemote,
+} from '~/mock-remote';
 
 // https://polyhaven.com/
 // https://sbcode.net/react-three-fiber/environment/
 // https://sketchfab.com/3d-models/porsche-gt3-rs-e738eae819c34d19a31dd066c45e0f3d glb
 
-export const Home: FC = () => {
+interface Props {
+  data: IRemoteInfo;
+}
+
+export const Home: FC<Props> = ({ data: { scene, models } }) => {
   const orbitRef = useRef<OrbitControlsImpl>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const { modelPaths, appendModelPath, modelConfigs, clearModelConfigs } =
-    useConfigStore();
+  const {
+    modelPaths,
+    modelConfigs,
+    appendModelPath,
+    setModelPaths,
+    clearModelConfigs,
+    sceneConfig,
+  } = useConfigStore();
 
   const handleFileChange = (file?: File) => {
     if (!file) {
@@ -37,20 +52,28 @@ export const Home: FC = () => {
     // 应上传获取到远程链接
     appendModelPath({ type: 'local', url: window.URL.createObjectURL(file) });
   };
-  const handleSave = useCallback(() => {
-    console.log(
-      modelConfigs.map((item) => [
-        item.info.position,
-        item.info.scale,
-        item.info.rotation,
-      ])
-    );
-  }, [modelConfigs]);
 
-  const handleReset = useCallback(
-    () => clearModelConfigs(),
-    [clearModelConfigs]
-  );
+  const handleSave = useCallback(async () => {
+    // 模拟保存并上传到远程，这儿是保存到浏览器本地
+    const success = await addInfoToRemote({
+      scene: sceneConfig,
+      models: modelConfigs,
+    });
+    if (success) {
+      toast.success('Save success');
+      return;
+    }
+    toast.error('Save fail');
+  }, [modelConfigs, sceneConfig]);
+
+  const handleReset = useCallback(async () => {
+    clearModelConfigs();
+    const res = await removeInfoFromRemote();
+    if (!res) {
+      toast.error('Reset fail');
+      return;
+    }
+  }, [clearModelConfigs]);
 
   const handleDownloadScenePicture = useCallback(() => {
     const { current: canvas } = canvasRef;
@@ -65,6 +88,28 @@ export const Home: FC = () => {
       );
     };
   }, [modelPaths]);
+
+  useEffect(() => {
+    const handle = () => {
+      // handleSave();
+      // TODO: 是否保存
+    };
+
+    window.addEventListener('beforeunload', handle);
+
+    return () => {
+      window.removeEventListener('beforeunload', handle);
+    };
+  }, [handleSave]);
+
+  const modelPathsMemo = useMemo(() => {
+    if (models.length) {
+      const temp = models.map((item) => ({ info: item.info, ...item.path }));
+      setModelPaths(temp);
+      return temp;
+    }
+    return modelPaths;
+  }, [modelPaths, models, setModelPaths]);
 
   return (
     <div className="flex justify-center items-center h-screen w-screen overflow-hidden">
@@ -110,13 +155,13 @@ export const Home: FC = () => {
             />
             <directionalLight position={[0, 0, 10]} />
             <pointLight position={[0, 0, 10]} />
-            <EnvBackground orbitRef={orbitRef} />
+            <EnvBackground orbitRef={orbitRef} scene={scene} />
             <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
               <GizmoViewport axisColors={['#9d4b4b', '#2f7f4f', '#3b5b9d']} />
             </GizmoHelper>
           </group>
 
-          {modelPaths.map((path, i) => (
+          {modelPathsMemo.map((path, i) => (
             <Suspense fallback={<Loading />} key={i}>
               <LocalModal {...path} orbitRef={orbitRef} />
             </Suspense>

@@ -1,14 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Bounce, ToastContainer } from 'react-toastify';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
-import { Home } from './views/home';
+import Dashboard from '~/views';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <Home />
-    <ToastContainer position="top-center"
+    <QueryClientProvider client={new QueryClient()}>
+      <Dashboard />
+    </QueryClientProvider>
+    <ToastContainer
+      position="top-center"
       autoClose={5000}
       hideProgressBar={false}
       newestOnTop={false}

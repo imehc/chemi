@@ -59,7 +59,7 @@ export const LeftLayout: FC<Props> = ({
               <img
                 src={item.picture}
                 key={item.picture}
-                className="rounded-sm"
+                className="rounded-sm cursor-pointer"
                 onClick={() => onModelClisk(item.url)}
               />
             ))}

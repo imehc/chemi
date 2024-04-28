@@ -1,3 +1,5 @@
+import { PerspectiveCameraProps } from '@react-three/fiber';
+import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { Euler, Vector3 } from 'three';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
@@ -26,7 +28,11 @@ interface IConfig {
 }
 
 interface ISceneConfig {
-  camera: IInfo;
+  /** 相机位置 相机近远裁剪平面 相机视角  */
+  camera: Pick<PerspectiveCameraProps, 'position' | 'near' | 'far' | 'fov'>;
+  /** 控制器目标 控制器的缩放/距离 */
+  controls: Pick<OrbitControlsImpl, 'target'> &
+    Pick<OrbitControlsImpl['object'], 'zoom'>;
 }
 
 export interface IState {
@@ -47,6 +53,8 @@ interface IAction {
   setSceneConfig(conf: ISceneConfig): void;
   /** 添加一个模型路径信息 */
   appendModelPath(path: IPath): void;
+  /** 设置模型路径信息 */
+  setModelPaths(paths: IPath[]): void;
   /** 添加一个模型配置 */
   appendModelConfig(config: IConfig): void;
   /** 更新一个模型配置 */
@@ -64,6 +72,7 @@ export const useConfigStore = create<IState & IAction>()(
     modelConfigs: [],
     setSceneConfig: (config) => set({ sceneConfig: config }),
     appendModelPath: (path) => set({ modelPaths: [...get().modelPaths, path] }),
+    setModelPaths: (paths) => set({ modelPaths: paths }),
     appendModelConfig: (config) =>
       set({
         modelConfigs: [...get().modelConfigs, config],
