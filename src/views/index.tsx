@@ -25,7 +25,7 @@ const Dashboard: FC = () => {
       </div>
     );
   }
-
+  console.log(data?.models)
   return <Home data={data as Omit<NonNullable<typeof data>, 'null'>} />;
 };
 

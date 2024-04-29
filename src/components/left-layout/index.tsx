@@ -57,10 +57,10 @@ export const LeftLayout: FC<Props> = ({
           <div className="grid grid-cols-2 gap-4 w-full">
             {defaultModelPaths.map((item) => (
               <img
-                src={item.picture}
-                key={item.picture}
+                src={item.path.picture}
+                key={item.path.picture}
                 className="rounded-sm cursor-pointer"
-                onClick={() => onModelClisk(item.url)}
+                onClick={() => onModelClisk(item.path.url)}
               />
             ))}
           </div>

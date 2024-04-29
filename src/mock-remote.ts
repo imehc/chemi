@@ -15,9 +15,11 @@ const defaultKey = 'three-info';
  */
 const addInfoToRemote = async (info: IRemoteInfo) => {
   try {
+    // await removeInfoFromRemote()
     await setItem(defaultKey, JSON.stringify(info));
     return true;
   } catch (error) {
+    console.error(error)
     return false;
   }
 };

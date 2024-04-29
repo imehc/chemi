@@ -1,64 +1,81 @@
 import { PerspectiveCameraProps } from '@react-three/fiber';
 import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
-import { Euler, Vector3 } from 'three';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
+// TODO: 由于保存到本地需要转换成number[]
+
 const paths = ['porsche_gt3_rs', 'bmw_m4_f82', 'ferrari'].map((item) => ({
-  url: `/models/car/${item}.glb`,
-  type: 'remote',
-  picture: `/models/car/imgs/${item}.jpeg`,
-})) satisfies (IPath & { picture: string })[];
+  path: {
+    url: `/models/car/${item}.glb`,
+    type: 'remote',
+    picture: `/models/car/imgs/${item}.jpeg`,
+  },
+})) satisfies IConfig[];
 
 export interface IPath {
   type: 'remote' | 'local';
   url: string;
+  picture?: string;
 }
 
-export interface IInfo {
-  position: Vector3;
-  rotation: Euler;
-  scale: Vector3;
-}
+/** 位置 缩放 旋转或四元数 父对象 */
+export type IInfo = {
+  position: number[];
+  scale: number[];
+  quaternion: number[];
+  rotation: Array<number | string | undefined>;
+  /** 父对象 */
+  parentId?: number;
+  // TODO: 模型材质，额外携带信息
+  // materialState?: {
+  // color:
+  // opacity
+  // };
+  // otherState?: {
+  // name: string;
+  // };
+};
 
-interface IConfig {
-  uuid: string;
+export interface IConfig {
   path: IPath;
-  info: IInfo;
+  uuid?: string;
+  info?: IInfo;
 }
 
 interface ISceneConfig {
   /** 相机位置 相机近远裁剪平面 相机视角  */
-  camera: Pick<PerspectiveCameraProps, 'position' | 'near' | 'far' | 'fov'>;
+  camera: Pick<PerspectiveCameraProps, 'near' | 'far' | 'fov'> & {
+    position: number[];
+  };
   /** 控制器目标 控制器的缩放/距离 */
-  controls: Pick<OrbitControlsImpl, 'target'> &
-    Pick<OrbitControlsImpl['object'], 'zoom'>;
+  controls: Pick<OrbitControlsImpl['object'], 'zoom'> & { target: number[] };
 }
 
 export interface IState {
   /** 默认的可用模型 */
-  defaultModelPaths: (IPath & { picture: string })[];
+  defaultModelPaths: IConfig[];
   /** 场景信息 */
   sceneConfig?: ISceneConfig;
   /** 加载到场景的路径信息 */
-  modelPaths: (IPath & { info?: IInfo })[];
+  modelPaths: IConfig[];
   /** 场景中的模型配置 */
-  modelConfigs: IConfig[];
+  modelConfigs: Required<IConfig>[];
   /** 当前选择的模型 */
-  currentModelConfig?: IConfig;
+  currentModelConfig?: Required<IConfig>;
 }
 
 interface IAction {
   /** 设置场景信息 */
   setSceneConfig(conf: ISceneConfig): void;
   /** 添加一个模型路径信息 */
-  appendModelPath(path: IPath): void;
+  appendModelPath(path: IConfig): void;
   /** 设置模型路径信息 */
-  setModelPaths(paths: IPath[]): void;
+  setModelPaths(paths: IConfig[]): void;
   /** 添加一个模型配置 */
-  appendModelConfig(config: IConfig): void;
+  appendModelConfig(config: Required<IConfig>): void;
   /** 更新一个模型配置 */
-  updateCurrentModelConfig(config: IConfig): void;
+  updateCurrentModelConfig(config: Required<IConfig>): void;
   /** 清空场景所有模型 */
   clearModelConfigs(): void;
   /** 设置一个模型为当前选择模型 */

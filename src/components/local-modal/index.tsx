@@ -1,17 +1,19 @@
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   useGLTF,
-  TransformControls,
   TransformControlsProps,
+  TransformControls,
 } from '@react-three/drei';
-import { AnimationMixer, Object3D } from 'three';
+import { AnimationMixer, Group, Object3D } from 'three';
 import {
   TransformControls as TransformControlsImpl,
   OrbitControls as OrbitControlsImpl,
 } from 'three-stdlib';
 import { useFrame } from '@react-three/fiber';
 import { useKeyPress } from 'ahooks';
+import gsap from 'gsap';
 import { IState, useConfigStore } from '~/store';
+import { duration } from '~/views/home';
 
 type IPathInfo = IState['modelPaths'][number];
 
@@ -19,9 +21,10 @@ interface Props extends IPathInfo {
   orbitRef: ReturnType<typeof useRef<OrbitControlsImpl | null>>;
 }
 
-export const LocalModal: FC<Props> = ({ url, type }) => {
+export const LocalModal: FC<Props> = ({ path, info }) => {
   // TODO: 如果有相关模型信息，就还原之前的模型位置
   const transformRef = useRef<TransformControlsImpl>(null);
+  const groupRef = useRef<Group>(null);
   const {
     currentModelConfig,
     updateCurrentModelConfig,
@@ -29,46 +32,110 @@ export const LocalModal: FC<Props> = ({ url, type }) => {
     setCurrentModel,
   } = useConfigStore();
 
-  const { scene, animations } = useGLTF(url);
-  const mixer = useMemo(() => new AnimationMixer(scene), [scene]);
+  const { scene: node, animations } = useGLTF(path.url);
+  const mixer = useMemo(() => new AnimationMixer(node), [node]);
 
-  type IParams = Parameters<typeof appendModelConfig>[number];
-
-  useEffect(() => {
-    const params = {
-      uuid: scene.uuid,
-      path: { url, type },
-      info: {
-        position: scene.position.clone(),
-        rotation: scene.rotation.clone(),
-        scale: scene.scale.clone(),
-      },
-    } satisfies IParams;
-    appendModelConfig(params);
-  }, [
-    appendModelConfig,
-    scene.position,
-    scene.rotation,
-    scene.scale,
-    scene.uuid,
-    type,
-    url,
-  ]);
-
-  const isSelect = useMemo(
-    () => currentModelConfig?.uuid === scene.uuid,
-    [currentModelConfig?.uuid, scene.uuid]
-  );
   // Press the tab key to switch the control type
   // "scale" , "rotate", "translate"
   const [mode, setMode] = useState<TransformControlsProps['mode']>();
+  const [enable, setEnable] = useState<boolean>(false);
+
+  type IParams = Parameters<typeof appendModelConfig>[number];
+
+  const handleRestore = useCallback(
+    ({ position, scale, rotation, quaternion }: NonNullable<typeof info>) => {
+      const { current: transform } = transformRef;
+      const { current: group } = groupRef;
+      if (!group || !transform) return;
+      gsap.to(node.position, {
+        x: position?.[0],
+        y: position?.[1],
+        z: position?.[2],
+        duration,
+        onUpdate: () => {
+          node.updateMatrix();
+        },
+        onComplete: () => {
+          setEnable(true);
+        },
+      });
+      gsap.to(node.scale, {
+        x: scale?.[0],
+        y: scale?.[1],
+        z: scale?.[2],
+        duration,
+        onUpdate: () => {
+          node.updateMatrix();
+        },
+        onComplete: () => {
+          setEnable(true);
+        },
+      });
+      gsap.to(node.rotation, {
+        x: rotation?.[0],
+        y: rotation?.[1],
+        z: rotation?.[2],
+        order: rotation?.[3],
+        duration,
+        onUpdate: () => {
+          node.updateMatrix();
+        },
+        onComplete: () => {
+          setEnable(true);
+        },
+      });
+      gsap.to(node.quaternion, {
+        x: quaternion?.[0],
+        y: quaternion?.[1],
+        z: quaternion?.[2],
+        w: quaternion?.[3],
+        duration,
+        onUpdate: () => {
+          node.updateMatrix();
+        },
+        onComplete: () => {
+          setEnable(true);
+        },
+      });
+    },
+    [node]
+  );
+
+  useEffect(() => {
+    if (info) {
+      // 还原模型位置
+      appendModelConfig({ uuid: node.uuid, path, info });
+      handleRestore(info);
+      return;
+    }
+    const { position, rotation, scale, quaternion, parent, uuid } = node;
+    // 默认模型位置
+    const params = {
+      uuid,
+      path,
+      info: {
+        position: position.toArray(),
+        rotation: rotation.toArray(),
+        quaternion: quaternion.toArray(),
+        scale: scale.toArray(),
+        parentId: parent?.id,
+      },
+    } satisfies IParams;
+    setEnable(true);
+    appendModelConfig(params);
+  }, [appendModelConfig, handleRestore, info, node, path]);
+
+  const isSelect = useMemo(
+    () => currentModelConfig?.uuid === node.uuid,
+    [currentModelConfig?.uuid, node.uuid]
+  );
 
   useEffect(() => {
     const { current: transform } = transformRef;
     if (!transform) return;
 
     return () => {
-      transform.dispose();
+      transform?.dispose?.();
     };
   }, []);
 
@@ -105,15 +172,25 @@ export const LocalModal: FC<Props> = ({ url, type }) => {
   const onControlChange = useCallback(() => {
     const { current: transform } = transformRef;
     if (!transform || !currentModelConfig) return;
-    const { position, scale, rotation } = transform['object'] as Object3D;
+    const { position, scale, rotation, quaternion, parent } = transform[
+      'object'
+    ] as Object3D;
     updateCurrentModelConfig({
       ...currentModelConfig,
-      info: { position, scale, rotation },
+      info: {
+        position: position.toArray(),
+        scale: scale.toArray(),
+        rotation: rotation.toArray(),
+        quaternion: quaternion.toArray(),
+        parentId: parent?.id,
+      },
     });
   }, [currentModelConfig, updateCurrentModelConfig]);
 
   return (
     <TransformControls
+      object={node}
+      enabled={enable}
       ref={transformRef}
       showX={isSelect}
       showY={isSelect}
@@ -121,7 +198,13 @@ export const LocalModal: FC<Props> = ({ url, type }) => {
       mode={mode}
       onMouseUp={onControlChange}
     >
-      <primitive object={scene} onClick={() => setCurrentModel(scene.uuid)} />
+      <group ref={groupRef} dispose={null}>
+        <primitive
+          key={node.uuid}
+          object={node}
+          onClick={() => setCurrentModel(node.uuid)}
+        />
+      </group>
     </TransformControls>
   );
 };
