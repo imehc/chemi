@@ -165,11 +165,11 @@ export const Home: FC<Props> = ({ data }) => {
             </GizmoHelper>
           </group>
 
-          {modelPaths.map((item, i) => (
-            <Suspense fallback={<Loading />} key={i}>
-              <LocalModal {...item} orbitRef={orbitRef} />
-            </Suspense>
-          ))}
+          <Suspense fallback={<Loading />}>
+            {modelPaths.map((item, i) => (
+              <LocalModal key={i} {...item} orbitRef={orbitRef} />
+            ))}
+          </Suspense>
         </Suspense>
       </Canvas>
       {/* <Loader /> */}
