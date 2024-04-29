@@ -47,56 +47,90 @@ export const LocalModal: FC<Props> = ({ path, info }) => {
       const { current: transform } = transformRef;
       const { current: group } = groupRef;
       if (!group || !transform) return;
-      gsap.to(node.position, {
-        x: position?.[0],
-        y: position?.[1],
-        z: position?.[2],
-        duration,
-        onUpdate: () => {
-          node.updateMatrix();
+      gsap.fromTo(
+        node.position,
+        {
+          x: 0,
+          y: 0,
+          z: -5,
         },
-        onComplete: () => {
-          setEnable(true);
+        {
+          x: position?.[0] ?? 0,
+          y: position?.[1] ?? 0,
+          z: position?.[2] ?? 0,
+          duration,
+          onUpdate: () => {
+            node.updateMatrix();
+          },
+          onComplete: () => {
+            setEnable(true);
+          },
+        }
+      );
+      gsap.fromTo(
+        node.scale,
+        {
+          x: 0.2,
+          y: 0.2,
+          z: 0.2,
         },
-      });
-      gsap.to(node.scale, {
-        x: scale?.[0],
-        y: scale?.[1],
-        z: scale?.[2],
-        duration,
-        onUpdate: () => {
-          node.updateMatrix();
+        {
+          x: scale?.[0] ?? 1,
+          y: scale?.[1] ?? 1,
+          z: scale?.[2] ?? 1,
+          duration,
+          onUpdate: () => {
+            node.updateMatrix();
+          },
+          onComplete: () => {
+            setEnable(true);
+          },
+        }
+      );
+      gsap.fromTo(
+        node.rotation,
+        {
+          x: 0,
+          y: 0,
+          z: -1,
+          order: 'XYZ',
         },
-        onComplete: () => {
-          setEnable(true);
+        {
+          x: rotation?.[0] ?? 0,
+          y: rotation?.[1] ?? 0,
+          z: rotation?.[2] ?? 0,
+          order: rotation?.[3] ?? 'XYZ',
+          duration,
+          onUpdate: () => {
+            node.updateMatrix();
+          },
+          onComplete: () => {
+            setEnable(true);
+          },
+        }
+      );
+      gsap.fromTo(
+        node.quaternion,
+        {
+          x: 0,
+          y: 0,
+          z: 0,
+          2: 0,
         },
-      });
-      gsap.to(node.rotation, {
-        x: rotation?.[0],
-        y: rotation?.[1],
-        z: rotation?.[2],
-        order: rotation?.[3],
-        duration,
-        onUpdate: () => {
-          node.updateMatrix();
-        },
-        onComplete: () => {
-          setEnable(true);
-        },
-      });
-      gsap.to(node.quaternion, {
-        x: quaternion?.[0],
-        y: quaternion?.[1],
-        z: quaternion?.[2],
-        w: quaternion?.[3],
-        duration,
-        onUpdate: () => {
-          node.updateMatrix();
-        },
-        onComplete: () => {
-          setEnable(true);
-        },
-      });
+        {
+          x: quaternion?.[0] ?? 0,
+          y: quaternion?.[1] ?? 0,
+          z: quaternion?.[2] ?? 0,
+          w: quaternion?.[3] ?? 0,
+          duration,
+          onUpdate: () => {
+            node.updateMatrix();
+          },
+          onComplete: () => {
+            setEnable(true);
+          },
+        }
+      );
     },
     [node]
   );
