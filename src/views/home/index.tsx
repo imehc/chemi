@@ -8,7 +8,6 @@ import {
   GizmoViewport,
   OrbitControls,
   useProgress,
-  Loader,
 } from '@react-three/drei';
 import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { saveAs } from 'file-saver';
@@ -54,7 +53,9 @@ export const Home: FC<Props> = ({ data }) => {
       return;
     }
     // 应上传获取到远程链接
-    appendModelPath({ path: { type: 'local', url: window.URL.createObjectURL(file) } });
+    appendModelPath({
+      path: { type: 'local', url: window.URL.createObjectURL(file) },
+    });
   };
 
   const handleSave = useCallback(async () => {
@@ -107,7 +108,9 @@ export const Home: FC<Props> = ({ data }) => {
   useEffect(() => {
     return () => {
       modelPaths.forEach(
-        (item) => item.path.type === 'local' && window.URL.revokeObjectURL(item.path.url)
+        (item) =>
+          item.path.type === 'local' &&
+          window.URL.revokeObjectURL(item.path.url)
       );
     };
   }, [modelPaths]);
@@ -137,15 +140,15 @@ export const Home: FC<Props> = ({ data }) => {
           // opacity: '0',
         })}
         gl={{ preserveDrawingBuffer: true }}
-      // camera={{
-      // position: [-5, 1.4, -4.5],
-      // fov: 40,
-      // far: 100,
-      // near: 0.3,
-      // aspect: window.innerWidth / window.innerHeight,
-      // }}
+        // camera={{
+        // position: [-5, 1.4, -4.5],
+        // fov: 40,
+        // far: 100,
+        // near: 0.3,
+        // aspect: window.innerWidth / window.innerHeight,
+        // }}
       >
-        <Suspense fallback={null}>
+        <Suspense fallback={<Loading />}>
           <group>
             <OrbitControls
               makeDefault
@@ -163,13 +166,13 @@ export const Home: FC<Props> = ({ data }) => {
           </group>
 
           {modelPaths.map((item, i) => (
-            <Suspense fallback={null} key={i}>
+            <Suspense fallback={<Loading />} key={i}>
               <LocalModal {...item} orbitRef={orbitRef} />
             </Suspense>
           ))}
         </Suspense>
       </Canvas>
-      <Loader />
+      {/* <Loader /> */}
     </div>
   );
 };
