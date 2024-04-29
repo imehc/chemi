@@ -8,6 +8,7 @@ import {
   GizmoViewport,
   OrbitControls,
   useProgress,
+  Loader,
 } from '@react-three/drei';
 import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { saveAs } from 'file-saver';
@@ -144,7 +145,7 @@ export const Home: FC<Props> = ({ data }) => {
       // aspect: window.innerWidth / window.innerHeight,
       // }}
       >
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={null}>
           <group>
             <OrbitControls
               makeDefault
@@ -162,12 +163,13 @@ export const Home: FC<Props> = ({ data }) => {
           </group>
 
           {modelPaths.map((item, i) => (
-            <Suspense fallback={<Loading />} key={i}>
+            <Suspense fallback={null} key={i}>
               <LocalModal {...item} orbitRef={orbitRef} />
             </Suspense>
           ))}
         </Suspense>
       </Canvas>
+      <Loader />
     </div>
   );
 };
