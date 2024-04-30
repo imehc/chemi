@@ -40,7 +40,7 @@ dependencies:
   crop_your_image: ^0.7.2
   dropdown_button2: ^1.5.0
   file_picker: ^4.5.1
-  flutter_native_splash: ^2.1.6
+  flutter_native_splash: ^2.2.19
   flutter_local_notifications: ^9.5.3+1
   flutter_screenutil: ^5.5.2
   fluttertoast: ^8.0.9
