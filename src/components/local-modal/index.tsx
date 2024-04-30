@@ -4,7 +4,7 @@ import {
   TransformControlsProps,
   TransformControls,
 } from '@react-three/drei';
-import { AnimationMixer, Group, Object3D } from 'three';
+import { AnimationMixer, Object3D } from 'three';
 import {
   TransformControls as TransformControlsImpl,
   OrbitControls as OrbitControlsImpl,
@@ -24,7 +24,6 @@ interface Props extends IPathInfo {
 export const LocalModal: FC<Props> = ({ path, info }) => {
   // TODO: 如果有相关模型信息，就还原之前的模型位置
   const transformRef = useRef<TransformControlsImpl>(null);
-  const groupRef = useRef<Group>(null);
   const {
     currentModelConfig,
     updateCurrentModelConfig,
@@ -45,8 +44,7 @@ export const LocalModal: FC<Props> = ({ path, info }) => {
   const handleRestore = useCallback(
     ({ position, scale, rotation, quaternion }: NonNullable<typeof info>) => {
       const { current: transform } = transformRef;
-      const { current: group } = groupRef;
-      if (!group || !transform) return;
+      if (!transform) return;
       gsap.fromTo(
         node.position,
         {
@@ -232,7 +230,8 @@ export const LocalModal: FC<Props> = ({ path, info }) => {
       mode={mode}
       onMouseUp={onControlChange}
     >
-      <group ref={groupRef} dispose={null}>
+      {/* https://github.com/pmndrs/react-three-fiber/issues/281 避免更新模型丢失 */}
+      <group dispose={null}>
         <primitive
           key={node.uuid}
           object={node}
