@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/gin-gonic/gin v1.9.1
-	github.com/go-ini/ini v1.66.6
+	github.com/go-ini/ini v1.67.0
 	github.com/unknwon/com v1.0.1
 	gorm.io/driver/mysql v1.3.4
 	gorm.io/gorm v1.23.5
