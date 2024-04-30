@@ -60,7 +60,7 @@ export const Home: FC<Props> = ({ data }) => {
     // 模拟保存并上传到远程，这儿是保存到浏览器本地
     const success = await addInfoToRemote({
       scene: sceneConfig,
-      models: modelConfigs,
+      models: modelConfigs.filter((item) => item.path.type === 'remote'),
     });
     if (success) {
       toast.success('Save success');
