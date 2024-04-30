@@ -5,9 +5,7 @@ import {
   TransformControls,
 } from '@react-three/drei';
 import { AnimationMixer, Object3D } from 'three';
-import {
-  TransformControls as TransformControlsImpl,
-} from 'three-stdlib';
+import { TransformControls as TransformControlsImpl } from 'three-stdlib';
 import { useFrame } from '@react-three/fiber';
 import { useKeyPress } from 'ahooks';
 import gsap from 'gsap';
@@ -16,8 +14,7 @@ import { duration } from '~/views/home';
 
 type IPathInfo = IState['modelPaths'][number];
 
-interface Props extends IPathInfo {
-}
+interface Props extends IPathInfo {}
 
 export const LocalModal: FC<Props> = ({ path, info }) => {
   // TODO: 如果有相关模型信息，就还原之前的模型位置

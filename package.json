@@ -12,6 +12,7 @@
     "gen:ui": "pnpm dlx shadcn-ui@latest add "
   },
   "dependencies": {
+    "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",
     "@react-three/a11y": "^3.0.0",
     "@react-three/cannon": "^6.6.0",

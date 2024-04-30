@@ -1,4 +1,8 @@
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
+import {
+  presetsObj,
+  PresetsType,
+} from '@react-three/drei/helpers/environment-assets';
 import { Button } from '~/shadcn/ui/button';
 import {
   Card,
@@ -7,6 +11,13 @@ import {
   CardHeader,
   CardTitle,
 } from '~/shadcn/ui/card';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '~/shadcn/ui/select';
 import { useConfigStore } from '~/store';
 
 interface Props {
@@ -15,6 +26,7 @@ interface Props {
   onReset(): void;
   onModelClisk(url: string): void;
   onDownloadScenePicture(): void;
+  onSceneBackgroundSelect(key: PresetsType): void;
 }
 
 export const LeftLayout: FC<Props> = ({
@@ -23,8 +35,10 @@ export const LeftLayout: FC<Props> = ({
   onReset,
   onModelClisk,
   onDownloadScenePicture,
+  onSceneBackgroundSelect,
 }) => {
   const defaultModelPaths = useConfigStore((state) => state.defaultModelPaths);
+  const presets = useMemo(() => Object.keys(presetsObj), []);
 
   return (
     <div className="w-1/5 max-w-[360px] h-full p-4">
@@ -72,9 +86,25 @@ export const LeftLayout: FC<Props> = ({
       <Button className="mt-4 mr-2" onClick={onReset}>
         Reset
       </Button>
-      <Button className="mt-4" onClick={onDownloadScenePicture}>
+      <Button className="my-4" onClick={onDownloadScenePicture}>
         Download Scene Picture
       </Button>
+
+      <Select
+        defaultValue="park"
+        onValueChange={(v) => onSceneBackgroundSelect(v as PresetsType)}
+      >
+        <SelectTrigger className="w-[180px]">
+          <SelectValue placeholder="Preset" />
+        </SelectTrigger>
+        <SelectContent>
+          {presets.map((item) => (
+            <SelectItem key={item} value={item}>
+              {item}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
     </div>
   );
 };

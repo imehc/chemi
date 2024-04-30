@@ -1,3 +1,4 @@
+import { PresetsType } from '@react-three/drei/helpers/environment-assets';
 import { PerspectiveCameraProps } from '@react-three/fiber';
 import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { create } from 'zustand';
@@ -45,11 +46,15 @@ export interface IConfig {
 
 interface ISceneConfig {
   /** 相机位置 相机近远裁剪平面 相机视角  */
-  camera: Pick<PerspectiveCameraProps, 'near' | 'far' | 'fov'> & {
+  camera?: Pick<PerspectiveCameraProps, 'near' | 'far' | 'fov'> & {
     position: number[];
   };
   /** 控制器目标 控制器的缩放/距离 */
-  controls: Pick<OrbitControlsImpl['object'], 'zoom'> & { target: number[] };
+  controls?: Pick<OrbitControlsImpl['object'], 'zoom'> & { target: number[] };
+  scene?: {
+    /** @default park */
+    preset?: PresetsType;
+  };
 }
 
 export interface IState {
@@ -85,6 +90,7 @@ interface IAction {
 export const useConfigStore = create(
   devtools(
     subscribeWithSelector<IState & IAction>((set, get) => ({
+      sceneConfig: { scene: { preset: 'park' } },
       defaultModelPaths: paths,
       modelPaths: [],
       modelConfigs: [],

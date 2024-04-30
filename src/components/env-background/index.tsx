@@ -12,7 +12,10 @@ export interface EnvBackgroundProps {
 
 export const EnvBackground: FC<EnvBackgroundProps> = (props) => {
   // TODO: 如果有info相关信息，就设置场景位置
-  const setSceneConfig = useConfigStore((state) => state.setSceneConfig);
+  const [sceneConfig, setSceneConfig] = useConfigStore((state) => [
+    state.sceneConfig,
+    state.setSceneConfig,
+  ]);
   const { camera, controls } = useThree();
 
   const handleSetSceneConfig = useCallback(() => {
@@ -24,10 +27,11 @@ export const EnvBackground: FC<EnvBackgroundProps> = (props) => {
       object: { zoom },
     } = controls_;
     setSceneConfig({
+      ...sceneConfig,
       camera: { position: position.toArray(), near, far, fov },
       controls: { target: target.toArray(), zoom },
     });
-  }, [camera, controls, setSceneConfig]);
+  }, [camera, controls, sceneConfig, setSceneConfig]);
 
   const { run } = useThrottleFn(handleSetSceneConfig, { wait: 10000 });
 

@@ -1,15 +1,17 @@
 import { FC, useEffect } from 'react';
 import { MathUtils, PerspectiveCamera } from 'three';
 import { useThree } from '@react-three/fiber';
-import { Environment, useEnvironment } from '@react-three/drei';
+import { Environment } from '@react-three/drei';
 import gsap from 'gsap';
 import { duration } from '~/views/home';
 import { EnvBackgroundProps } from '.';
 import { OrbitControls } from 'three-stdlib';
+import { useConfigStore } from '~/store';
 
 export const ISceneBackground: FC<EnvBackgroundProps> = ({
   scene: defaultScene,
 }) => {
+  const preset = useConfigStore((state) => state.sceneConfig?.scene?.preset);
   const { camera, controls } = useThree();
   useEffect(() => {
     const controls_ = controls as OrbitControls;
@@ -23,6 +25,7 @@ export const ISceneBackground: FC<EnvBackgroundProps> = ({
     if (!controls_) return;
     if (!defaultScene || !controls_) return;
     const { camera: _camera, controls: _controls } = defaultScene;
+    if (!_camera || !_controls) return;
     // camera.position.set(x, y, z);
     // orbit.target.set(x2, y2, z2);
     // camera.near = _camera.near ?? 0.3;
@@ -89,15 +92,16 @@ export const ISceneBackground: FC<EnvBackgroundProps> = ({
   // https://codesandbox.io/p/sandbox/environment-blur-and-transitions-pj7zjq?file=%2Fsrc%2FApp.js
 
   // https://github.com/pmndrs/drei?tab=readme-ov-file#useenvironment
-  const envMap = useEnvironment({
-    files: '/hdris/hochsal_field_4k.hdr',
-  });
+  // const envMap = useEnvironment({
+  //   files: '/hdris/hochsal_field_4k.hdr',
+  // });
+
   return (
     <>
       <directionalLight position={[0, 0, 10]} />
       <pointLight position={[0, 0, 10]} />
-      <Environment map={envMap} background />
-      {/* <Environment preset="park" /> */}
+      {/* <Environment map={envMap} background /> */}
+      <Environment preset={preset ?? 'park'} background />
     </>
   );
 };

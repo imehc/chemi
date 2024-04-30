@@ -9,6 +9,7 @@ import {
   useProgress,
   useGLTF,
 } from '@react-three/drei';
+import { PresetsType } from '@react-three/drei/helpers/environment-assets';
 import { saveAs } from 'file-saver';
 import { toast } from 'react-toastify';
 import { EnvBackground, LeftLayout, LocalModal } from '~/components';
@@ -39,6 +40,7 @@ export const Home: FC<Props> = ({ data }) => {
     clearModelConfigs,
     setModelPaths,
     sceneConfig,
+    setSceneConfig,
   } = useConfigStore();
 
   const handleFileChange = (file?: File) => {
@@ -84,6 +86,13 @@ export const Home: FC<Props> = ({ data }) => {
     saveAs(canvas.toDataURL('image/jpeg'));
   }, []);
 
+  const handleSceneBackgroundSelect = useCallback(
+    (preset: PresetsType) => {
+      setSceneConfig({ ...sceneConfig, scene: { preset } });
+    },
+    [sceneConfig, setSceneConfig]
+  );
+
   useEffect(() => {
     const handle = () => {
       // handleSave();
@@ -127,6 +136,7 @@ export const Home: FC<Props> = ({ data }) => {
           appendModelPath({ path: { type: 'remote', url } });
         }}
         onDownloadScenePicture={handleDownloadScenePicture}
+        onSceneBackgroundSelect={handleSceneBackgroundSelect}
       />
       <Canvas
         ref={canvasRef}
