@@ -7,7 +7,6 @@ import {
 import { AnimationMixer, Object3D } from 'three';
 import {
   TransformControls as TransformControlsImpl,
-  OrbitControls as OrbitControlsImpl,
 } from 'three-stdlib';
 import { useFrame } from '@react-three/fiber';
 import { useKeyPress } from 'ahooks';
@@ -18,7 +17,6 @@ import { duration } from '~/views/home';
 type IPathInfo = IState['modelPaths'][number];
 
 interface Props extends IPathInfo {
-  orbitRef: ReturnType<typeof useRef<OrbitControlsImpl | null>>;
 }
 
 export const LocalModal: FC<Props> = ({ path, info }) => {
@@ -113,7 +111,7 @@ export const LocalModal: FC<Props> = ({ path, info }) => {
           x: 0,
           y: 0,
           z: 0,
-          2: 0,
+          w: 0,
         },
         {
           x: quaternion?.[0] ?? 0,
@@ -230,7 +228,7 @@ export const LocalModal: FC<Props> = ({ path, info }) => {
       mode={mode}
       onMouseUp={onControlChange}
     >
-      {/* https://github.com/pmndrs/react-three-fiber/issues/281 避免更新模型丢失 */}
+      {/* https://github.com/pmndrs/react-three-fiber/issues/281 避免更新 */}
       <group dispose={null}>
         <primitive
           key={node.uuid}

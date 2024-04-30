@@ -1,6 +1,5 @@
 import { css } from '#/css';
 import { FC, Suspense, useCallback, useEffect, useRef } from 'react';
-import { MathUtils } from 'three';
 import { Canvas } from '@react-three/fiber';
 import {
   Html,
@@ -8,8 +7,8 @@ import {
   GizmoViewport,
   OrbitControls,
   useProgress,
+  useGLTF,
 } from '@react-three/drei';
-import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { saveAs } from 'file-saver';
 import { toast } from 'react-toastify';
 import { EnvBackground, LeftLayout, LocalModal } from '~/components';
@@ -32,7 +31,6 @@ interface Props {
 }
 
 export const Home: FC<Props> = ({ data }) => {
-  const orbitRef = useRef<OrbitControlsImpl>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const {
     modelPaths,
@@ -137,29 +135,17 @@ export const Home: FC<Props> = ({ data }) => {
           flex: '1',
           w: 'full',
           h: 'screen',
-          // opacity: '0',
         })}
-        gl={{ preserveDrawingBuffer: true }}
-        // camera={{
-        // position: [-5, 1.4, -4.5],
-        // fov: 40,
-        // far: 100,
-        // near: 0.3,
-        // aspect: window.innerWidth / window.innerHeight,
-        // }}
+        gl={{
+          preserveDrawingBuffer: true,
+          pixelRatio: window.devicePixelRatio,
+          antialias: true,
+        }}
       >
         <Suspense fallback={<Loading />}>
           <group>
-            <OrbitControls
-              makeDefault
-              maxDistance={9}
-              maxPolarAngle={MathUtils.degToRad(90)}
-              // position={[0, 10, 0]}
-              ref={orbitRef}
-            />
-            <directionalLight position={[0, 0, 10]} />
-            <pointLight position={[0, 0, 10]} />
-            <EnvBackground orbitRef={orbitRef} scene={data?.scene} />
+            <OrbitControls makeDefault />
+            <EnvBackground scene={data?.scene} />
             <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
               <GizmoViewport axisColors={['#9d4b4b', '#2f7f4f', '#3b5b9d']} />
             </GizmoHelper>
@@ -167,7 +153,7 @@ export const Home: FC<Props> = ({ data }) => {
 
           <Suspense fallback={<Loading />}>
             {modelPaths.map((item, i) => (
-              <LocalModal key={i} {...item} orbitRef={orbitRef} />
+              <LocalModal key={i} {...item} />
             ))}
           </Suspense>
         </Suspense>
@@ -185,3 +171,16 @@ export const Loading: FC = () => {
     </Html>
   );
 };
+
+useConfigStore.subscribe(
+  (state) => state.defaultModelPaths,
+  (state) => {
+    state.forEach((item) => {
+      // 预加载模型
+      useGLTF.preload(item.path.url);
+    });
+  },
+  {
+    fireImmediately: true,
+  }
+);

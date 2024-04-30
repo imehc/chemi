@@ -1,7 +1,7 @@
 import { PerspectiveCameraProps } from '@react-three/fiber';
 import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { devtools, subscribeWithSelector } from 'zustand/middleware';
 
 // TODO: 由于保存到本地需要转换成number[]
 
@@ -82,33 +82,40 @@ interface IAction {
   setCurrentModel(uuid?: string): void;
 }
 
-export const useConfigStore = create<IState & IAction>()(
-  devtools((set, get) => ({
-    defaultModelPaths: paths,
-    modelPaths: [],
-    modelConfigs: [],
-    setSceneConfig: (config) => set({ sceneConfig: config }),
-    appendModelPath: (path) => set({ modelPaths: [...get().modelPaths, path] }),
-    setModelPaths: (paths) => set({ modelPaths: paths }),
-    appendModelConfig: (config) =>
-      set({
-        modelConfigs: [...get().modelConfigs, config],
-        currentModelConfig: config,
-      }),
-    updateCurrentModelConfig: (config) =>
-      set({
-        modelConfigs: get().modelConfigs.map((conf) =>
-          conf.uuid === config?.uuid ? config : conf
-        ),
-        currentModelConfig: config,
-      }),
-    clearModelConfigs: () =>
-      set({ modelPaths: [], modelConfigs: [], currentModelConfig: undefined }),
-    setCurrentModel: (uuid) =>
-      set({
-        currentModelConfig: uuid
-          ? get().modelConfigs.find((conf) => conf.uuid === uuid)
-          : undefined,
-      }),
-  }))
+export const useConfigStore = create(
+  devtools(
+    subscribeWithSelector<IState & IAction>((set, get) => ({
+      defaultModelPaths: paths,
+      modelPaths: [],
+      modelConfigs: [],
+      setSceneConfig: (config) => set({ sceneConfig: config }),
+      appendModelPath: (path) =>
+        set({ modelPaths: [...get().modelPaths, path] }),
+      setModelPaths: (paths) => set({ modelPaths: paths }),
+      appendModelConfig: (config) =>
+        set({
+          modelConfigs: [...get().modelConfigs, config],
+          currentModelConfig: config,
+        }),
+      updateCurrentModelConfig: (config) =>
+        set({
+          modelConfigs: get().modelConfigs.map((conf) =>
+            conf.uuid === config?.uuid ? config : conf
+          ),
+          currentModelConfig: config,
+        }),
+      clearModelConfigs: () =>
+        set({
+          modelPaths: [],
+          modelConfigs: [],
+          currentModelConfig: undefined,
+        }),
+      setCurrentModel: (uuid) =>
+        set({
+          currentModelConfig: uuid
+            ? get().modelConfigs.find((conf) => conf.uuid === uuid)
+            : undefined,
+        }),
+    }))
+  )
 );
