@@ -11,7 +11,7 @@ updates:
       interval: "daily"
 
   - package-ecosystem: "npm"
-    versioning-strategy: increase
+    # versioning-strategy: increase
     directory: "/manage"
     schedule:
       interval: "daily"
