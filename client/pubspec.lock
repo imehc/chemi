@@ -202,26 +202,26 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_local_notifications
-      sha256: f222919a34545931e47b06000836b5101baeffb0e6eb5a4691d2d42851740dd9
+      sha256: "84a3af6c7fb43c85c3528b434dacc7a7ed4551d1209d93773bf6045cec9ace68"
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "12.0.4"
+    version: "17.1.1"
   flutter_local_notifications_linux:
     dependency: transitive
     description:
       name: flutter_local_notifications_linux
-      sha256: "6af440e3962eeab8459602c309d7d4ab9e62f05d5cfe58195a28f846a0b5d523"
+      sha256: "33f741ef47b5f63cc7f78fe75eeeac7e19f171ff3c3df054d84c1e38bedb6a03"
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "4.0.0+1"
   flutter_local_notifications_platform_interface:
     dependency: transitive
     description:
       name: flutter_local_notifications_platform_interface
-      sha256: "5ec1feac5f7f7d9266759488bc5f76416152baba9aa1b26fe572246caa00d1ab"
+      sha256: "340abf67df238f7f0ef58f4a26d2a83e1ab74c77ab03cd2b2d5018ac64db30b7"
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.0"
+    version: "7.1.0"
   flutter_localizations:
     dependency: "direct main"
     description: flutter
