@@ -46,7 +46,7 @@ dependencies:
   fluttertoast: ^8.0.9
   image_gallery_saver: ^2.0.3
   image_picker: ^1.0.4
-  path_provider: ^2.0.9
+  path_provider: ^2.1.1
   permission_handler: ^11.0.1
   provider: ^6.0.3
   rxdart: ^0.27.4
