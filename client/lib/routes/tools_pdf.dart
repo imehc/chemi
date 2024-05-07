@@ -40,7 +40,9 @@ class _ChemiPdfState extends State<ChemiPdf> {
                   ),
                 ),
                 const DropdownMenuItem<Divider>(
-                    enabled: false, child: Divider()),
+                  enabled: false,
+                  child: Divider(),
+                ),
                 ...MenuItems.secondItems.map(
                   (item) => DropdownMenuItem<MenuItem>(
                     value: item,

@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="client"
+        android:label="chemi"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -40,5 +40,36 @@
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
         </intent>
+        <!-- If your app opens https URLs -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+        <!-- If your app makes calls -->
+        <!-- <intent>
+            <action android:name="android.intent.action.DIAL" />
+            <data android:scheme="tel" />
+        </intent> -->
+        <!-- If your sends SMS messages -->
+        <!-- <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="smsto" />
+        </intent> -->
+        <!-- If your app sends emails -->
+        <!-- <intent>
+            <action android:name="android.intent.action.SEND" />
+            <data android:mimeType="*/*" />
+        </intent> -->
     </queries>
+
+     <!-- 开启写入权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 相机 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- 网络 -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- 震动 -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- 接受启动完成 -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 </manifest>
