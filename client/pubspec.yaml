@@ -41,7 +41,7 @@ dependencies:
   dropdown_button2: ^2.1.4
   file_picker: ^5.3.1
   flutter_native_splash: ^2.1.6
-  flutter_local_notifications: ^17.1.1
+  flutter_local_notifications: ^17.1.2
   flutter_screenutil: ^5.5.2
   fluttertoast: ^8.0.9
   image_gallery_saver: ^2.0.3
