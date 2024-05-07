@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:chemi/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -27,12 +28,12 @@ class _MoonTabBarPageState extends State<MoonTabBarPage> {
           barrierDismissible: false,
           context: context,
           builder: (context) {
-            return AlertDialog(
+            return const AlertDialog(
               backgroundColor: Colors.transparent,
               elevation: 0,
               content: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: const [
+                children: [
                   CircularProgressIndicator(),
                   SizedBox(height: 20),
                   Text(
@@ -45,7 +46,7 @@ class _MoonTabBarPageState extends State<MoonTabBarPage> {
               ),
             );
           });
-      print("传递进来的参数是：$event");
+      logger.i("传递进来的参数是：$event");
       return event;
     })
         // 异步使用asyncMap
@@ -56,7 +57,7 @@ class _MoonTabBarPageState extends State<MoonTabBarPage> {
       });
     }).handleError((e) {
       // 在这里处理一些错误
-      print("出错了");
+      logger.i("出错了");
       // 关闭Loading
       Navigator.of(context).pop();
     })
@@ -64,7 +65,7 @@ class _MoonTabBarPageState extends State<MoonTabBarPage> {
         // .take(1)
         .listen((_) {
       // 执行到这里说明没有错误
-      print("没有错误");
+      logger.i("没有错误");
       // pop可以穿参数，在上个页面栈获取参数，
       Navigator.of(context).pop();
     });

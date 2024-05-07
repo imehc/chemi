@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:chemi/helper.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 // 来源： https://blog.csdn.net/qq_41806966/article/details/121984458
@@ -16,12 +15,12 @@ class LocalNotification {
     _isInit = true;
 
     var android = const AndroidInitializationSettings("@mipmap/ic_launcher");
-    var iOS = const IOSInitializationSettings();
+    var iOS = const DarwinInitializationSettings();
 
     try {
       await _np.initialize(InitializationSettings(android: android, iOS: iOS));
     } catch (e) {
-      log("LocalNotification init error: $e");
+      logger.e("LocalNotification init error: $e");
     }
   }
 
@@ -32,7 +31,7 @@ class LocalNotification {
     // 构建描述
     var androidDetails = const AndroidNotificationDetails('id描述', '名称描述',
         importance: Importance.max, priority: Priority.high);
-    var iosDetails = const IOSNotificationDetails();
+    var iosDetails = const DarwinNotificationDetails();
     var details = NotificationDetails(android: androidDetails, iOS: iosDetails);
 
     // ⚠️:iOS Notifications are not displayed if the app is in the foreground
@@ -43,7 +42,7 @@ class LocalNotification {
       _np.show(
           DateTime.now().millisecondsSinceEpoch >> 10, title, body, details);
     } catch (e) {
-      log("LocalNotification send error: $e");
+      logger.e("LocalNotification send error: $e");
     }
   }
 }
