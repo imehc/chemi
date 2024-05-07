@@ -2,7 +2,6 @@ import DatePicker, { ReactDatePickerProps } from 'react-datepicker';
 import { forwardRef, ReactElement, useEffect, useState } from 'react';
 import { format, getMonth, getYear } from 'date-fns';
 import clsx from 'clsx';
-import zhCN from 'date-fns/locale/zh-CN';
 import 日期 from './assets/日期.svg';
 
 interface FunctionComponent<P = {}> extends React.FunctionComponent<P> {
@@ -70,7 +69,6 @@ export const DateRangePicker: React.FC<DatePickerProps> = ({
       <div className="ml-5 relative flex justify-center items-center">
         <img src={日期} alt="" className="h-4 mx-1" />
         <DatePicker
-          locale={zhCN}
           selected={startDate}
           onChange={(date) => date && setStartDate(date)}
           selectsStart
@@ -161,7 +159,6 @@ export const DateRangePicker: React.FC<DatePickerProps> = ({
       <div className="relative flex justify-center items-center ml-3">
         <img src={日期} alt="" className="h-4 mx-1" />
         <DatePicker
-          locale={zhCN}
           selected={endDate}
           onChange={(date) => date && setEndDate(date)}
           selectsEnd
