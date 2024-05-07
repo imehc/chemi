@@ -1,3 +1,4 @@
+import 'package:chemi/helper.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -24,11 +25,13 @@ class _ChemiPdfState extends State<ChemiPdf> {
           DropdownButtonHideUnderline(
             child: DropdownButton2(
               customButton: Padding(
-                padding: EdgeInsets.only(right: 15.0.w),
+                padding: EdgeInsets.only(
+                  right: 15.0.w,
+                  bottom: 12.0.h,
+                  top: 12.h,
+                ),
                 child: const Icon(Icons.more_horiz),
               ),
-              customItemsIndexes: const [3],
-              customItemsHeight: 8,
               items: [
                 ...MenuItems.firstItems.map(
                   (item) => DropdownMenuItem<MenuItem>(
@@ -36,47 +39,37 @@ class _ChemiPdfState extends State<ChemiPdf> {
                     child: MenuItems.buildItem(item),
                   ),
                 ),
-                // const DropdownMenuItem<Divider>(
-                //   enabled: false,
-                //   child: Divider(),
-                // ),
-                // ...MenuItems.secondItems.map(
-                //   (item) => DropdownMenuItem<MenuItem>(
-                //     value: item,
-                //     child: MenuItems.buildItem(item),
-                //   ),
-                // ),
+                const DropdownMenuItem<Divider>(
+                    enabled: false, child: Divider()),
+                ...MenuItems.secondItems.map(
+                  (item) => DropdownMenuItem<MenuItem>(
+                    value: item,
+                    child: MenuItems.buildItem(item),
+                  ),
+                ),
               ],
-              onChanged: (value) async {
-                MenuItems.onChanged(context, value as MenuItem);
-                // switch (value) {
-                //   case MenuItems.local:
-                //     _filePickerResult = await FilePicker.platform.pickFiles(
-                //       type: FileType.custom,
-                //       allowedExtensions: ['pdf'],
-                //       withData: true, //流
-                //     );
-                //     print("======$_filePickerResult");
-                //     break;
-                //   case MenuItems.link:
-                //     //Do something
-                //     print("link");
-                //     break;
-                //   case MenuItems.save:
-                //     print("save");
-                //     break;
-                // }
+              onChanged: (value) {
+                MenuItems.onChanged(context, value! as MenuItem);
               },
-              itemHeight: 40,
-              itemPadding: const EdgeInsets.only(left: 16, right: 16),
-              dropdownWidth: 160,
-              dropdownPadding: const EdgeInsets.symmetric(vertical: 6),
-              dropdownDecoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
-                color: AppConstantConfig.primaryColor,
+              dropdownStyleData: DropdownStyleData(
+                width: 160,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  // color: Colors.white,
+                ),
+                offset: const Offset(0, 8),
               ),
-              dropdownElevation: 8,
-              offset: const Offset(0, 8),
+              menuItemStyleData: MenuItemStyleData(
+                customHeights: [
+                  ...List<double>.filled(MenuItems.firstItems.length, 48),
+                  8,
+                  ...List<double>.filled(MenuItems.secondItems.length, 48),
+                ],
+                padding: const EdgeInsets.only(left: 16, right: 16),
+              ),
             ),
           ),
         ],
@@ -103,9 +96,9 @@ class MenuItem {
 }
 
 class MenuItems {
-  static const List<MenuItem> firstItems = [_local, _link, _save];
+  static const List<MenuItem> firstItems = [_local, _link];
   // 加横线
-  static const List<MenuItem> secondItems = [];
+  static const List<MenuItem> secondItems = [_save];
 
   static const _local = MenuItem(text: '本地', icon: Icons.smartphone_sharp);
   static const _link = MenuItem(text: '链接', icon: Icons.link);
@@ -114,14 +107,18 @@ class MenuItems {
   static Widget buildItem(MenuItem item) {
     return Row(
       children: [
-        Icon(item.icon, color: Colors.white, size: 20.r),
+        Icon(
+          item.icon,
+          // color: Colors.white,
+          size: 20.r,
+        ),
         const SizedBox(
           width: 10,
         ),
         Text(
           item.text,
           style: const TextStyle(
-            color: Colors.white,
+            // color: Colors.white,
             fontSize: AppConstantConfig.primaryFontSize,
           ),
         ),
@@ -130,19 +127,19 @@ class MenuItems {
   }
 
   static onChanged(BuildContext context, MenuItem item) async {
-    FilePickerResult? _filePickerResult;
+    FilePickerResult? filePickerResult;
 
     switch (item) {
       case MenuItems._local:
-        _filePickerResult = await FilePicker.platform.pickFiles(
+        filePickerResult = await FilePicker.platform.pickFiles(
           type: FileType.custom,
           allowedExtensions: ['pdf'],
           withData: true, //流
         );
-        if (_filePickerResult != null) {
-          print("======$_filePickerResult");
+        if (filePickerResult != null) {
+          logger.i("======$filePickerResult");
         } else {
-          print(11111111111);
+          logger.i(11111111111);
         }
         break;
       case MenuItems._link:

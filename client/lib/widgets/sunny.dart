@@ -83,7 +83,7 @@ class _SunnyTabBarPageState extends State<SunnyTabBarPage> {
               child: Text(
                 'You have pushed the button this many times:${context.watch<Counter>().count}',
                 key: const Key('counterState'),
-                style: Theme.of(context).textTheme.headline4,
+                style: Theme.of(context).textTheme.headlineMedium,
               ),
             ),
           ],
