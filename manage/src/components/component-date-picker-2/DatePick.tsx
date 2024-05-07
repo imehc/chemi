@@ -5,9 +5,10 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import ReactDatePicker from 'react-datepicker';
-import zhCN from 'date-fns/locale/zh-CN';
+import ReactDatePicker, { registerLocale } from 'react-datepicker';
+import { zhCN } from 'date-fns/locale/zh-CN';
 import {
+  Locale,
   addMinutes,
   getHours,
   getMinutes,
@@ -26,6 +27,9 @@ import rightArrowIcon from './assets/right_arrow_grey.svg';
 import styled from '@emotion/styled';
 import { groupBy } from 'ramda';
 import clsx from 'clsx';
+
+registerLocale('zh-CN', zhCN);
+
 
 // docs https://reactdatepicker.com/#example-year-select-dropdown
 
@@ -115,10 +119,11 @@ export const DatePick: React.FC<ReactDatePickerProps> = ({
   return (
     <ReactDatePicker
       closeOnScroll
+      locale="zh-CN"
+      showPopperArrow={false}
       shouldCloseOnSelect
       ref={ref}
       disabled={disabled}
-      locale={zhCN}
       selected={selected}
       placeholderText={placeholderText}
       onChange={(date: Date) => setDate?.(date)}
@@ -343,22 +348,22 @@ const ButtonWrap = styled.button<{ icon: string }>`
 
   &:hover {
     border: ${({ disabled }) => {
-      return disabled ? '1px solid #dcdeea' : 'none';
-    }};
+    return disabled ? '1px solid #dcdeea' : 'none';
+  }};
     background: ${({ disabled }) => {
-      return disabled
-        ? 'transparent'
-        : 'linear-gradient(to right top, #6f88ff, #4c4de2)';
-    }};
+    return disabled
+      ? 'transparent'
+      : 'linear-gradient(to right top, #6f88ff, #4c4de2)';
+  }};
     cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   }
   &:hover > img {
     ${({ disabled, icon }) => {
-      if (!disabled) {
-        return {
-          content: 'url(' + icon + ')',
-        };
-      }
-    }}
+    if (!disabled) {
+      return {
+        content: 'url(' + icon + ')',
+      };
+    }
+  }}
   }
 `;

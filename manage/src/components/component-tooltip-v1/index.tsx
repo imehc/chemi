@@ -11,7 +11,6 @@ import {
   useMemo,
   useId,
 } from "react";
-import { findDOMNode } from "react-dom";
 import { EMPTY, fromEvent, switchMap, of } from "rxjs";
 
 type Direction = "top" | "bottom";
@@ -53,7 +52,7 @@ export const ToolTipV1: React.FC<TooltipProps> = ({
       .pipe(
         switchMap((e) => {
           if (!tooltipRef.current) return EMPTY;
-          const isContains = findDOMNode(tooltipRef.current)?.contains(
+          const isContains = tooltipRef.current?.contains(
             e.target as Node
           );
           if (!isContains && e.target !== ref.current) {

@@ -1,9 +1,11 @@
 import React, { useCallback, useMemo } from 'react';
-import DatePicker, { ReactDatePickerProps } from 'react-datepicker';
-import zhCN from 'date-fns/locale/zh-CN';
+import DatePicker, { ReactDatePickerProps, registerLocale } from 'react-datepicker';
+import { zhCN } from 'date-fns/locale/zh-CN';
 import clsx from 'clsx';
 import { getMonth, getYear } from 'date-fns';
 import './index.css';
+
+registerLocale('zh-CN', zhCN);
 
 // docs https://reactdatepicker.com/#example-year-select-dropdown
 
@@ -66,7 +68,7 @@ export const DatePick: React.FC<DatePickerProps> = ({
   return (
     <DateSelector
       disabled={disabled}
-      locale={zhCN}
+      locale="zh-CN"
       selected={selected}
       placeholderText={placeholderText}
       onChange={(date: Date) => setDate && setDate(date)}
@@ -187,7 +189,7 @@ const CustomTimeInput: React.FC = ({ ...props }): JSX.Element => {
       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
         onChange(e.target.value);
       }}
-      // step="1"
+    // step="1"
     />
   );
 };

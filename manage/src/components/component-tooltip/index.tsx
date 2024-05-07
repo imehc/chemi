@@ -8,7 +8,6 @@ import {
   useState,
   useMemo,
 } from 'react';
-import { findDOMNode } from 'react-dom';
 import { EMPTY, fromEvent, switchMap, of } from 'rxjs';
 import type { TooltipContentProps, TooltipProps } from './type';
 
@@ -29,7 +28,7 @@ export const ToolTip: React.FC<TooltipProps> = (props): JSX.Element => {
   const [clickvisible, setClickVisible] = useState<boolean>(false);
   const [num, setNum] = useState<number>(0);
 
-  const tooltipRef = useRef(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const watchAllClick = fromEvent(document, 'click')
       .pipe(
@@ -41,7 +40,7 @@ export const ToolTip: React.FC<TooltipProps> = (props): JSX.Element => {
             setNum(0);
             return of(true);
           }
-          const isContains = findDOMNode(tooltipRef.current)?.contains(
+          const isContains = tooltipRef.current?.contains(
             e.target as Node
           );
           if (!isContains && e.target !== visibleClick?.target) {
