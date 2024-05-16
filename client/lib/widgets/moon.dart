@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:chemi/helper.dart';
 import 'package:flutter/material.dart';
+import 'package:mmkv/mmkv.dart';
 import 'package:provider/provider.dart';
 
 import '../constant.dart';
@@ -19,6 +20,8 @@ class MoonTabBarPage extends StatefulWidget {
 class _MoonTabBarPageState extends State<MoonTabBarPage> {
   final _loadingController = StreamController<int>();
   late StreamSubscription _loadingSubscription;
+
+  final mmkv = MMKV.defaultMMKV();
 
   @override
   void initState() {
@@ -84,14 +87,22 @@ class _MoonTabBarPageState extends State<MoonTabBarPage> {
         title: const Text("Moon"),
         toolbarHeight: AppConstantConfig.toolbarHeight,
       ),
-      body: Center(
-        child: GestureDetector(
-          child: Text('MoonTabBarPage:${context.watch<Counter>().count}'),
-          onTap: () {
-            _loadingController.add(1);
-            // _loadingController.sink.add(1);
-          },
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: GestureDetector(
+              child: Text('MoonTabBarPage:${context.watch<Counter>().count}'),
+              onTap: () {
+                _loadingController.add(1);
+                // _loadingController.sink.add(1);
+              },
+            ),
+          ),
+          Center(
+            child: Text("mmkv value: ${mmkv.decodeString("text-mmkvvvv")}"),
+          ),
+        ],
       ),
     );
   }

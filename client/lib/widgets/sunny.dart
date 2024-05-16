@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mmkv/mmkv.dart';
 import 'package:provider/provider.dart';
 
 import '../constant.dart';
@@ -14,6 +15,8 @@ class SunnyTabBarPage extends StatefulWidget {
 }
 
 class _SunnyTabBarPageState extends State<SunnyTabBarPage> {
+  final mmkv = MMKV.defaultMMKV();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,7 +82,13 @@ class _SunnyTabBarPageState extends State<SunnyTabBarPage> {
 
             /// Calls `context.watch` to make [Count] rebuild when [Counter] changes.
             GestureDetector(
-              onTap: () => context.read<Counter>().increment(),
+              onTap: () {
+                context.read<Counter>().increment();
+                mmkv.encodeString(
+                  "text-mmkvvvv",
+                  "This is the content of the test with mmkv -> ${DateTime.now().millisecondsSinceEpoch}",
+                );
+              },
               child: Text(
                 'You have pushed the button this many times:${context.watch<Counter>().count}',
                 key: const Key('counterState'),
