@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mmkv/mmkv.dart';
 import 'package:provider/provider.dart';
 
 import '../constant.dart';
+import '../helper.dart';
 import '../provider.dart';
 import '../routes/routes.dart';
 import '../utils/utils.dart';
@@ -15,8 +15,6 @@ class SunnyTabBarPage extends StatefulWidget {
 }
 
 class _SunnyTabBarPageState extends State<SunnyTabBarPage> {
-  final mmkv = MMKV.defaultMMKV();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
