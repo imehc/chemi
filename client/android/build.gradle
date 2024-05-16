@@ -3,6 +3,11 @@ allprojects {
         google()
         mavenCentral()
     }
+
+    // 显示已弃用的API警告
+    tasks.withType(JavaCompile) { 
+        options.deprecation = true
+    }
 }
 
 rootProject.buildDir = '../build'

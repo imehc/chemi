@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:chemi/routes/tools_crop.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mmkv/mmkv.dart';
 import 'package:provider/provider.dart';
 
 import 'constant.dart';
@@ -21,6 +22,7 @@ void main() async {
       statusBarColor: Colors.transparent,
     ),
   );
+  await MMKV.initialize();
   await ScreenUtil.ensureScreenSize();
   runApp(const Provider());
 }

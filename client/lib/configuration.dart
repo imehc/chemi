@@ -22,5 +22,5 @@ final entranceList = [
     "color": AppConstantConfig.secondaryColor,
     "textColor": AppConstantConfig.primaryColor,
     "inductive": "tools",
-  }
+  },
 ];
