@@ -156,4 +156,5 @@ Map<String, Widget Function(BuildContext)> routes = {
   "/hero": (context) => const ChemiHeroAnimation(),
   "/scan": (context) => const ChemiScan("扫码"),
   "/pdf": (context) => const ChemiPdf("PDF"),
+  "/blur": (context) => const ChemiBlur("Blur"),
 };

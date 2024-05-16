@@ -1,12 +1,13 @@
 import 'dart:async';
 
-import 'package:chemi/helper.dart';
 import 'package:flutter/material.dart';
-import 'package:mmkv/mmkv.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import '../constant.dart';
+import '../helper.dart';
 import '../provider.dart';
+import '../resources/resources.dart';
 
 // 通过rxdart控制load加载框的显示与隐藏
 
@@ -20,8 +21,6 @@ class MoonTabBarPage extends StatefulWidget {
 class _MoonTabBarPageState extends State<MoonTabBarPage> {
   final _loadingController = StreamController<int>();
   late StreamSubscription _loadingSubscription;
-
-  final mmkv = MMKV.defaultMMKV();
 
   @override
   void initState() {
@@ -90,6 +89,11 @@ class _MoonTabBarPageState extends State<MoonTabBarPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          SvgPicture.asset(
+            Images.sunny,
+            colorFilter: const ColorFilter.mode(Colors.blue, BlendMode.srcIn),
+            semanticsLabel: 'A red up arrow',
+          ),
           Center(
             child: GestureDetector(
               child: Text('MoonTabBarPage:${context.watch<Counter>().count}'),

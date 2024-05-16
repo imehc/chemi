@@ -23,4 +23,11 @@ final entranceList = [
     "textColor": AppConstantConfig.primaryColor,
     "inductive": "tools",
   },
+  {
+    "route": "/blur",
+    "name": "blur",
+    "color": AppConstantConfig.secondaryColor,
+    "textColor": AppConstantConfig.primaryColor,
+    "inductive": "tools",
+  },
 ];

@@ -16,3 +16,9 @@ gen-launcher-icons:
 gen-native-spalsh:
 	# 生成启动页
 	dart run flutter_native_splash:create
+gen-assets:
+	# install https://pub.dev/packages/spider#installation
+	@if ! [ -x "$$(command -v spider)" ]; then \
+		dart pub global activate spider; \
+	fi && \
+	spider build --watch
