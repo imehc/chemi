@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTransition } from "react";
 
@@ -13,7 +14,11 @@ function Spinner({ active = true }) {
   );
 }
 
-export default function SidebarSearchField() {
+interface Props {
+  translate?: Record<"searchTitle" | "search", string>;
+}
+
+export default function SidebarSearchField({ translate }: Props) {
   const { replace } = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -35,11 +40,11 @@ export default function SidebarSearchField() {
   return (
     <div className="search" role="search">
       <label className="offscreen" htmlFor="sidebar-search-input">
-        Search for a note by title
+        {translate?.searchTitle}
       </label>
       <input
         id="sidebar-search-input"
-        placeholder="Search"
+        placeholder={translate?.search}
         type="text"
         defaultValue={searchParams.get("q")?.toString()}
         onChange={(e) => handleSearch(e.target.value)}

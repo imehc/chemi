@@ -5,6 +5,7 @@ import SidebarNoteItemContent from "./item-content";
 
 interface Props<T> {
   notes: T[];
+  translate?: Record<"openPreview" | "noContent", string>;
 }
 
 interface Item {
@@ -18,6 +19,7 @@ interface Item {
 
 export default function SidebarNoteListFilter<T extends Item>({
   notes,
+  translate,
 }: Props<T>) {
   const searchParams = useSearchParams();
   const searchText = searchParams.get("q");
@@ -38,9 +40,12 @@ export default function SidebarNoteListFilter<T extends Item>({
               title={note.title}
               expandedChildren={
                 <p className="sidebar-note-excerpt">
-                  {note.content.substring(0, 20) || <i>(No content)</i>}
+                  {note.content.substring(0, 20) || (
+                    <i>({translate?.noContent})</i>
+                  )}
                 </p>
               }
+              translate={{ openPreview: translate?.openPreview }}
             >
               {header}
             </SidebarNoteItemContent>

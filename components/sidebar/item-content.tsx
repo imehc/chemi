@@ -14,6 +14,7 @@ interface Props {
   id: string;
   title: string;
   expandedChildren: React.ReactNode;
+  translate?: Record<"openPreview", string | undefined>;
 }
 
 export default function SidebarNoteItemContent({
@@ -21,6 +22,7 @@ export default function SidebarNoteItemContent({
   title,
   children,
   expandedChildren,
+  translate,
 }: PropsWithChildren<Props>) {
   const router = useRouter();
   const pathname = usePathname();
@@ -73,7 +75,7 @@ export default function SidebarNoteItemContent({
           router.push(`/note/${id}`);
         }}
       >
-        Open note for preview
+        {translate?.openPreview}
       </button>
       <button
         className="sidebar-note-toggle-expand"

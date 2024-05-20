@@ -3,9 +3,10 @@ import Image from "next/image";
 
 interface Props {
   formAction: (payload: FormData) => void;
+  translate?: Record<"saving" | "done", string | undefined>;
 }
 
-export default function SaveButton({ formAction }: Props) {
+export default function SaveButton({ formAction, translate }: Props) {
   const { pending } = useFormStatus();
   return (
     <button
@@ -22,7 +23,7 @@ export default function SaveButton({ formAction }: Props) {
         alt=""
         role="presentation"
       />
-      {pending ? "Saving" : "Done"}
+      {pending ? translate?.saving : translate?.done}
     </button>
   );
 }

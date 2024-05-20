@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import NotePreview from "./preview";
-import { deleteNote, saveNote } from "~/app/actions";
+import { deleteNote, saveNote } from "~/app/[locale]/actions";
 import DeleteButton from "../button/del";
 import SaveButton from "../button/save";
 
@@ -11,16 +11,26 @@ const initialState = {
   message: null,
 };
 
+type I18nKey =
+  | "del"
+  | "enterTitle"
+  | "enterBody"
+  | "preview"
+  | "saving"
+  | "done";
+
 interface Props {
   noteId: string | null;
   initialTitle: string;
   initialBody: string;
+  translate?: Record<I18nKey, string>;
 }
 
 export default function NoteEditor({
   noteId,
   initialTitle,
   initialBody,
+  translate,
 }: Props) {
   const [saveState, saveFormAction] = useFormState(saveNote, initialState);
   const [delState, delFormAction] = useFormState(deleteNote, initialState);
@@ -32,24 +42,31 @@ export default function NoteEditor({
   useEffect(() => {
     if (saveState.errors) {
       // 处理错误
-      console.log(saveState.errors)
+      console.log(saveState.errors);
     }
-  }, [saveState])
+  }, [saveState]);
 
   return (
     <div className="note-editor">
       <form className="note-editor-form" autoComplete="off">
         <div className="note-editor-menu" role="menubar">
           <input type="hidden" name="noteId" value={noteId as string} />
-          <SaveButton formAction={saveFormAction} />
-          <DeleteButton isDraft={isDraft} formAction={delFormAction} />
+          <SaveButton
+            formAction={saveFormAction}
+            translate={{ saving: translate?.saving, done: translate?.done }}
+          />
+          <DeleteButton
+            isDraft={isDraft}
+            formAction={delFormAction}
+            translate={{ del: translate?.del }}
+          />
         </div>
         <div className="note-editor-menu">
           {saveState?.message}
           {saveState.errors && saveState.errors[0].message}
         </div>
         <label className="offscreen" htmlFor="note-title-input">
-          Enter a title for your note
+          {translate?.enterTitle}
         </label>
         <input
           id="note-title-input"
@@ -61,7 +78,7 @@ export default function NoteEditor({
           }}
         />
         <label className="offscreen" htmlFor="note-body-input">
-          Enter the body for your note
+          {translate?.enterBody}
         </label>
         <textarea
           name="body"
@@ -72,7 +89,7 @@ export default function NoteEditor({
       </form>
       <div className="note-editor-preview">
         <div className="label label--preview" role="status">
-          Preview
+          {translate?.preview}
         </div>
         <h1 className="note-title">{title}</h1>
         <NotePreview>{body}</NotePreview>

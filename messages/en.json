@@ -1,0 +1,19 @@
+{
+  "Basic": {
+    "new": "New",
+    "initText": "Click a note on the left to view something! 🥺",
+    "search": "Search",
+    "edit": "Edit",
+    "del": "Delete",
+    "lastUpdatedOn": "Last updated on",
+    "saving": "Saving",
+    "done": "Done",
+    "openPreview": "Open note for preview",
+    "searchTitle": "Search for a note by title",
+    "enterTitle": "Enter a title for your note",
+    "enterBody": "Enter the body for your note",
+    "preview": "Preview",
+    "noContent": "No content",
+    "noCreate": "No notes created yet!"
+  }
+}

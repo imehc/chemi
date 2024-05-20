@@ -2,13 +2,15 @@ import { sleep } from "~/lib/utils";
 import SidebarNoteListFilter from "./list-filter";
 import { getAllNotes } from "~/lib/redis";
 import SidebarNoteItemHeader from "./item-header";
+import { getTranslations } from "next-intl/server";
 
 export default async function NoteList() {
   await sleep(2000);
   const notes = await getAllNotes();
+  const t = await getTranslations("Basic");
 
   if (Object.entries(notes).length == 0) {
-    return <div className="notes-empty">{"No notes created yet!"}</div>;
+    return <div className="notes-empty">{t("noCreate")}</div>;
   }
   return (
     <SidebarNoteListFilter
@@ -25,6 +27,7 @@ export default async function NoteList() {
           ),
         };
       })}
+      translate={{ openPreview: t("openPreview"), noContent: t("noContent") }}
     />
   );
 }

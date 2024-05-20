@@ -4,9 +4,14 @@ import { useFormStatus } from "react-dom";
 interface Props {
   formAction: (payload: FormData) => void;
   isDraft?: boolean;
+  translate?: Record<"del", string | undefined>;
 }
 
-export default function DeleteButton({ isDraft, formAction }: Props) {
+export default function DeleteButton({
+  isDraft,
+  formAction,
+  translate,
+}: Props) {
   const { pending } = useFormStatus();
   return (
     !isDraft && (
@@ -23,7 +28,7 @@ export default function DeleteButton({ isDraft, formAction }: Props) {
           alt=""
           role="presentation"
         />
-        Delete
+        {translate?.del}
       </button>
     )
   );
