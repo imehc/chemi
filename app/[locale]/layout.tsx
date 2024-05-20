@@ -1,11 +1,9 @@
-import {type PropsWithChildren } from 'react'
-import Sidebar from '~/components/sidebar'
-import './style.css'
+import { type PropsWithChildren } from "react";
+import Sidebar from "~/components/sidebar";
+import { Footer } from "~/components/footer";
+import "./style.css";
 
-
-export default async function RootLayout({
-  children
-}: PropsWithChildren) {
+export default async function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
       <body>
@@ -14,9 +12,9 @@ export default async function RootLayout({
             <Sidebar />
             <section className="col note-viewer">{children}</section>
           </div>
+          <Footer />
         </div>
       </body>
     </html>
-  )
+  );
 }
-

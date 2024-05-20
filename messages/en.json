@@ -14,6 +14,8 @@
     "enterBody": "Enter the body for your note",
     "preview": "Preview",
     "noContent": "No content",
-    "noCreate": "No notes created yet!"
+    "noCreate": "No notes created yet!",
+    "languageSwitcher": "Switch from {lng} to: ",
+    "notFound": "This page could not be found."
   }
 }

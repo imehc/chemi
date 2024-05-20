@@ -50,7 +50,7 @@ export default function NoteEditor({
     <div className="note-editor">
       <form className="note-editor-form" autoComplete="off">
         <div className="note-editor-menu" role="menubar">
-          <input type="hidden" name="noteId" value={noteId as string} />
+          <input type="hidden" name="noteId" value={noteId ?? undefined} />
           <SaveButton
             formAction={saveFormAction}
             translate={{ saving: translate?.saving, done: translate?.done }}

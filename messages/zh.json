@@ -14,6 +14,8 @@
     "enterBody": "输入笔记内容",
     "preview": "预览",
     "noContent": "没有内容",
-    "noCreate": "还没有创建笔记!"
+    "noCreate": "还没有创建笔记!",
+    "languageSwitcher": "语言从 {lng} 切换到: ",
+    "notFound": "找不到这个页面."
   }
 }
