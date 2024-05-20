@@ -6,6 +6,7 @@ import EditButton from "../button/edit";
 import NoteListSkeleton from "./skeleton";
 import SidebarSearchField from "./search";
 import { useTranslations } from "next-intl";
+import SidebarImport from "./import";
 
 export default function Sidebar() {
   const t = useTranslations("Basic");
@@ -37,6 +38,7 @@ export default function Sidebar() {
             <SidebarNoteList />
           </Suspense>
         </nav>
+        <SidebarImport />
       </section>
     </>
   );
