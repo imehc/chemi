@@ -5,7 +5,7 @@ import SidebarNoteItemHeader from "./item-header";
 import { getTranslations } from "next-intl/server";
 
 export default async function NoteList() {
-  await sleep(2000);
+  await sleep(1000);
   const notes = await getAllNotes();
   const t = await getTranslations("Basic");
 
