@@ -7,7 +7,7 @@ import { importNote } from "~/app/[locale]/actions";
 
 export default function SidebarImport() {
   const router = useRouter();
-  const [isPending,startTransition] = useTransition()
+  const [isPending, startTransition] = useTransition()
   const formRef = useRef<HTMLFormElement>(null);
   // 随机使用api或github actions两种上传方式
   const isUseActions = useRef(Math.random() > 0.5);
@@ -79,6 +79,8 @@ export default function SidebarImport() {
         const response = await fetch("/api/upload", {
           method: "POST",
           body: formData,
+          // 启用fetch内置超时,这里是两秒超时
+          signal: AbortSignal.timeout(2000)
         });
 
         if (!response.ok) {
@@ -90,7 +92,7 @@ export default function SidebarImport() {
         startTransition(() => router.push(`/note/${data.uid}`));
         startTransition(() => router.refresh());
       } catch (error) {
-        console.error("something went wrong");
+        console.error("something went wrong: ", error);
       }
     }
 
