@@ -7,22 +7,76 @@ import {
   RapierRigidBody,
   BallCollider,
   CuboidCollider,
+  RigidBodyOptions,
 } from '@react-three/rapier';
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
-import { useMemo, useRef, useState } from 'react';
-import { CatmullRomCurve3, DoubleSide, Mesh, Vector3 } from 'three';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import {
+  CatmullRomCurve3,
+  Mesh,
+  MeshPhysicalMaterial,
+  RepeatWrapping,
+  Vector3,
+} from 'three';
+import { useControls } from 'leva';
+import {
+  Environment,
+  Lightformer,
+  useGLTF,
+  useTexture,
+} from '@react-three/drei';
 
 extend({ MeshLineGeometry, MeshLineMaterial });
+useGLTF.preload('/card/tag.glb');
+useTexture.preload('/card/band.jpeg');
 
 /**
  * @see https://vercel.com/blog/building-an-interactive-3d-event-badge-with-react-three-fiber
  */
 export const Demo0302 = () => {
+  const { debug } = useControls({ debug: false });
   return (
     <Canvas camera={{ position: [0, 0, 13], fov: 25 }}>
-      <Physics debug interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
+      <ambientLight intensity={Math.PI} />
+      <Physics
+        debug={debug}
+        interpolate
+        gravity={[0, -40, 0]}
+        timeStep={1 / 60}
+      >
         <Band />
       </Physics>
+      <Environment background blur={0.75}>
+        <color attach="background" args={['black']} />
+        <Lightformer
+          intensity={2}
+          color="white"
+          position={[0, -1, 5]}
+          rotation={[0, 0, Math.PI / 3]}
+          scale={[100, 0.1, 1]}
+        />
+        <Lightformer
+          intensity={3}
+          color="white"
+          position={[-1, -1, 1]}
+          rotation={[0, 0, Math.PI / 3]}
+          scale={[100, 0.1, 1]}
+        />
+        <Lightformer
+          intensity={3}
+          color="white"
+          position={[1, 1, 1]}
+          rotation={[0, 0, Math.PI / 3]}
+          scale={[100, 0.1, 1]}
+        />
+        <Lightformer
+          intensity={10}
+          color="white"
+          position={[-10, 0, 14]}
+          rotation={[0, Math.PI / 2, Math.PI / 3]}
+          scale={[100, 10, 1]}
+        />
+      </Environment>
     </Canvas>
   );
 };
@@ -43,6 +97,18 @@ const Band = () => {
     }),
     []
   );
+  const segmentProps = {
+    type: 'dynamic',
+    canSleep: true,
+    colliders: false,
+    angularDamping: 2,
+    linearDamping: 2,
+  } satisfies Pick<
+    RigidBodyOptions,
+    'type' | 'canSleep' | 'colliders' | 'angularDamping' | 'linearDamping'
+  >;
+  const { nodes, materials } = useGLTF('/card/tag.glb');
+  const texture = useTexture('/card/band.jpeg');
   const { width, height } = useThree((state) => state.size);
   const curve = useMemo(() => {
     return new CatmullRomCurve3([
@@ -53,6 +119,7 @@ const Band = () => {
     ]);
   }, []);
   const [dragged, drag] = useState<false | Vector3>(false);
+  const [hovered, hover] = useState(false);
 
   useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1]);
   useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1]);
@@ -61,6 +128,13 @@ const Band = () => {
     [0, 0, 0],
     [0, 1.45, 0],
   ]);
+
+  useEffect(() => {
+    if (hovered) {
+      document.body.style.cursor = dragged ? 'grabbing' : 'grab';
+      return () => void (document.body.style.cursor = 'auto');
+    }
+  }, [hovered, dragged]);
 
   useFrame((state, delta) => {
     if (dragged) {
@@ -91,48 +165,34 @@ const Band = () => {
     }
   });
 
+  curve.curveType = 'chordal';
+  texture.wrapS = texture.wrapT = RepeatWrapping;
+
   return (
     <>
       <group position={[0, 4, 0]}>
-        <RigidBody
-          ref={fixed}
-          angularDamping={2}
-          linearDamping={2}
-          type="fixed"
-        />
-        <RigidBody
-          position={[0.5, 0, 0]}
-          ref={j1}
-          angularDamping={2}
-          linearDamping={2}
-        >
+        <RigidBody ref={fixed} {...segmentProps} />
+        <RigidBody position={[0.5, 0, 0]} ref={j1} {...segmentProps}>
           <BallCollider args={[0.1]} />
         </RigidBody>
-        <RigidBody
-          position={[1, 0, 0]}
-          ref={j2}
-          angularDamping={2}
-          linearDamping={2}
-        >
+        <RigidBody position={[1, 0, 0]} ref={j2} {...segmentProps}>
           <BallCollider args={[0.1]} />
         </RigidBody>
-        <RigidBody
-          position={[1.5, 0, 0]}
-          ref={j3}
-          angularDamping={2}
-          linearDamping={2}
-        >
+        <RigidBody position={[1.5, 0, 0]} ref={j3} {...segmentProps}>
           <BallCollider args={[0.1]} />
         </RigidBody>
         <RigidBody
           position={[2.0, 0, 0]}
           ref={card}
-          angularDamping={2}
-          linearDamping={2}
+          {...segmentProps}
           type={dragged ? 'kinematicPosition' : 'dynamic'}
         >
           <CuboidCollider args={[0.8, 1.125, 0.01]} />
-          <mesh
+          <group
+            scale={2.25}
+            position={[0, -1.2, -0.05]}
+            onPointerOver={() => hover(true)}
+            onPointerOut={() => hover(false)}
             onPointerUp={(e) => (
               (e.target as unknown as Element)?.releasePointerCapture(
                 e.pointerId
@@ -148,24 +208,37 @@ const Band = () => {
               )
             )}
           >
-            <planeGeometry args={[0.8 * 2, 1.125 * 2]} />
-            <meshBasicMaterial
-              transparent
-              opacity={0.25}
-              color="white"
-              side={DoubleSide}
+            <mesh geometry={(nodes.card as Mesh).geometry}>
+              <meshPhysicalMaterial
+                map={(materials.base as MeshPhysicalMaterial).map}
+                map-anisotropy={16}
+                clearcoat={1}
+                clearcoatRoughness={0.15}
+                roughness={0.3}
+                metalness={0.5}
+              />
+            </mesh>
+            <mesh
+              geometry={(nodes.clip as Mesh).geometry}
+              material={materials.metal}
+              material-roughness={0.3}
             />
-          </mesh>
+            <mesh
+              geometry={(nodes.clamp as Mesh).geometry}
+              material={materials.metal}
+            />
+          </group>
         </RigidBody>
       </group>
       <mesh ref={band}>
         <meshLineGeometry />
         <meshLineMaterial
-          transparent
-          opacity={0.25}
           color="white"
           depthTest={false}
           resolution={[width, height]}
+          useMap
+          map={texture}
+          repeat={[-3, 1]}
           lineWidth={1}
         />
       </mesh>
