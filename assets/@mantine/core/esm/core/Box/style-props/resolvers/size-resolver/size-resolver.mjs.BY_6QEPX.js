@@ -1,0 +1,1 @@
+import{r as o}from"../../../../utils/units-converters/rem.mjs.BeePrqDx.js";import"../../../../../../../../react/index.js.IuPGg7Py.js";import"../../../../../../../../react/jsx-runtime.js.Cm6upDnr.js";function m(r){return typeof r=="number"?o(r):r}export{m as s};

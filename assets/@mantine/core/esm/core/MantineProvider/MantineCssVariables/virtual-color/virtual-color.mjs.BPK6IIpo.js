@@ -1,0 +1,1 @@
+import"../../../../../../../react/index.js.IuPGg7Py.js";import"../../../../../../../react/jsx-runtime.js.Cm6upDnr.js";function r(o){return!!o&&typeof o=="object"&&"mantine-virtual-color"in o}export{r as i};

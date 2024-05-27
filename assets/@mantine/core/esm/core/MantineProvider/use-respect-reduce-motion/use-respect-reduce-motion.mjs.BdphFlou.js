@@ -1,1 +1,0 @@
-import{u}from"../../../../../hooks/esm/use-isomorphic-effect/use-isomorphic-effect.mjs.p1ikljaD.js";function s({respectReducedMotion:t,getRootElement:o}){u(()=>{var e;t&&((e=o())==null||e.setAttribute("data-respect-reduced-motion","true"))},[t])}export{s as u};

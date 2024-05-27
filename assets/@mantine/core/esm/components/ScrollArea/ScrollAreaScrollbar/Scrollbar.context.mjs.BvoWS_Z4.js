@@ -1,0 +1,1 @@
+import"../../../../../../react/index.js.IuPGg7Py.js";import{c as r}from"../../../core/utils/create-safe-context/create-safe-context.mjs.CdmPGkbC.js";import"../../../../../../react/jsx-runtime.js.Cm6upDnr.js";const[a,l]=r("ScrollAreaScrollbar was not found in tree");export{a as S,l as u};

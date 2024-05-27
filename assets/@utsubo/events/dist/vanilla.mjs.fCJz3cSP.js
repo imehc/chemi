@@ -1,0 +1,1 @@
+import{E as i}from"../../../eventemitter3/index.js.DzODWgm3.js";const o=new i;function l(n,e,t){return o.on(n,e)}function u(n,e,t){var r;o.removeListener(n,e,(r=t==null?void 0:t.context)!=null?r:null,t==null?void 0:t.once)}function a(n,e){o.emit(n,e)}export{u as a,a as e,l as o};

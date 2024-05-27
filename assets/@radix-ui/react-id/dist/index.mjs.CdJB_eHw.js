@@ -1,0 +1,1 @@
+import{r as e,$ as o}from"../../../react/index.js.IuPGg7Py.js";import{$ as n}from"../../react-use-layout-effect/dist/index.mjs.B_zlnwqv.js";const s=o.useId||(()=>{});let f=0;function c(r){const[$,a]=e.useState(s());return n(()=>{a(t=>t??String(f++))},[r]),$?`radix-${$}`:""}export{c as $};

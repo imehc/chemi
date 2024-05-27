@@ -1,0 +1,1 @@
+import{c as t}from"../css-object-to-string/css-object-to-string.mjs.wiNyG105.js";function c({selector:s,styles:n,media:y,container:a}){const $=n?t(n):"",o=Array.isArray(y)?y.map(r=>`@media${r.query}{${s}{${t(r.styles)}}}`):[],i=Array.isArray(a)?a.map(r=>`@container ${r.query}{${s}{${t(r.styles)}}}`):[];return`${$?`${s}{${$}}`:""}${o.join("")}${i.join("")}`.trim()}export{c as s};

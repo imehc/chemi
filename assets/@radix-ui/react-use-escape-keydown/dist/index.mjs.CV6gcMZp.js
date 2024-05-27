@@ -1,0 +1,1 @@
+import{r as d}from"../../../react/index.js.IuPGg7Py.js";import{$ as r}from"../../react-use-callback-ref/dist/index.mjs.MU-6vdSB.js";function f(t,e=globalThis==null?void 0:globalThis.document){const o=r(t);d.useEffect(()=>{const a=s=>{s.key==="Escape"&&o(s)};return e.addEventListener("keydown",a),()=>e.removeEventListener("keydown",a)},[o,e])}export{f as $};

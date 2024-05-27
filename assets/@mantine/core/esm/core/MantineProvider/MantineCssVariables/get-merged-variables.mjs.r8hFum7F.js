@@ -1,1 +1,0 @@
-import{d}from"../../utils/deep-merge/deep-merge.mjs.VM1LrXZc.js";import"../../../../../../react/index.js.CiILtb88.js";import{d as i}from"./default-css-variables-resolver.mjs.Czh-HPUP.js";function p({theme:e,generator:s}){const r=i(e),o=s==null?void 0:s(e);return o?d(r,o):r}export{p as g};

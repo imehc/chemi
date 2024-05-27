@@ -1,0 +1,1 @@
+import{j as r}from"../../../../../../react/jsx-runtime.js.Cm6upDnr.js";function t({value:n,valuesDivider:o=",",...i}){return r.jsx("input",{type:"hidden",value:Array.isArray(n)?n.join(o):n||"",...i})}t.displayName="@mantine/core/ComboboxHiddenInput";export{t as C};

@@ -1,0 +1,1 @@
+import{j as t}from"../../../../../react/jsx-runtime.js.Cm6upDnr.js";import{P as n}from"./Portal.mjs.pGKNhS6e.js";function e({withinPortal:o=!0,children:r,...a}){return o?t.jsx(n,{...a,children:r}):t.jsx(t.Fragment,{children:r})}e.displayName="@mantine/core/OptionalPortal";export{e as O};

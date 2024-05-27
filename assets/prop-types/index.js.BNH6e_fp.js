@@ -1,1 +1,0 @@
-import{g as r}from"../@theatre/core/dist/index.js.DAEYzC0v.js";import{p as o}from"./index.js_commonjs-module.D3Mh_3u0.js";import{f as p}from"./factoryWithThrowingShims.js.Dk9Anxnj.js";o.exports=p();var s=o.exports;const a=r(s);export{a as P};

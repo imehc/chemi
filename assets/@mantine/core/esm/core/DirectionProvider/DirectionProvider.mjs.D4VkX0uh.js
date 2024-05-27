@@ -1,0 +1,1 @@
+import"../../../../../react/jsx-runtime.js.Cm6upDnr.js";import{r as t}from"../../../../../react/index.js.IuPGg7Py.js";const e=t.createContext({dir:"ltr",toggleDirection:()=>{},setDirection:()=>{}});function i(){return t.useContext(e)}export{i as u};

@@ -1,0 +1,1 @@
+import"../../../../../react/index.js.IuPGg7Py.js";import"../../../../../react/jsx-runtime.js.Cm6upDnr.js";import{c as t}from"../../core/utils/create-optional-context/create-optional-context.mjs.w2EGFu6i.js";const[r,s]=t({offsetBottom:!1,offsetTop:!1,describedBy:void 0,getStyles:null,inputId:void 0,labelId:void 0});export{r as I,s as u};

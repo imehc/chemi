@@ -1,0 +1,1 @@
+import{k as i}from"../../utils/keys/keys.mjs.HiGXOwLp.js";import{c as m}from"../../utils/camel-to-kebab-case/camel-to-kebab-case.mjs.CCVVwPe_.js";import"../../../../../../react/index.js.IuPGg7Py.js";import"../../../../../../react/jsx-runtime.js.Cm6upDnr.js";function b(o){return i(o).reduce((t,r)=>o[r]!==void 0?`${t}${m(r)}:${o[r]};`:t,"").trim()}export{b as c};

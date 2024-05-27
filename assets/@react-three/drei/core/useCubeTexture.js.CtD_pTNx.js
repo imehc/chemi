@@ -1,1 +1,0 @@
-import{u}from"../../../three/build/three.module.js.CElijN_X.js";import{g as o}from"../../fiber/dist/index-c636ef6d.esm.js.DtZMtc8k.js";function s(e,{path:r}){const[t]=o(u,[e],a=>a.setPath(r));return t}s.preload=(e,{path:r})=>o.preload(u,[e],t=>t.setPath(r));export{s as u};

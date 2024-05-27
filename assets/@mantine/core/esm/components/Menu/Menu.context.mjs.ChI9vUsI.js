@@ -1,1 +1,0 @@
-import"../../../../../react/index.js.CiILtb88.js";import{c as e}from"../../core/utils/create-safe-context/create-safe-context.mjs.7D97n-XC.js";const[n,r]=e("Menu component was not found in the tree");export{n as M,r as u};

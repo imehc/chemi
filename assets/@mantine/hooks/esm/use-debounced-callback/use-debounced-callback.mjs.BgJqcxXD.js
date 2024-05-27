@@ -1,0 +1,1 @@
+import{r}from"../../../../react/index.js.IuPGg7Py.js";import{u as a}from"../use-callback-ref/use-callback-ref.mjs.Ci0u9Xr0.js";function i(u,o){const t=a(u),e=r.useRef(0);return r.useEffect(()=>()=>window.clearTimeout(e.current),[]),r.useCallback((...c)=>{window.clearTimeout(e.current),e.current=window.setTimeout(()=>t(...c),o)},[t,o])}export{i as u};

@@ -1,4 +1,0 @@
-import{R as l}from"../../../../../../react/index.js.CiILtb88.js";import{c}from"../convert-css-variables/convert-css-variables.mjs.C_AtcGkc.js";import{u,a as d}from"../Mantine.context.mjs.qWyfdaQf.js";import{u as h}from"../MantineThemeProvider/MantineThemeProvider.mjs.B-l97vt9.js";import{g as f}from"./get-merged-variables.mjs.r8hFum7F.js";import{r as g}from"./remove-default-variables.mjs.Bc9gFK1l.js";function b(e){return`
-  ${e}[data-mantine-color-scheme="dark"] { --mantine-color-scheme: dark; }
-  ${e}[data-mantine-color-scheme="light"] { --mantine-color-scheme: light; }
-`}function p({cssVariablesSelector:e,deduplicateCssVariables:s}){const o=h(),a=u(),i=d(),t=f({theme:o,generator:i}),n=e===":root"&&s,m=n?g(t):t,r=c(m,e);return r?l.createElement("style",{"data-mantine-styles":!0,nonce:a==null?void 0:a(),dangerouslySetInnerHTML:{__html:`${r}${n?"":b(e)}`}}):null}p.displayName="@mantine/CssVariables";export{p as M};

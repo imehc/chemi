@@ -1,0 +1,1 @@
+import"../../../../../react/index.js.IuPGg7Py.js";import{c as o}from"../../core/utils/create-safe-context/create-safe-context.mjs.CdmPGkbC.js";import"../../../../../react/jsx-runtime.js.Cm6upDnr.js";const[n,p]=o("Popover component was not found in the tree");export{n as P,p as u};

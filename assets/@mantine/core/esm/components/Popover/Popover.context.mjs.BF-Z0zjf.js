@@ -1,1 +1,0 @@
-import"../../../../../react/index.js.CiILtb88.js";import{c as o}from"../../core/utils/create-safe-context/create-safe-context.mjs.7D97n-XC.js";const[r,n]=o("Popover component was not found in the tree");export{r as P,n as u};

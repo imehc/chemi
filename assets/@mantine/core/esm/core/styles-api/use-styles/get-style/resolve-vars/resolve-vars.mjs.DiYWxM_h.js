@@ -1,0 +1,1 @@
+import{m as p}from"./merge-vars.mjs.B-cuAop3.js";function w({vars:c,varsResolver:f,theme:n,props:i,stylesCtx:u,selector:b,themeName:d,headless:j}){var V;return(V=p([j?{}:f==null?void 0:f(n,i,u),...d.map(k=>{var g,m,o;return(o=(m=(g=n.components)==null?void 0:g[k])==null?void 0:m.vars)==null?void 0:o.call(m,n,i,u)}),c==null?void 0:c(n,i,u)]))==null?void 0:V[b]}export{w as r};

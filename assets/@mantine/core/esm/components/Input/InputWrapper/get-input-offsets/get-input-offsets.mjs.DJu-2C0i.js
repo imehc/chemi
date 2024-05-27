@@ -1,0 +1,1 @@
+function d(t,{hasDescription:n,hasError:o}){const e=t.findIndex(i=>i==="input"),s=t.slice(0,e),c=t.slice(e+1),f=n&&s.includes("description")||o&&s.includes("error");return{offsetBottom:n&&c.includes("description")||o&&c.includes("error"),offsetTop:f}}export{d as g};

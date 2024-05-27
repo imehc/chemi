@@ -1,0 +1,1 @@
+import{r as n}from"../../../react/index.js.IuPGg7Py.js";import{o as i,a as E}from"./vanilla.mjs.fCJz3cSP.js";function p(t,o,c=[],f){const r=n.useRef(o);n.useEffect(()=>void(r.current=o),[o]),n.useEffect(()=>{const e=a=>{var s;return(s=r.current)==null?void 0:s.call(r,a)},u=i(t,e);return()=>E(t,e,{...f,context:u})},[t,void 0,...c])}export{p as u};

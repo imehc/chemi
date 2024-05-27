@@ -1,1 +1,0 @@
-import{f as t}from"../../../../utils/filter-props/filter-props.mjs.DgbN-LSt.js";import"../../../../../../../../react/index.js.CiILtb88.js";function s(f){return f.reduce((r,o)=>(o&&Object.keys(o).forEach(e=>{r[e]={...r[e],...t(o[e])}}),r),{})}export{s as m};
