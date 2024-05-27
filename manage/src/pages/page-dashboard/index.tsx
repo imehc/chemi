@@ -1,6 +1,7 @@
 import React, { useState, type FC } from 'react';
 import { SelectModel, ThreeDimensional, ThreeMap } from '~/components';
 import { R3F } from '~/demo/R3F';
+import Band from '~/demo3/02';
 
 export const PageDashboard: FC = () => {
   return (
@@ -11,7 +12,8 @@ export const PageDashboard: FC = () => {
         {/* <TheatreDemo /> */}
         {/* <ThreeDimensional /> */}
         {/* <ThreeMap /> */}
-        <R3F />
+        {/* <R3F /> */}
+        <Band />
       </div>
       {/* <MultipleView /> */}
       {/* <input

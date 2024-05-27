@@ -1,6 +1,7 @@
 :root {
   --primary-color: #7abce6;
   --dark-bg: #18181c;
+  --mantine-color-body: #111;
 }
 
 html {
@@ -9,6 +10,7 @@ html {
 
 body {
   font-size: 16px;
+
 }
 
 html,
