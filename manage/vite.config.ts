@@ -8,12 +8,7 @@ import { visualizer } from 'rollup-plugin-visualizer';
 // https://vitejs.dev/config/
 export default defineConfig({
   // https://github.com/vitejs/awesome-vite#plugins
-  plugins: [
-    react(),
-    eslint(),
-    unocss(),
-    visualizer()
-  ],
+  plugins: [react(), eslint(), unocss(), visualizer()],
   server: {
     host: '0.0.0.0',
     port: 6012,

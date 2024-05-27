@@ -48,6 +48,7 @@ const DemoLocal03 = lazy(
 );
 
 const DemoV301 = lazy(() => import('../demo3/01'));
+const DemoV302 = lazy(() => import('../demo3/02'));
 
 export default [
   {
@@ -262,6 +263,11 @@ export default [
     label: '汽车换肤',
     value: '401',
     component: () => <DemoV301 />,
+  },
+  {
+    label: '3D卡片',
+    value: '402',
+    component: () => <DemoV302 />,
   },
 ] satisfies (ComboboxItem & {
   component: () => JSX.Element;

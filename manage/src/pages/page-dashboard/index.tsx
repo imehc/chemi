@@ -12,8 +12,7 @@ export const PageDashboard: FC = () => {
         {/* <TheatreDemo /> */}
         {/* <ThreeDimensional /> */}
         {/* <ThreeMap /> */}
-        {/* <R3F /> */}
-        <Band />
+        <R3F />
       </div>
       {/* <MultipleView /> */}
       {/* <input

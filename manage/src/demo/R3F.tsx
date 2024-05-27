@@ -9,7 +9,8 @@ const theme = createTheme({
 });
 
 // const idx = 35;
-const idx = 41;
+// const idx = 41;
+const idx = 42;
 
 /**
  * @link https://sbcode.net/react-three-fiber/
