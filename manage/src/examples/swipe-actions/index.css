@@ -1,0 +1,106 @@
+.chat-demo {
+  width: 320px;
+  font-size: 16px;
+
+  --border-radius: 12px;
+}
+
+.chat-demo .demo-trigger {
+  cursor: grab;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  text-align: inherit;
+  line-height: inherit;
+  width: 100%;
+
+  padding: 12px;
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.chat-demo .demo-trigger .avatar {
+  width: 60px;
+  height: 60px;
+  padding: 8px;
+  background: #ffdfdf;
+  border-radius: 99px;
+  flex-shrink: 0;
+}
+
+.chat-demo .demo-trigger .info {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.chat-demo .demo-trigger .title {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.chat-demo .demo-trigger .name {
+  font-weight: 500;
+}
+
+.chat-demo .demo-trigger .time {
+  align-self: flex-end;
+  color: #aaa;
+  font-size: 14px;
+}
+
+.chat-demo .demo-trigger .message {
+  color: #999;
+  font-size: 14px;
+  margin-right: 36px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.chat-demo .demo-actions-wrapper {
+  border-radius: var(--border-radius);
+  background: #ffe8e8;
+}
+
+.chat-demo .demo-action {
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  border: none;
+  color: oklch(from var(--color) calc(l * 0.65) calc(c * 5) h);
+  background: var(--color);
+  font-size: 12px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.15s ease-in-out;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.chat-demo .demo-action svg {
+  font-size: 24px;
+}
+
+.chat-demo .demo-action:hover,
+.chat-demo .demo-action:active {
+  background: oklch(from var(--color) calc(l * 0.982) c h);
+}
+
+.chat-demo .demo-action:last-child {
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+}

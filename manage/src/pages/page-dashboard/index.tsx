@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useScalePage } from '~/hooks';
-import { SortAble, WaterWare } from '~/components';
+import { SortAble, SwipeActions, WaterWare } from '~/components';
+import { SwipeActionsDemoChat } from '~/examples';
 
 export const PageDashboard: React.FC = () => {
   useScalePage();
@@ -18,7 +19,8 @@ export const PageDashboard: React.FC = () => {
       {/* <div className="w-[200px] h-[300px] mt-5">
         <WaterWare value={50} />
       </div> */}
-      <SortAble/>
+      {/* <SortAble/> */}
+      <SwipeActionsDemoChat/>
     </React.Fragment>
   );
 };

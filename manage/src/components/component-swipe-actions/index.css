@@ -1,0 +1,4 @@
+.action:focus-visible {
+  outline-offset: -2px;
+  outline-width: 2px;
+}
