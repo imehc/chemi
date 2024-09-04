@@ -5,6 +5,7 @@ export * from './use_object_convert_to_array';
 export * from './use_position';
 export * from './use_scale_page';
 export * from './use_snap';
+export * from './use_state_object';
 export * from './use_static';
 export * from './use_storage';
 export * from './use_upload';
