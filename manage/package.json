@@ -18,7 +18,7 @@
     "@dnd-kit/sortable": "^8.0.0",
     "@dnd-kit/utilities": "^3.2.2",
     "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.11.5",
+    "@emotion/styled": "^11.14.0",
     "@faker-js/faker": "^8.4.1",
     "@floating-ui/react": "^0.26.13",
     "@tanstack/react-table": "^8.20.5",
