@@ -54,8 +54,8 @@ importers:
         specifier: ^0.30.1
         version: 0.30.1
       rc-slider:
-        specifier: ^10.6.2
-        version: 10.6.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^11.1.7
+        version: 11.1.7(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -1846,8 +1846,8 @@ packages:
   ramda@0.30.1:
     resolution: {integrity: sha512-tEF5I22zJnuclswcZMc8bDIrwRHRzf+NqVEmqg50ShAZMP7MWeR/RGDthfM/p+BlqvF2fXAzpn8i+SJcYD3alw==}
 
-  rc-slider@10.6.2:
-    resolution: {integrity: sha512-FjkoFjyvUQWcBo1F3RgSglky3ar0+qHLM41PlFVYB4Bj3RD8E/Mv7kqMouLFBU+3aFglMzzctAIWRwajEuueSw==}
+  rc-slider@11.1.7:
+    resolution: {integrity: sha512-ytYbZei81TX7otdC0QvoYD72XSlxvTihNth5OeZ6PMXyEDq/vHdWFulQmfDGyXK1NwKwSlKgpvINOa88uT5g2A==}
     engines: {node: '>=8.x'}
     peerDependencies:
       react: '>=16.9.0'
@@ -4117,7 +4117,7 @@ snapshots:
 
   ramda@0.30.1: {}
 
-  rc-slider@10.6.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  rc-slider@11.1.7(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.21.0
       classnames: 2.3.2
