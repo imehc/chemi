@@ -22,7 +22,7 @@
     "@faker-js/faker": "^8.4.1",
     "@floating-ui/react": "^0.26.13",
     "@tanstack/react-table": "^8.20.5",
-    "ahooks": "^3.7.11",
+    "ahooks": "^3.8.4",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "flv.js": "^1.6.2",
