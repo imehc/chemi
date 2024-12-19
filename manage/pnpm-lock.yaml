@@ -12,8 +12,8 @@ importers:
         specifier: ^6.3.1
         version: 6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@dnd-kit/sortable':
-        specifier: ^8.0.0
-        version: 8.0.0(@dnd-kit/core@6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+        specifier: ^10.0.0
+        version: 10.0.0(@dnd-kit/core@6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       '@dnd-kit/utilities':
         specifier: ^3.2.2
         version: 3.2.2(react@18.3.1)
@@ -101,7 +101,7 @@ importers:
         version: 7.18.0(eslint@8.57.0)(typescript@5.7.2)
       '@vitejs/plugin-react-swc':
         specifier: ^3.7.2
-        version: 3.7.2(vite@6.0.3(@types/node@22.10.2)(jiti@1.21.0)(yaml@2.4.2))
+        version: 3.7.2(vite@6.0.3(@types/node@22.10.2)(jiti@1.21.7)(yaml@2.4.2))
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.20(postcss@8.4.49)
@@ -137,7 +137,7 @@ importers:
         version: 5.7.2
       vite:
         specifier: ^6.0.3
-        version: 6.0.3(@types/node@22.10.2)(jiti@1.21.0)(yaml@2.4.2)
+        version: 6.0.3(@types/node@22.10.2)(jiti@1.21.7)(yaml@2.4.2)
 
 packages:
 
@@ -184,10 +184,10 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
 
-  '@dnd-kit/sortable@8.0.0':
-    resolution: {integrity: sha512-U3jk5ebVXe1Lr7c2wU7SBZjcWdQP+j7peHJfCspnA81enlu88Mgd7CC8Q+pub9ubP7eKVETzJW+IBAhsqbSu/g==}
+  '@dnd-kit/sortable@10.0.0':
+    resolution: {integrity: sha512-+xqhmIIzvAYMGfBYYnbKuNicfSsk4RksY2XdmJhT+HAC01nix6fHCztU68jooFiMUB01Ky3F0FyOvhG/BZrWkg==}
     peerDependencies:
-      '@dnd-kit/core': ^6.1.0
+      '@dnd-kit/core': ^6.3.0
       react: '>=16.8.0'
 
   '@dnd-kit/utilities@3.2.2':
@@ -2479,12 +2479,12 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
       tslib: 2.6.2
 
-  '@dnd-kit/sortable@8.0.0(@dnd-kit/core@6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)':
+  '@dnd-kit/sortable@10.0.0(@dnd-kit/core@6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@dnd-kit/core': 6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@dnd-kit/utilities': 3.2.2(react@18.3.1)
       react: 18.3.1
-      tslib: 2.5.0
+      tslib: 2.6.2
 
   '@dnd-kit/utilities@3.2.2(react@18.3.1)':
     dependencies:
@@ -2992,10 +2992,10 @@ snapshots:
 
   '@ungap/structured-clone@1.2.0': {}
 
-  '@vitejs/plugin-react-swc@3.7.2(vite@6.0.3(@types/node@22.10.2)(jiti@1.21.0)(yaml@2.4.2))':
+  '@vitejs/plugin-react-swc@3.7.2(vite@6.0.3(@types/node@22.10.2)(jiti@1.21.7)(yaml@2.4.2))':
     dependencies:
       '@swc/core': 1.10.1
-      vite: 6.0.3(@types/node@22.10.2)(jiti@1.21.0)(yaml@2.4.2)
+      vite: 6.0.3(@types/node@22.10.2)(jiti@1.21.7)(yaml@2.4.2)
     transitivePeerDependencies:
       - '@swc/helpers'
 
@@ -4828,7 +4828,7 @@ snapshots:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
 
-  vite@6.0.3(@types/node@22.10.2)(jiti@1.21.0)(yaml@2.4.2):
+  vite@6.0.3(@types/node@22.10.2)(jiti@1.21.7)(yaml@2.4.2):
     dependencies:
       esbuild: 0.24.0
       postcss: 8.4.49
@@ -4836,7 +4836,7 @@ snapshots:
     optionalDependencies:
       '@types/node': 22.10.2
       fsevents: 2.3.3
-      jiti: 1.21.0
+      jiti: 1.21.7
       yaml: 2.4.2
 
   webworkify-webpack@2.1.5: {}
