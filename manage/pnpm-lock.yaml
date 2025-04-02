@@ -79,8 +79,8 @@ importers:
         version: 7.8.2
     devDependencies:
       '@types/node':
-        specifier: ^22.13.17
-        version: 22.13.17
+        specifier: ^22.14.0
+        version: 22.14.0
       '@types/ramda':
         specifier: ^0.30.2
         version: 0.30.2
@@ -101,7 +101,7 @@ importers:
         version: 7.18.0(eslint@8.57.0)(typescript@5.8.2)
       '@vitejs/plugin-react-swc':
         specifier: ^3.8.1
-        version: 3.8.1(vite@6.2.4(@types/node@22.13.17)(jiti@1.21.7)(yaml@2.4.2))
+        version: 3.8.1(vite@6.2.4(@types/node@22.14.0)(jiti@1.21.7)(yaml@2.4.2))
       autoprefixer:
         specifier: ^10.4.21
         version: 10.4.21(postcss@8.5.3)
@@ -137,7 +137,7 @@ importers:
         version: 5.8.2
       vite:
         specifier: ^6.2.4
-        version: 6.2.4(@types/node@22.13.17)(jiti@1.21.7)(yaml@2.4.2)
+        version: 6.2.4(@types/node@22.14.0)(jiti@1.21.7)(yaml@2.4.2)
 
 packages:
 
@@ -659,8 +659,8 @@ packages:
   '@types/estree@1.0.7':
     resolution: {integrity: sha512-w28IoSUCJpidD/TGviZwwMJckNESJZXFu7NBZ5YJ4mEUnNraUn9Pm8HSZm/jDF1pDWYKspWE7oVphigUPRakIQ==}
 
-  '@types/node@22.13.17':
-    resolution: {integrity: sha512-nAJuQXoyPj04uLgu+obZcSmsfOenUg6DxPKogeUy6yNCFwWaj5sBF8/G/pNo8EtBJjAfSVgfIlugR/BCOleO+g==}
+  '@types/node@22.14.0':
+    resolution: {integrity: sha512-Kmpl+z84ILoG+3T/zQFyAJsU6EPTmOCj8/2+83fSN6djd6I4o7uOuGIH6vq3PrjY5BGitSbFuMN18j3iknubbA==}
 
   '@types/parse-json@4.0.0':
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
@@ -2089,8 +2089,8 @@ packages:
   unbox-primitive@1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}
 
-  undici-types@6.20.0:
-    resolution: {integrity: sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg==}
+  undici-types@6.21.0:
+    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
   update-browserslist-db@1.1.3:
     resolution: {integrity: sha512-UxhIZQ+QInVdunkDAaiazvvT/+fXL5Osr0JZlJulepYu6Jd7qJtDZjlur0emRlT71EN3ScPoE7gvsuIKKNavKw==}
@@ -2603,9 +2603,9 @@ snapshots:
 
   '@types/estree@1.0.7': {}
 
-  '@types/node@22.13.17':
+  '@types/node@22.14.0':
     dependencies:
-      undici-types: 6.20.0
+      undici-types: 6.21.0
 
   '@types/parse-json@4.0.0': {}
 
@@ -2714,10 +2714,10 @@ snapshots:
 
   '@ungap/structured-clone@1.2.0': {}
 
-  '@vitejs/plugin-react-swc@3.8.1(vite@6.2.4(@types/node@22.13.17)(jiti@1.21.7)(yaml@2.4.2))':
+  '@vitejs/plugin-react-swc@3.8.1(vite@6.2.4(@types/node@22.14.0)(jiti@1.21.7)(yaml@2.4.2))':
     dependencies:
       '@swc/core': 1.11.11
-      vite: 6.2.4(@types/node@22.13.17)(jiti@1.21.7)(yaml@2.4.2)
+      vite: 6.2.4(@types/node@22.14.0)(jiti@1.21.7)(yaml@2.4.2)
     transitivePeerDependencies:
       - '@swc/helpers'
 
@@ -4341,7 +4341,7 @@ snapshots:
       has-symbols: 1.1.0
       which-boxed-primitive: 1.1.1
 
-  undici-types@6.20.0: {}
+  undici-types@6.21.0: {}
 
   update-browserslist-db@1.1.3(browserslist@4.24.4):
     dependencies:
@@ -4358,13 +4358,13 @@ snapshots:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
 
-  vite@6.2.4(@types/node@22.13.17)(jiti@1.21.7)(yaml@2.4.2):
+  vite@6.2.4(@types/node@22.14.0)(jiti@1.21.7)(yaml@2.4.2):
     dependencies:
       esbuild: 0.25.2
       postcss: 8.5.3
       rollup: 4.38.0
     optionalDependencies:
-      '@types/node': 22.13.17
+      '@types/node': 22.14.0
       fsevents: 2.3.3
       jiti: 1.21.7
       yaml: 2.4.2
