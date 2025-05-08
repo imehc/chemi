@@ -66,8 +66,8 @@ importers:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
       react-merge-refs:
-        specifier: ^3.0.1
-        version: 3.0.1(react@18.3.1)
+        specifier: ^3.0.2
+        version: 3.0.2(react@18.3.1)
       react-router-dom:
         specifier: ^7.6.0
         version: 7.6.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1793,10 +1793,13 @@ packages:
   react-is@18.3.1:
     resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==}
 
-  react-merge-refs@3.0.1:
-    resolution: {integrity: sha512-XTGmeNIBIFnaMp93ds8Nh948pFgwclm291nSw9Y5EMuMn9rcCwBnbUPhgmZuc1msP6JkqlhO4Hte3pN3wSN3ug==}
+  react-merge-refs@3.0.2:
+    resolution: {integrity: sha512-MSZAfwFfdbEvwkKWP5EI5chuLYnNUxNS7vyS0i1Jp+wtd8J4Ga2ddzhaE68aMol2Z4vCnRM/oGOo1a3V75UPlw==}
     peerDependencies:
       react: '>=16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0'
+    peerDependenciesMeta:
+      react:
+        optional: true
 
   react-router-dom@7.6.0:
     resolution: {integrity: sha512-DYgm6RDEuKdopSyGOWZGtDfSm7Aofb8CCzgkliTjtu/eDuB0gcsv6qdFhhi8HdtmA+KHkt5MfZ5K2PdzjugYsA==}
@@ -4031,8 +4034,8 @@ snapshots:
 
   react-is@18.3.1: {}
 
-  react-merge-refs@3.0.1(react@18.3.1):
-    dependencies:
+  react-merge-refs@3.0.2(react@18.3.1):
+    optionalDependencies:
       react: 18.3.1
 
   react-router-dom@7.6.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
