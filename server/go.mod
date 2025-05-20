@@ -1,10 +1,11 @@
 module chemi
 
-go 1.22.1
+go 1.23.0
+
 toolchain go1.24.1
 
 require (
-	github.com/gin-gonic/gin v1.10.0
+	github.com/gin-gonic/gin v1.10.1
 	github.com/go-ini/ini v1.67.0
 	github.com/unknwon/com v1.0.1
 	gorm.io/driver/mysql v1.5.7
