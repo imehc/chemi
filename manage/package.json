@@ -28,7 +28,7 @@
     "flv.js": "^1.6.2",
     "framer-motion": "^12.18.1",
     "query-string": "^9.2.1",
-    "ramda": "^0.30.1",
+    "ramda": "^0.31.3",
     "rc-slider": "^11.1.8",
     "react": "^19.1.0",
     "react-datepicker": "^8.4.0",
