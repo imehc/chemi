@@ -9,7 +9,7 @@ require (
 	github.com/go-ini/ini v1.67.0
 	github.com/unknwon/com v1.0.1
 	gorm.io/driver/mysql v1.6.0
-	gorm.io/gorm v1.30.0
+	gorm.io/gorm v1.30.1
 )
 
 require (
