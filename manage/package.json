@@ -29,7 +29,7 @@
     "framer-motion": "^12.23.12",
     "query-string": "^9.3.0",
     "ramda": "^0.31.3",
-    "rc-slider": "^11.1.8",
+    "rc-slider": "^11.1.9",
     "react": "^19.1.1",
     "react-datepicker": "^8.7.0",
     "react-dom": "^19.1.1",
