@@ -82,8 +82,8 @@ importers:
         specifier: ^24.3.1
         version: 24.3.1
       '@types/ramda':
-        specifier: ^0.31.0
-        version: 0.31.0
+        specifier: ^0.31.1
+        version: 0.31.1
       '@types/react':
         specifier: ^19.1.12
         version: 19.1.12
@@ -718,8 +718,8 @@ packages:
   '@types/parse-json@4.0.2':
     resolution: {integrity: sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==}
 
-  '@types/ramda@0.31.0':
-    resolution: {integrity: sha512-1lWWZ/2YiNttGcIUxQwnvMuh55GIEbn/zlpzzEojAsbxquI/TXQZCRaXsfxG1CHjlqGoqxWePkvaM/5qYHNuvQ==}
+  '@types/ramda@0.31.1':
+    resolution: {integrity: sha512-Vt6sFXnuRpzaEj+yeutA0q3bcAsK7wdPuASIzR9LXqL4gJPyFw8im9qchlbp4ltuf3kDEIRmPJTD/Fkg60dn7g==}
 
   '@types/react-datepicker@7.0.0':
     resolution: {integrity: sha512-4tWwOUq589tozyQPBVEqGNng5DaZkomx5IVNuur868yYdgjH6RaL373/HKiVt1IDoNNXYiTGspm1F7kjrarM8Q==}
@@ -2800,7 +2800,7 @@ snapshots:
 
   '@types/parse-json@4.0.2': {}
 
-  '@types/ramda@0.31.0':
+  '@types/ramda@0.31.1':
     dependencies:
       types-ramda: 0.31.0
 
