@@ -30,7 +30,7 @@
     "query-string": "^9.3.1",
     "ramda": "^0.31.3",
     "rc-slider": "^11.1.9",
-    "react": "^19.1.1",
+    "react": "^19.2.0",
     "react-datepicker": "^8.7.0",
     "react-dom": "^19.1.1",
     "react-merge-refs": "^3.0.2",
@@ -41,7 +41,7 @@
   "devDependencies": {
     "@types/node": "^24.6.1",
     "@types/ramda": "^0.31.1",
-    "@types/react": "^19.1.17",
+    "@types/react": "^19.2.0",
     "@types/react-datepicker": "^7.0.0",
     "@types/react-dom": "^19.1.11",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
