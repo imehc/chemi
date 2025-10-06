@@ -41,7 +41,7 @@
   "devDependencies": {
     "@types/node": "^24.6.2",
     "@types/ramda": "^0.31.1",
-    "@types/react": "^19.2.0",
+    "@types/react": "^19.2.1",
     "@types/react-datepicker": "^7.0.0",
     "@types/react-dom": "^19.2.0",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
