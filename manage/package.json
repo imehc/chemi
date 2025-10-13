@@ -39,7 +39,7 @@
     "rxjs": "^7.8.2"
   },
   "devDependencies": {
-    "@types/node": "^24.7.1",
+    "@types/node": "^24.7.2",
     "@types/ramda": "^0.31.1",
     "@types/react": "^19.2.2",
     "@types/react-datepicker": "^7.0.0",
