@@ -6,6 +6,7 @@ import {
 	PerspectiveCamera,
 } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
+import { Loading } from "components/component-loading";
 import type React from "react";
 import { Suspense, useEffect, useState } from "react";
 import { SkyBox } from "./SkyBox";
@@ -61,7 +62,7 @@ export const ThreeDimensional: React.FC = () => {
 				<Suspense
 					fallback={
 						<Html className="flex h-full items-center justify-center w-full">
-							<p>loading...</p>
+							<Loading />
 						</Html>
 					}
 				>

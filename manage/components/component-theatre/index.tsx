@@ -1,3 +1,4 @@
+import { Loading } from "components/component-loading";
 import { useEffect, useState } from "react";
 
 /**
@@ -21,9 +22,7 @@ export const TheatreDemo: React.FC = () => {
 
 	if (!isClient || !TheatreContent) {
 		return (
-			<div className="flex items-center justify-center h-full">
-				<p className="text-lg">Loading Theatre.js...</p>
-			</div>
+			<Loading />
 		);
 	}
 
