@@ -1,44 +1,63 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react-swc';
-import { fileURLToPath, URL } from 'url';
-import eslint from 'vite-plugin-eslint';
-import unocss from 'unocss/vite';
-import { visualizer } from 'rollup-plugin-visualizer';
+import { reactRouter } from "@react-router/dev/vite";
+import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from "vite";
+import tsconfigPaths from "vite-tsconfig-paths";
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  // https://github.com/vitejs/awesome-vite#plugins
-  plugins: [react(), eslint(), unocss(), visualizer()],
-  server: {
-    host: '0.0.0.0',
-    port: 6012,
-  },
+	plugins: [tailwindcss(), reactRouter(), tsconfigPaths()],
+	server: {
+		host: "0.0.0.0",
+		port: 6012,
+	},
+	css: {
+		transformer: 'postcss',
+	},
 
-  resolve: {
-    alias: {
-      '~': fileURLToPath(new URL('./src', import.meta.url)),
-    },
-  },
-  build: {
-    // sourcemap: true,
-    chunkSizeWarningLimit: 1000,
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes('node_modules')) {
-            return id.toString().replace(/.*node_modules\//, '');
-          }
-        },
-        assetFileNames: 'assets/[name].[hash][extname]',
-        entryFileNames: 'assets/[name].[hash].js',
-        chunkFileNames: 'assets/[name].[hash].js',
-        format: 'es',
-        exports: 'named',
-        globals: {
-          react: 'React',
-          'react-dom': 'ReactDOM',
-        },
-      },
-    },
-  },
+	optimizeDeps: {
+		include: ["@theatre/core", "@theatre/studio", "@theatre/r3f"],
+		esbuildOptions: {
+			// 确保正确处理 CommonJS 模块
+			mainFields: ['module', 'main'],
+		},
+	},
+	ssr: {
+		external: ["@theatre/core", "@theatre/studio", "@theatre/r3f"],
+	},
+	build: {
+		rollupOptions: {
+			output: {
+				manualChunks(id) {
+					// 只在客户端构建时进行代码分割
+					if (id.includes('node_modules')) {
+						// Three.js 核心
+						if (id.includes('three')) {
+							return 'three-core';
+						}
+						// React Three Fiber 生态
+						if (id.includes('@react-three/fiber') || id.includes('@react-three/drei')) {
+							return 'r3f-vendor';
+						}
+						// Theatre.js 相关
+						if (id.includes('@theatre/')) {
+							return 'theatre';
+						}
+						// Leva
+						if (id.includes('leva')) {
+							return 'leva';
+						}
+						// D3
+						if (id.includes('d3')) {
+							return 'd3';
+						}
+						// GSAP
+						if (id.includes('gsap') || id.includes('tween')) {
+							return 'gsap';
+						}
+					}
+				},
+			},
+		},
+		// 提高 chunk 大小警告阈值到 1000 KB
+		chunkSizeWarningLimit: 1000,
+	},
 });
