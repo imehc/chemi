@@ -31,7 +31,7 @@
     "ramda": "^0.32.0",
     "rc-slider": "^11.1.9",
     "react": "^19.2.0",
-    "react-datepicker": "^8.8.0",
+    "react-datepicker": "^8.9.0",
     "react-dom": "^19.2.0",
     "react-merge-refs": "^3.0.2",
     "react-router-dom": "^7.9.5",
